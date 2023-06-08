@@ -12,7 +12,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.GetExampleData
       Runtime: java11
-      Description: Get Example Data for given id
+      Description: Get list of favorite recipes by recipeId
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -28,7 +28,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /example/{id}
+            Path: /favorites/{recipeId}
             Method: get
   SetExampleDataFunction:
     Type: AWS::Serverless::Function
@@ -36,7 +36,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.SetExampleData
       Runtime: java11
-      Description: Set Example Data
+      Description: Set favorite recipes
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -52,6 +52,6 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /example/
+            Path: /favorites/
             Method: post
 
