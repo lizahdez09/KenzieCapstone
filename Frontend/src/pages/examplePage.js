@@ -77,6 +77,7 @@ class ExamplePage extends BaseClass {
     }
 }
 
+
 /**
  * Main method to run when the page contents have loaded.
  */
