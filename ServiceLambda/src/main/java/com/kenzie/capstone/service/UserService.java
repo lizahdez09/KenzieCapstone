@@ -1,10 +1,7 @@
 package com.kenzie.capstone.service;
 
-import com.kenzie.capstone.service.dao.ExampleDao;
 import com.kenzie.capstone.service.dao.UserDao;
-import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.model.ExampleRecord;
-import com.kenzie.capstone.service.model.UserData;
+import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 
 import javax.inject.Inject;
@@ -21,29 +18,35 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public UserData getUserData(String id) {
+    public User getUserData(String id) {
         UserRecord record = userDao.getUserData(id);
         if (record.getId().equals(id)) {
-            UserData userData = new UserData();
-            userData.setUserId(record.getId());
+            User user = new User();
+            user.setUserId(record.getId());
             List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                     .map(String::trim)
                     .collect(Collectors.toList());
-            userData.setRecipeId(recipeList);
-            userData.setName(record.getName());
-            return userData;
+            user.setRecipeId(recipeList);
+            user.setName(record.getName());
+            return user;
         }
         return null;
     }
 
-    public UserData setUserData(String data) {
+    public User setUserData(String recipes) {
         String id = UUID.randomUUID().toString();
-        UserRecord record = userDao.setUserData(id, data, "Unknown");
-        return new UserData(id, record.getFavoriteRecipes(), record.getName());
+        UserRecord record = userDao.setUserData(id, recipes, "Unknown");
+        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+        return new User(id, recipeList, record.getName());
     }
 
-    public UserData updateUserData(String id, String data) {
-        UserRecord record = userDao.setUserData(id, data, "Unknown");
-        return new UserData(id, record.getFavoriteRecipes(), record.getName());
+    public User updateUserData(String id, String recipes) {
+        UserRecord record = userDao.setUserData(id, recipes, "Unknown");
+        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+        return new User(id, recipeList, record.getName());
     }
 }
