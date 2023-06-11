@@ -1,5 +1,6 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +40,7 @@ public class RecipeServiceTest {
         Recipe recipe = recipeService.getRecipeById(id);
 
         //THEN
-        Assertions.assertNotNull(recipe, "The Recipe is returned");
+        assertNotNull(recipe, "The Recipe is returned");
         Assertions.assertEquals(record.getId(), recipe.getId(), "The id's match");
         Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
     }
@@ -54,7 +56,7 @@ public class RecipeServiceTest {
         Recipe recipe = recipeService.getRecipeById(id);
 
         //THEN
-        Assertions.assertNotNull(recipe, "The Recipe is returned");
+        assertNotNull(recipe, "The Recipe is returned");
         Assertions.assertEquals(record.getId(), recipe.getId(), "The id's match");
         Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
     }
@@ -67,4 +69,16 @@ public class RecipeServiceTest {
         record.setTimeToPrepare("30");
         return record;
     }
-}
+
+        @Test
+        public void addedRecipe_isNotNull() {
+            RecipeCreateRequest request = new RecipeCreateRequest();
+            RecipeService recipeService = new RecipeService(recipeRepository);
+            Recipe result = recipeService.addNewRecipe(request);
+            assertNotNull(result, "The added recipe should not be null");
+        }
+
+    }
+
+
+
