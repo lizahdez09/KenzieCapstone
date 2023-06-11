@@ -60,6 +60,16 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getId(), recipe.getId(), "The id's match");
         Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
     }
+    /** ------------------------------------------------------------------------
+     *  recipeService.addRecipe
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void addedRecipe_isNotNull() {
+        RecipeCreateRequest request = new RecipeCreateRequest();
+        RecipeService recipeService = new RecipeService(recipeRepository);
+        Recipe result = recipeService.addNewRecipe(request);
+        assertNotNull(result, "The added recipe should not be null");
+    }
 
     private RecipeRecord createRecipeRecordWithId(String id) {
         RecipeRecord record = new RecipeRecord();
@@ -69,16 +79,7 @@ public class RecipeServiceTest {
         record.setTimeToPrepare("30");
         return record;
     }
-
-        @Test
-        public void addedRecipe_isNotNull() {
-            RecipeCreateRequest request = new RecipeCreateRequest();
-            RecipeService recipeService = new RecipeService(recipeRepository);
-            Recipe result = recipeService.addNewRecipe(request);
-            assertNotNull(result, "The added recipe should not be null");
-        }
-
-    }
+}
 
 
 
