@@ -1,14 +1,15 @@
 package com.kenzie.capstone.service.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UserData {
 
     private String userId;
-    private String recipeId;
+    private List<String> recipeId;
     private String name;
 
-    public UserData(String userId, String recipeId, String name) {
+    public UserData(String userId, List<String> recipeId, String name) {
         this.userId = userId;
         this.recipeId = recipeId;
         this.name = name;
@@ -23,11 +24,11 @@ public class UserData {
         this.userId = userId;
     }
 
-    public String getRecipeId() {
+    public List<String> getRecipeId() {
         return recipeId;
     }
 
-    public void setRecipeId(String recipeId) {
+    public void setRecipeId(List<String> recipeId) {
         this.recipeId = recipeId;
     }
 
@@ -44,9 +45,7 @@ public class UserData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserData userData = (UserData) o;
-        return Objects.equals(userId, userData.userId) &&
-                Objects.equals(recipeId, userData.recipeId) &&
-                Objects.equals(name, userData.name);
+        return Objects.equals(userId, userData.userId) && Objects.equals(recipeId, userData.recipeId) && Objects.equals(name, userData.name);
     }
 
     @Override
