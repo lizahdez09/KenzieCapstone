@@ -16,6 +16,9 @@ public class UserData {
 
     }
 
+    public UserData(){
+    }
+
     public String getUserId() {
         return userId;
     }
