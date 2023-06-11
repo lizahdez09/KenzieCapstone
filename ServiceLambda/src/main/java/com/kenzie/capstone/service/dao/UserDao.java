@@ -1,15 +1,12 @@
 package com.kenzie.capstone.service.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
-import com.kenzie.capstone.service.model.UserData;
+import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
-
-import java.util.List;
 
 public class UserDao {
 
@@ -19,9 +16,9 @@ public class UserDao {
         this.mapper = mapper;
     }
 
-    public UserData storeUserData(UserData userData) {
+    public User storeUserData(User user) {
         try {
-            mapper.save(userData, new DynamoDBSaveExpression()
+            mapper.save(user, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
                             "id",
                             new ExpectedAttributeValue().withExists(false)
@@ -30,7 +27,7 @@ public class UserDao {
             throw new IllegalArgumentException("id has already been used");
         }
 
-        return userData;
+        return user;
     }
 
     public UserRecord getUserData(String id) {

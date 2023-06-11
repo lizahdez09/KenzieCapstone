@@ -3,20 +3,20 @@ package com.kenzie.capstone.service.model;
 import java.util.List;
 import java.util.Objects;
 
-public class UserData {
+public class User {
 
     private String userId;
     private List<String> recipeId;
     private String name;
 
-    public UserData(String userId, List<String> recipeId, String name) {
+    public User(String userId, List<String> recipeId, String name) {
         this.userId = userId;
         this.recipeId = recipeId;
         this.name = name;
 
     }
 
-    public UserData(){
+    public User(){
     }
 
     public String getUserId() {
@@ -47,8 +47,8 @@ public class UserData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserData userData = (UserData) o;
-        return Objects.equals(userId, userData.userId) && Objects.equals(recipeId, userData.recipeId) && Objects.equals(name, userData.name);
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) && Objects.equals(recipeId, user.recipeId) && Objects.equals(name, user.name);
     }
 
     @Override

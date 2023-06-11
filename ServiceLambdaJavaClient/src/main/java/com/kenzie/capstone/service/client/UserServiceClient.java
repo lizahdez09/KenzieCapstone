@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.capstone.service.model.UserData;
+import com.kenzie.capstone.service.model.User;
 
 public class UserServiceClient {
 
@@ -15,37 +15,37 @@ public class UserServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public UserData getUserData(String userId) {
+    public User getUserData(String userId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_RECIPE_ENDPOINT.replace("{userId}", userId));
-        UserData user;
+        User user;
         try {
-            user = mapper.readValue(response, UserData.class);
+            user = mapper.readValue(response, User.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
         return user;
     }
 
-    public UserData setUserData(String data) {
+    public User setUserData(String data) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.postEndpoint(SET_RECIPE_ENDPOINT, data);
-        UserData user;
+        User user;
         try {
-            user = mapper.readValue(response, UserData.class);
+            user = mapper.readValue(response, User.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
         return user;
     }
 
-    public UserData updateUserData(String userId, String recipeId) {
+    public User updateUserData(String userId, String recipeId) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String updateEndpoint = UPDATE_RECIPE_ENDPOINT.replace("{userId}", userId);
         String response = endpointUtility.updateEndpoint(updateEndpoint, recipeId);
-        UserData user;
+        User user;
         try {
-            user = mapper.readValue(response, UserData.class);
+            user = mapper.readValue(response, User.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to deserialize JSON: " + e.getMessage());
         }
