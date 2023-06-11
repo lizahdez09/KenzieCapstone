@@ -11,6 +11,8 @@ public class UserRecord {
 
     @DynamoDBHashKey(attributeName = "id")
     private String id;
+    @DynamoDBAttribute(attributeName = "name")
+    private String name;
     @DynamoDBAttribute(attributeName = "favoriteRecipes")
     private String favoriteRecipes;
 
@@ -20,6 +22,14 @@ public class UserRecord {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFavoriteRecipes() {

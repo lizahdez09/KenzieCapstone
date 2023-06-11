@@ -43,6 +43,21 @@ public class RecipeServiceTest {
         Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
     }
 
+    @Test
+    void getRecipeById_Returns() {
+        //GIVEN
+        String id = randomUUID().toString();
+        RecipeRecord record = createRecipeRecordWithId(id);
+
+        //WHEN
+        when(recipeRepository.findById(id)).thenReturn(Optional.of(record));
+        Recipe recipe = recipeService.getRecipeById(id);
+
+        //THEN
+        Assertions.assertNotNull(recipe, "The Recipe is returned");
+        Assertions.assertEquals(record.getId(), recipe.getId(), "The id's match");
+        Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
+    }
 
     private RecipeRecord createRecipeRecordWithId(String id) {
         RecipeRecord record = new RecipeRecord();
