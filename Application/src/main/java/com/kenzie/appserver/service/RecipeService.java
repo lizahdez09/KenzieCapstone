@@ -1,10 +1,13 @@
 package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.repositories.RecipeRepository;
+import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RecipeService {
@@ -17,21 +20,29 @@ public class RecipeService {
     }
 
     public Recipe getRecipeById(String id) {
-        for (Recipe recipe : recipes) {
-            if (recipe.equals(id)) { // needs to do .getById when its finished
-                return recipe;
-            }
-        }
-        return null;
+        Recipe recipeFromCrud = recipeRepository.findById(id)
+                .map(Recipe::new)
+                .orElse(null);
+        return recipeFromCrud;
     }
 
-    public Recipe addNewRecipe(String recipe) {
-
-        Recipe newRecipe = new Recipe(recipe);
-        recipes.add(newRecipe);
-        return newRecipe;
+    public Recipe addNewRecipe(RecipeCreateRequest request) {
+        RecipeRecord record = createRecipeRecordFromRequest(request);
+        recipeRepository.save(record);
+        return new Recipe(record);
     }
 
-
-
+    /**
+     * Creates a RecipeRecord from a RecipeCreateRequest
+     * @param request {@link RecipeCreateRequest}
+     * @return record - {@link RecipeRecord}
+     */
+    private RecipeRecord createRecipeRecordFromRequest(RecipeCreateRequest request) {
+        RecipeRecord record = new RecipeRecord();
+        record.setRecipeId(UUID.randomUUID().toString());
+        record.setRecipeName(request.getName());
+        record.setIngredients(request.getIngredients());
+        record.setTimeToPrepare(request.getTimeToPrepare());
+        return record;
+    }
 }

@@ -1,5 +1,7 @@
 package com.kenzie.appserver.service.model;
 
+import com.kenzie.appserver.repositories.model.RecipeRecord;
+
 public class Recipe {
     private String id;
     private String name;
@@ -11,6 +13,13 @@ public class Recipe {
         this.name = name;
         this.ingredients = ingredients;
         this.timeToPrepare = timeToPrepare;
+    }
+
+    public Recipe(RecipeRecord record){
+        this.id = record.getRecipeId();
+        this.name = record.getRecipeName();
+        this.ingredients = record.getIngredients();
+        this.timeToPrepare = record.getTimeToPrepare();
     }
 
     public String getId(){
