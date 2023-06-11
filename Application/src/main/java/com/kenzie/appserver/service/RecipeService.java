@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class RecipeService {
@@ -17,6 +19,12 @@ public class RecipeService {
 
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
+    }
+
+    public List<Recipe> getAllRecipes() {
+        return StreamSupport.stream(recipeRepository.findAll().spliterator(), false)
+                .map(Recipe::new)
+                .collect(Collectors.toList());
     }
 
     public Recipe getRecipeById(String id) {
