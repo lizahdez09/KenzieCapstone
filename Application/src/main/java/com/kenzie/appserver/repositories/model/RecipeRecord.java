@@ -14,11 +14,11 @@ public class RecipeRecord {
     private String timeToPrepare;
 
     @DynamoDBHashKey(attributeName = "recipeId")
-    public String getRecipeId(){
+    public String getId(){
         return recipeId;
     }
     @DynamoDBAttribute(attributeName = "recipeName")
-    public String getRecipeName(){
+    public String getName(){
         return recipeName;
     }
     @DynamoDBAttribute(attributeName = "ingredients")

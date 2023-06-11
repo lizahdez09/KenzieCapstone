@@ -16,8 +16,8 @@ public class Recipe {
     }
 
     public Recipe(RecipeRecord record){
-        this.id = record.getRecipeId();
-        this.name = record.getRecipeName();
+        this.id = record.getId();
+        this.name = record.getName();
         this.ingredients = record.getIngredients();
         this.timeToPrepare = record.getTimeToPrepare();
     }
