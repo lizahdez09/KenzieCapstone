@@ -33,21 +33,15 @@ public class UserDao {
         return userData;
     }
 
-    public List<UserRecord> getUserData(String id) {
-        UserRecord userRecord = new UserRecord();
-        userRecord.setId(id);
-
-        DynamoDBQueryExpression<UserRecord> queryExpression = new DynamoDBQueryExpression<UserRecord>()
-                .withHashKeyValues(userRecord)
-                .withConsistentRead(false);
-
-        return mapper.query(UserRecord.class, queryExpression);
+    public UserRecord getUserData(String id) {
+        return mapper.load(UserRecord.class, id);
     }
 
-    public UserRecord setUserData(String id, String data) {
+    public UserRecord setUserData(String id, String favoriteRecipes, String name) {
         UserRecord userRecord = new UserRecord();
         userRecord.setId(id);
-        userRecord.setData(data);
+        userRecord.setFavoriteRecipes(favoriteRecipes);
+        userRecord.setName(name);
 
         try {
             mapper.save(userRecord, new DynamoDBSaveExpression()
