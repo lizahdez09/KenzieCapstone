@@ -1,12 +1,14 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
+import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -28,10 +30,9 @@ public class RecipeService {
     }
 
     public Recipe getRecipeById(String id) {
-        Recipe recipeFromCrud = recipeRepository.findById(id)
+        return recipeRepository.findById(id)
                 .map(Recipe::new)
-                .orElse(null);
-        return recipeFromCrud;
+                .orElseThrow(() -> new RecipeNotFoundException("Recipe not found!"));
     }
 
     public Recipe addNewRecipe(RecipeCreateRequest request) {
