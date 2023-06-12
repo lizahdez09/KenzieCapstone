@@ -2,13 +2,16 @@ package com.kenzie.appserver.service.model;
 
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Recipe {
     private String id;
     private String name;
-    private String ingredients;
+    private List<Ingredient> ingredients;
     private String timeToPrepare;
 
-    public Recipe(String id, String name, String ingredients, String timeToPrepare){
+    public Recipe(String id, String name, List<Ingredient> ingredients, String timeToPrepare){
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -18,7 +21,7 @@ public class Recipe {
     public Recipe(RecipeRecord record){
         this.id = record.getId();
         this.name = record.getName();
-        this.ingredients = record.getIngredients();
+        this.ingredients = convertStringToIngredientList(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
     }
 
@@ -39,11 +42,11 @@ public class Recipe {
     }
 
     public String getIngredients() {
-        return ingredients;
+        return ingredients.toString();
     }
 
     public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
+        this.ingredients = convertStringToIngredientList(ingredients);
     }
 
     public String getTimeToPrepare() {
@@ -53,4 +56,20 @@ public class Recipe {
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
     }
+
+    private List<Ingredient> convertStringToIngredientList(String ingredientsString) {
+        List<Ingredient> ingredientList = new ArrayList<>();
+
+        if (ingredientsString != null && !ingredientsString.isEmpty()) {
+            String[] ingredientArray = ingredientsString.split(";");
+
+            for (String ingredientFromArray : ingredientArray) {
+                Ingredient ingredient = Ingredient.fromCSVString(ingredientFromArray);
+                ingredientList.add(ingredient);
+            }
+        }
+
+        return ingredientList;
+    }
+
 }
