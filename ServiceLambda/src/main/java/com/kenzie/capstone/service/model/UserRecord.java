@@ -9,13 +9,11 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "UserTable")
 public class UserRecord {
 
-    @DynamoDBHashKey(attributeName = "id")
     private String id;
-    @DynamoDBAttribute(attributeName = "name")
     private String name;
-    @DynamoDBAttribute(attributeName = "favoriteRecipes")
     private String favoriteRecipes;
 
+    @DynamoDBHashKey(attributeName = "id")
     public String getId() {
         return id;
     }
@@ -24,6 +22,7 @@ public class UserRecord {
         this.id = id;
     }
 
+    @DynamoDBAttribute(attributeName = "name")
     public String getName() {
         return name;
     }
@@ -32,6 +31,7 @@ public class UserRecord {
         this.name = name;
     }
 
+    @DynamoDBAttribute(attributeName = "favoriteRecipes")
     public String getFavoriteRecipes() {
         return favoriteRecipes;
     }

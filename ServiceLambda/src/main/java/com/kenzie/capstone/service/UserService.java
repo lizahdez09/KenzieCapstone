@@ -33,17 +33,17 @@ public class UserService {
         return null;
     }
 
-    public User setUserData(String recipes) {
+    public User setUserData(String recipes, String name) {
         String id = UUID.randomUUID().toString();
-        UserRecord record = userDao.setUserData(id, recipes, "Unknown");
+        UserRecord record = userDao.setUserData(id, recipes, name);
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
         return new User(id, recipeList, record.getName());
     }
 
-    public User updateUserData(String id, String recipes) {
-        UserRecord record = userDao.setUserData(id, recipes, "Unknown");
+    public User updateUserData(String id, String recipes, String name) {
+        UserRecord record = userDao.setUserData(id, recipes, name);
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
