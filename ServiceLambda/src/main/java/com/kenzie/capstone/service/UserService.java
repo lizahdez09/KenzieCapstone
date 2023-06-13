@@ -1,5 +1,6 @@
 package com.kenzie.capstone.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
@@ -29,8 +30,9 @@ public class UserService {
             user.setRecipeId(recipeList);
             user.setName(record.getName());
             return user;
+        } else {
+            throw new RuntimeException("No UserData found");
         }
-        return null;
     }
 
     public User setUserData(String recipes, String name) {
@@ -43,7 +45,15 @@ public class UserService {
     }
 
     public User updateUserData(String id, String recipes, String name) {
-        UserRecord record = userDao.setUserData(id, recipes, name);
+        UserRecord record = userDao.getUserData(id);
+        if (record == null) {
+            throw new NotFoundException("User not found with ID: " + id);
+        }
+
+        record.setFavoriteRecipes(recipes);
+        record.setName(name);
+        userDao.updateUserData(record);
+
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());

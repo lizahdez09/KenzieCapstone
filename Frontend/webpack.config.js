@@ -16,12 +16,12 @@ module.exports = {
   },
   devServer: {
     https: false,
-    port: 8080,
+    port: 8002,
     open: true,
     proxy: [
       {
         context: [
-          '/example',
+          '/',
         ],
         target: 'http://localhost:5001'
       }

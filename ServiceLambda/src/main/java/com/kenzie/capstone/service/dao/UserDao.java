@@ -52,4 +52,12 @@ public class UserDao {
 
         return userRecord;
     }
+
+    public void updateUserData(UserRecord record) {
+        try {
+            mapper.save(record, new DynamoDBSaveExpression());
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to update user data: " + e.getMessage());
+        }
+    }
 }
