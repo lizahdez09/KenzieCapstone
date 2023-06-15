@@ -1,5 +1,8 @@
 package com.kenzie.appserver.service.model;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Ingredient {
 
     private String name;
@@ -36,12 +39,27 @@ public class Ingredient {
         this.measurement = measurement;
     }
 
-    public String toCSVString(){
-        return this.name + "," + this.amount + "," + this.measurement.getStringValue();
+    public static Ingredient fromString(String ingredientString) {
+        Matcher matcher = Pattern.compile("name='(.*?)', amount='(.*?)', measurement=(.*?)\\}")
+                .matcher(ingredientString);
+
+        if (matcher.find()) {
+            String name = matcher.group(1);
+            String amount = matcher.group(2);
+            String measurementValue = matcher.group(3);
+
+            return new Ingredient(name, amount, Measurement.valueOf(measurementValue));
+        } else {
+            throw new IllegalArgumentException("Invalid ingredient string format: " + ingredientString);
+        }
     }
 
-    public static Ingredient fromCSVString(String csvString) {
-        String[] fields = csvString.split(",");
-        return new Ingredient(fields[0], fields[1], Measurement.valueOf(fields[2]));
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                ", amount='" + amount + '\'' +
+                ", measurement=" + measurement +
+                '}';
     }
 }
