@@ -41,12 +41,29 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getIngredients() {
-        return ingredients.toString();
+    public String getIngredientsAsString() {
+        if (this.ingredients.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Ingredient ingredient : this.ingredients) {
+            sb.append(ingredient.toString()).append("; ");
+        }
+
+        sb.setLength(sb.length() - 2);
+        return sb.toString();
+    }
+
+    public List<Ingredient> getIngredientsAsList() {
+        return this.ingredients;
     }
 
     public void setIngredients(String ingredients) {
         this.ingredients = convertStringToIngredientList(ingredients);
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getTimeToPrepare() {
@@ -61,10 +78,10 @@ public class Recipe {
         List<Ingredient> ingredientList = new ArrayList<>();
 
         if (ingredientsString != null && !ingredientsString.isEmpty()) {
-            String[] ingredientArray = ingredientsString.split(";");
+            String[] ingredientArray = ingredientsString.split("; ");
 
             for (String ingredientFromArray : ingredientArray) {
-                Ingredient ingredient = Ingredient.fromCSVString(ingredientFromArray);
+                Ingredient ingredient = Ingredient.fromString(ingredientFromArray);
                 ingredientList.add(ingredient);
             }
         }
