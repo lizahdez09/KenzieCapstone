@@ -1,24 +1,26 @@
 package com.kenzie.capstone.service.lambda;
 
+import com.kenzie.capstone.service.LambdaService;
+import com.kenzie.capstone.service.UserService;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.ExampleData;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kenzie.capstone.service.LambdaService;
-import com.kenzie.capstone.service.UserService;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
 import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.UserRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetUserData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
 
@@ -37,16 +39,19 @@ public class GetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("userId");
+        String name = input.getPathParameters().get("name");
 
-        if (id == null || id.length() == 0) {
+        String favRecipes = input.getPathParameters().get("favoriteRecipes") ;
+
+
+        if (name == null || favRecipes == null) {
             return response
                     .withStatusCode(400)
-                    .withBody("userId is invalid");
+                    .withBody("data is invalid");
         }
 
         try {
-            User userData = userLambService.getUserData(id);
+            User userData = userLambService.setUserData(favRecipes,name);
             String output = gson.toJson(userData);
 
             return response
