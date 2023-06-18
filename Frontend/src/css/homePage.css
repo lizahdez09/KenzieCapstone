@@ -5,6 +5,11 @@
     --error-color: rgba(194, 0, 0, 0.71);
 }*/
 
+@font-face {
+  font-family: "Sacramento";
+  src: url("path/to/your/font-file.ttf") format("truetype");
+}
+
 .background {
     background-color: #f1ede9;
     margin: 10;
