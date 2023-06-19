@@ -6,9 +6,15 @@
 }*/
 
 @font-face {
-  font-family: "Sacramento";
-  src: url("path/to/your/font-file.ttf") format("truetype");
+  font-family: "Caveat";
+  src: url("Frontend/src/Fonts/Caveat/static/Caveat-SemiBold.ttf") format("truetype");
 }
+
+.site-title a {
+  font-family: "Caveat", Arial, sans-serif;
+  font-size: 50px;
+}
+
 
 .background {
     background-color: #f1ede9;
@@ -23,7 +29,7 @@
     align-items: center;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    padding: 0 20px;
+    padding: 0 40px;
     border-bottom: #bfa161 solid 2px;
     height: 70px;
 
@@ -52,13 +58,17 @@
 }
 
 .button, button {
-    background:#f4900e;
+    background:#eda974;
     padding: 8px;
     border-radius: 10px;
     text-decoration: none;
     color: black;
     border: none;
-    cursor: pointer;
+    margin-bottom: 10px;
+
+
+  font-family: "Caveat", Arial, sans-serif;
+  font-size: 18px;
 }
 
 .button:hover, button:hover {
@@ -101,10 +111,6 @@
 }
 
 
-
-
-
-
 .navigation ul {
   list-style-type: none;
   margin: 0;
@@ -116,18 +122,27 @@
   display: inline;
   margin-right: 20px;
 
-
-
 }
 
 .navigation a {
+
+  font-family: "Caveat", Arial, sans-serif;
   text-decoration: none;
   color: #333;
   border-right: 1.5px solid #bfa161;
-  font-size: 25px;
+  font-size: 27px;
   margin-right: 10px;
   padding: 8px 12px;
 }
+p.login-link {
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+}
+
+p.login-link a {
+  color: blue;
+}
+
 
 
 
