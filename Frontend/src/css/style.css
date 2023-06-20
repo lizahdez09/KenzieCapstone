@@ -1,13 +1,12 @@
-/*:root {
-     css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var
-    --primary-color: #131921;
-    --secondary-color: #fff;
+:root {
+    --primary-color: #f1ede9;
+    --secondary-color: #000000;
     --error-color: rgba(194, 0, 0, 0.71);
-}*/
+}
 
 .background {
-    background-color: #f1ede9;
-    margin: 10;
+    background-color: var(--primary-color);
+    margin: 10px;
     counter-reset: section;
 }
 
@@ -20,9 +19,7 @@
     color: var(--secondary-color);
     padding: 0 20px;
     border-bottom: #bfa161 solid 2px;
-    height: 70px;
-
-
+    height: 103px;
 }
 
 
