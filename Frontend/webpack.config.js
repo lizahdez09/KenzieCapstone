@@ -9,8 +9,6 @@ module.exports = {
   },
   entry: {
     examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
-    recipeSearch: path.resolve(__dirname, 'src', 'pages', 'recipeSearch.js'),
-    signUpScreen: path.resolve(__dirname, 'src', 'pages', 'signUpPage.js'),
 
   },
 
