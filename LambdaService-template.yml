@@ -6,11 +6,11 @@ Parameters:
     Type: String
     Default: dev
 Resources:
-  GetExampleDataFunction:
+  GetUserDataFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.GetExampleData
+      Handler: com.kenzie.capstone.service.lambda.GetUserData
       Runtime: java11
       Description: Get list of favorite recipes by recipeId
       MemorySize: 512
@@ -30,11 +30,11 @@ Resources:
           Properties:
             Path: /favorites/{recipeId}
             Method: get
-  SetExampleDataFunction:
+  SetUserDataFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-      Handler: com.kenzie.capstone.service.lambda.SetExampleData
+      Handler: com.kenzie.capstone.service.lambda.SetUserData
       Runtime: java11
       Description: Set favorite recipes
       MemorySize: 512

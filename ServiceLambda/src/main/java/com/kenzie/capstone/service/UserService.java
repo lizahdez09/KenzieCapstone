@@ -21,7 +21,7 @@ public class UserService {
 
     public User getUserData(String id) {
         UserRecord record = userDao.getUserData(id);
-        if (record.getId().equals(id)) {
+        if (record != null && id.equals(record.getId())) {
             User user = new User();
             user.setUserId(record.getId());
             List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
@@ -34,6 +34,7 @@ public class UserService {
             throw new RuntimeException("No UserData found");
         }
     }
+
 
     public User setUserData(String recipes, String name) {
         String id = UUID.randomUUID().toString();
