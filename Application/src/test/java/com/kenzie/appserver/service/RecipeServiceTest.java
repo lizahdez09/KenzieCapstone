@@ -106,7 +106,7 @@ public class RecipeServiceTest {
 
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("Record");
-        request.setIngredients("Ingredients");
+        request.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
         request.setTimeToPrepare("30");
 
         //WHEN
@@ -127,7 +127,7 @@ public class RecipeServiceTest {
         RecipeRecord record = new RecipeRecord();
         record.setRecipeId(id);
         record.setRecipeName("Record");
-        record.setIngredients("Ingredients");
+        record.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
         record.setTimeToPrepare("30");
         return record;
     }

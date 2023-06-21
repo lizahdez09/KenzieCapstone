@@ -100,3 +100,17 @@ p.login-link {
 p.login-link a {
     color: blue;
 }
+
+.card {
+    margin: 20px;
+    padding: 10px;
+}
+
+/* .state and .state.active hide and show items*/
+.state {
+    display: none;
+}
+
+.state.active {
+    display: block;
+}
