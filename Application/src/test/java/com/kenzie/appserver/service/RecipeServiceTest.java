@@ -1,6 +1,7 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
+import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
@@ -14,9 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class RecipeServiceTest {
 
@@ -116,6 +119,55 @@ public class RecipeServiceTest {
         //THEN
         assertNotNull(recipe, "The Recipe is returned");
         Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
+    }
+
+    /** ------------------------------------------------------------------------
+     *  recipeService.updateRecipe
+     *  ------------------------------------------------------------------------ **/
+
+    @Test
+    public void testUpdateRecipe_ExistingRecipe_Success() {
+
+        String recipeId = "123";
+        RecipeUpdateRequest updateRequest = new RecipeUpdateRequest();
+        updateRequest.setName("Updated Recipe");
+        updateRequest.setIngredients("Updated Ingredients");
+        updateRequest.setTimeToPrepare("30 minutes");
+
+        Recipe existingRecipe = new Recipe(recipeId, "Old Recipe", new ArrayList<>(), "15 minutes");
+
+        RecipeRecord recipeRecord = new RecipeRecord();
+        recipeRecord.setRecipeId(recipeId);
+
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipeRecord));
+        when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(recipeRecord);
+
+
+        Recipe updatedRecipe = recipeService.updateRecipe(recipeId, updateRequest);
+
+
+        assertNotNull(updatedRecipe);
+        assertEquals(recipeId, updatedRecipe.getId());
+        assertEquals(updateRequest.getName(), updatedRecipe.getName());
+        assertEquals(updateRequest.getIngredients(), updatedRecipe.getIngredientsAsString());
+        assertEquals(updateRequest.getTimeToPrepare(), updatedRecipe.getTimeToPrepare());
+
+        verify(recipeRepository).findById(recipeId);
+        verify(recipeRepository).save(any(RecipeRecord.class));
+    }
+
+    @Test
+    public void testUpdateRecipe_NonExistingRecipe_ThrowsException() {
+        // Given
+        String recipeId = "123";
+        RecipeUpdateRequest updateRequest = new RecipeUpdateRequest();
+        updateRequest.setName("Updated Recipe");
+        updateRequest.setIngredients("Updated Ingredients");
+        updateRequest.setTimeToPrepare("30 minutes");
+
+        when(recipeRepository.findById(recipeId)).thenReturn(Optional.empty());
+
+        assertThrows(RecipeNotFoundException.class, () -> recipeService.updateRecipe(recipeId, updateRequest));
     }
 
     /**
