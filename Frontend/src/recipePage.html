@@ -1,10 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <script type="text/javascript" src="recipePage.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    </head>
-
+<head>
+    <script type="text/javascript" src="examplePage.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
+</head>
+<body class="background">
+<header class="header" id="header">
+    <div class="site-title">
+        <img src="https://lh3.googleusercontent.com/yiQSp6Po-BYKE0epRrzROD0FV57xS0H9h3wNB7xZKP--xsK70_7mBJcOA1ptR7VpNrJnhHPLWwRPB8A3a42NTKRmQ11mBcyUoBn5KgF5" width="100" height="100" alt="logo">
+        <a class="header_home" href="index.html">Recipes</a>
+    </div>
+    <nav class="navigation">
+        <ul>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="recipePage.html">Recipes</a>
+        </ul>
+    </nav>
+    <button class="signUpBtn">Sign Up</button>
+    <p class="login-link"> Already have an account? <a href="userPage.html">Log in</a></p>
+</header>
+<div class="card">
+    <h2>Create a Recipe</h2>
+    <button class="ingredientBtn">Add Ingredient</button>
+    <form class="card-content" id="createRecipe">
+        <p class="form-field">
+            <label>Recipe Name</label>
+            <input type="text" required class="validated-field" id="name-field"><br>
+            <label>Ingredients</label>
+            <p class="ingredients"></p>
+            <label>Time to Cook</label>
+            <input type="text" required class="validated-field" id="timeToCook-field"><br>
+        </p>
+    </form>
+</div>
 </body>
 </html>
