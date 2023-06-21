@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
@@ -35,6 +36,9 @@ public class UserServiceTest {
             String recipes = "Recipe1, Recipe2";
             String name = "John Doe";
             UserRecord userRecord = new UserRecord();
+            userRecord.setId(id);
+            userRecord.setName(name);
+            userRecord.setFavoriteRecipes(recipes);
             when(userDao.getUserData(id)).thenReturn(userRecord);
 
             // Act
@@ -59,18 +63,21 @@ public class UserServiceTest {
         @Test
         public void testSetUserData() {
             // Arrange
-            String recipes = "Recipe1, Recipe2";
+            String recipe1 = "Recipe1";
+            String recipe2 = "Recipe2";
             String name = "John Doe";
-            String generatedId = UUID.randomUUID().toString();
+
             UserRecord userRecord = new UserRecord();
+            userRecord.setFavoriteRecipes("Recipe1, Recipe2");
+            userRecord.setName("John Doe");
+
             when(userDao.setUserData(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(userRecord);
 
             // Act
-            User user = userService.setUserData(recipes, name);
+            User user = userService.setUserData(recipe1, name);
 
             // Assert
-            Assertions.assertEquals(generatedId, user.getUserId());
-            Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
+            Assertions.assertEquals(List.of(recipe1,recipe2), user.getRecipeId());
             Assertions.assertEquals(name, user.getName());
         }
 
