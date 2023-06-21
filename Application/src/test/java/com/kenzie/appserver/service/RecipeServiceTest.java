@@ -127,7 +127,7 @@ public class RecipeServiceTest {
         RecipeRecord record = new RecipeRecord();
         record.setRecipeId(id);
         record.setRecipeName("Record");
-        record.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
+        record.setIngredients("[{\"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"tbsp\"}, {\"name\":\"Ingredient\", \"amount\":\"2\", \"measurement\":\"tsp\"}]");
         record.setTimeToPrepare("30");
         return record;
     }

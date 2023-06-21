@@ -9,6 +9,7 @@ import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +25,13 @@ public class RecipeController {
     }
     @GetMapping
     public ResponseEntity<List<RecipeResponse>> getAllRecipe() {
+        List<RecipeResponse> responseList = new ArrayList<>();
+
         List<Recipe> recipeList = recipeService.getAllRecipes();
-        List<RecipeResponse> responses = recipeList.stream()
-                .map(this::createRecipeResponseFromRecipe)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(responses);
+        for (Recipe recipe : recipeList) {
+            responseList.add(createRecipeResponseFromRecipe(recipe));
+        }
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")
@@ -70,7 +73,7 @@ public class RecipeController {
         response.setId(recipe.getId());
         response.setName(recipe.getName());
         response.setIngredients(recipe.getIngredientsAsString());
-        response.setTimeToPrepare(response.getTimeToPrepare());
+        response.setTimeToPrepare(recipe.getTimeToPrepare());
         return response;
     }
 }

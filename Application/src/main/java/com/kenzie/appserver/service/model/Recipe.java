@@ -11,6 +11,10 @@ public class Recipe {
     private List<Ingredient> ingredients;
     private String timeToPrepare;
 
+    public Recipe() {
+        /*DO NOT REMOVE*/
+    }
+
     public Recipe(String id, String name, List<Ingredient> ingredients, String timeToPrepare){
         this.id = id;
         this.name = name;
@@ -21,7 +25,7 @@ public class Recipe {
     public Recipe(RecipeRecord record){
         this.id = record.getId();
         this.name = record.getName();
-        this.ingredients = convertStringToIngredientList(record.getIngredients());
+        this.ingredients = IngredientConverter.jsonToIngredients(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
     }
 
@@ -41,18 +45,8 @@ public class Recipe {
         this.name = name;
     }
 
-    //TODO FIX THIS LOL
     public String getIngredientsAsString() {
-        if (this.ingredients.isEmpty()) return "";
-
-        StringBuilder sb = new StringBuilder();
-
-        for (Ingredient ingredient : this.ingredients) {
-            sb.append(ingredient.toString()).append("; ");
-        }
-
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
+        return IngredientConverter.ingredientsToJson(this.ingredients);
     }
 
     public List<Ingredient> getIngredientsAsList() {
@@ -60,7 +54,7 @@ public class Recipe {
     }
 
     public void setIngredients(String ingredients) {
-        this.ingredients = convertStringToIngredientList(ingredients);
+        this.ingredients = IngredientConverter.jsonToIngredients(ingredients);
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
@@ -73,21 +67,6 @@ public class Recipe {
 
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
-    }
-
-    private List<Ingredient> convertStringToIngredientList(String ingredientsString) {
-        List<Ingredient> ingredientList = new ArrayList<>();
-
-        if (ingredientsString != null && !ingredientsString.isEmpty()) {
-            String[] ingredientArray = ingredientsString.split("}");
-
-            for (String ingredientFromArray : ingredientArray) {
-                Ingredient ingredient = Ingredient.fromString(ingredientFromArray);
-                ingredientList.add(ingredient);
-            }
-        }
-
-        return ingredientList;
     }
 
 }

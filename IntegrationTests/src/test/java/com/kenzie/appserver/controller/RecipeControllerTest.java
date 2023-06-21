@@ -63,11 +63,12 @@ public class RecipeControllerTest {
         //GIVEN
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("RecipeTest");
-        request.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
+        request.setIngredients("[{\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"},{\"name\":\"Ingredient\",\"amount\":\"2\",\"measurement\":\"TEASPOON\"}]");
         request.setTimeToPrepare("30");
 
         mapper.registerModule(new JavaTimeModule());
         //WHEN
+        System.out.println(mapper.writeValueAsString(request));
         mockMvc.perform(post("/recipe")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

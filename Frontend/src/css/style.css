@@ -1,6 +1,7 @@
 :root {
     --primary-color: #f1ede9;
     --secondary-color: #000000;
+    --orange-brown-color: #bfa161;
     --error-color: rgba(194, 0, 0, 0.71);
 }
 
@@ -19,7 +20,7 @@
     background-color: var(--primary-color);
     color: var(--secondary-color);
     padding: 0 50px;
-    border-bottom: #bfa161 solid 2px;
+    border-bottom: var(--orange-brown-color) solid 2px;
     height: 108px;
 }
 
@@ -82,7 +83,7 @@
     font-family: "Caveat", Arial, sans-serif;
     text-decoration: none;
     color: #333;
-    border-right: 2px solid #bfa161;
+    border-right: 2px solid var(--orange-brown-color);
     font-size: 27px;
     font-weight: bold;
     margin-right: 10px;
@@ -94,16 +95,18 @@ p.login-link {
     font-family: Arial, sans-serif;
     font-size: 10px;
     margin-top: 60px;
-
 }
 
-p.login-link a {
-    color: blue;
-}
-
+/*Card div formatting*/
 .card {
+    border: var(--orange-brown-color) 2px solid;
     margin: 20px;
     padding: 10px;
+}
+
+.cardTitle {
+    font-family: "Caveat", serif;
+    border-bottom: var(--orange-brown-color) 2px solid;
 }
 
 /* .state and .state.active hide and show items*/

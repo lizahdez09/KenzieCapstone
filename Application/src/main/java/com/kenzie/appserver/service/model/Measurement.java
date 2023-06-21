@@ -15,4 +15,13 @@ public enum Measurement {
     public String getStringValue() {
         return stringValue;
     }
+
+    public static Measurement fromString(String value) {
+        for (Measurement measurement : Measurement.values()) {
+            if (measurement.stringValue.equalsIgnoreCase(value)) {
+                return measurement;
+            }
+        }
+        throw new IllegalArgumentException("Invalid measurement value: " + value);
+    }
 }
