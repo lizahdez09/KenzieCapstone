@@ -2,11 +2,14 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeResponse;
+import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
+import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +47,17 @@ public class RecipeController {
         Recipe recipe = recipeService.addNewRecipe(recipeCreateRequest);
 
         return ResponseEntity.ok(createRecipeResponseFromRecipe(recipe));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RecipeResponse> updateRecipe(@PathVariable("id") String id, @RequestBody RecipeUpdateRequest recipeUpdateRequest) {
+        try {
+            Recipe updatedRecipe = recipeService.updateRecipe(id, recipeUpdateRequest);
+            RecipeResponse recipeResponse = createRecipeResponseFromRecipe(updatedRecipe);
+            return ResponseEntity.ok(recipeResponse);
+        } catch (RecipeNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
