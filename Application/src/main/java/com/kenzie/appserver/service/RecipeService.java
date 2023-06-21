@@ -8,6 +8,7 @@ import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,9 +26,13 @@ public class RecipeService {
     }
 
     public List<Recipe> getAllRecipes() {
-        return StreamSupport.stream(recipeRepository.findAll().spliterator(), false)
-                .map(Recipe::new)
-                .collect(Collectors.toList());
+        List<Recipe> recipes = new ArrayList<>();
+
+        Iterable<RecipeRecord> recordIterable = recipeRepository.findAll();
+        for (RecipeRecord record : recordIterable) {
+            recipes.add(new Recipe(record));
+        }
+        return recipes;
     }
 
     public Recipe getRecipeById(String id) {

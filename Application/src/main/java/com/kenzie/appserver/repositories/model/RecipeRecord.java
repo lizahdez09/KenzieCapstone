@@ -8,18 +8,18 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "RecipeTable")
 public class RecipeRecord {
-    private String recipeId;
-    private String recipeName;
+    private String id;
+    private String name;
     private String ingredients;
     private String timeToPrepare;
 
-    @DynamoDBHashKey(attributeName = "recipeId")
+    @DynamoDBHashKey(attributeName = "id")
     public String getId(){
-        return recipeId;
+        return id;
     }
-    @DynamoDBAttribute(attributeName = "recipeName")
+    @DynamoDBAttribute(attributeName = "name")
     public String getName(){
-        return recipeName;
+        return name;
     }
     @DynamoDBAttribute(attributeName = "ingredients")
     public String getIngredients() {
@@ -30,11 +30,11 @@ public class RecipeRecord {
         return timeToPrepare;
     }
 
-    public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+    public void setRecipeId(String id) {
+        this.id = id;
     }
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setRecipeName(String name) {
+        this.name = name;
     }
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
@@ -48,11 +48,11 @@ public class RecipeRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeRecord that = (RecipeRecord) o;
-        return Objects.equals(recipeId, that.recipeId) && Objects.equals(recipeName, that.recipeName);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(recipeId, recipeName);
+        return Objects.hash(id, name);
     }
 }
