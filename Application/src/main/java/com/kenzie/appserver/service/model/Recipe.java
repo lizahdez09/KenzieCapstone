@@ -41,6 +41,7 @@ public class Recipe {
         this.name = name;
     }
 
+    //TODO FIX THIS LOL
     public String getIngredientsAsString() {
         if (this.ingredients.isEmpty()) return "";
 
@@ -78,7 +79,7 @@ public class Recipe {
         List<Ingredient> ingredientList = new ArrayList<>();
 
         if (ingredientsString != null && !ingredientsString.isEmpty()) {
-            String[] ingredientArray = ingredientsString.split("; ");
+            String[] ingredientArray = ingredientsString.split("}");
 
             for (String ingredientFromArray : ingredientArray) {
                 Ingredient ingredient = Ingredient.fromString(ingredientFromArray);

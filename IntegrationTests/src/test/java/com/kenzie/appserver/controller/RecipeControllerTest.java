@@ -1,6 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.service.RecipeService;
@@ -12,9 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @IntegrationTest
@@ -30,13 +32,13 @@ public class RecipeControllerTest {
     private RecipeService recipeService;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void testGetAllRecipe() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipe")
+        mockMvc.perform(get("/recipe")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
@@ -46,27 +48,35 @@ public class RecipeControllerTest {
         Recipe recipe = recipeService.addNewRecipe(new RecipeCreateRequest());
 
         // Send a GET request to retrieve the recipe by its ID
-        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/{id}", recipe.getId())
+        mockMvc.perform(get("/recipe/{id}", recipe.getId())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(recipe.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(recipe.getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.ingredients").value(recipe.getIngredientsAsString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.timeToPrepare").value(recipe.getTimeToPrepare()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(is(recipe.getId())))
+                .andExpect(jsonPath("name").value(is(recipe.getName())))
+                .andExpect(jsonPath("ingredients").value(is(recipe.getIngredientsAsString())))
+                .andExpect(jsonPath("timeToPrepare").value(is(recipe.getTimeToPrepare())))
                 .andDo(print());
     }
 
     @Test
     public void testAddNewRecipe() throws Exception {
+        //GIVEN
         RecipeCreateRequest request = new RecipeCreateRequest();
+        request.setName("RecipeTest");
+        request.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
+        request.setTimeToPrepare("30");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
+        mapper.registerModule(new JavaTimeModule());
+        //WHEN
+        mockMvc.perform(post("/recipe")
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(request.getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.ingredients").value(request.getIngredients()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.timeToPrepare").value(request.getTimeToPrepare()))
+                        .content(mapper.writeValueAsString(request)))
+        //THEN
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value(is(request.getName())))
+                .andExpect(jsonPath("ingredients").value(is(request.getIngredients())))
+                .andExpect(jsonPath("timeToPrepare").value(is(request.getTimeToPrepare())))
                 .andDo(print());
     }
 }

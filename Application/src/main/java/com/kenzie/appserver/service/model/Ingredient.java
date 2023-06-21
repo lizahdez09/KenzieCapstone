@@ -40,15 +40,26 @@ public class Ingredient {
     }
 
     public static Ingredient fromString(String ingredientString) {
-        Matcher matcher = Pattern.compile("name='(.*?)', amount='(.*?)', measurement=(.*?)\\}")
+        Matcher matcher = Pattern.compile("name='(.*?)', amount='(.*?)', measurement='(.*?)'}")
                 .matcher(ingredientString);
 
         if (matcher.find()) {
             String name = matcher.group(1);
             String amount = matcher.group(2);
             String measurementValue = matcher.group(3);
+            Measurement measurement = null;
 
-            return new Ingredient(name, amount, Measurement.valueOf(measurementValue));
+            for (Measurement meas : Measurement.values()) {
+                if (meas.getStringValue().equals(measurementValue)) {
+                    measurement = meas;
+                    break;
+                }
+            }
+            if (measurement != null) {
+                return new Ingredient(name, amount, measurement);
+            } else {
+                throw new IllegalArgumentException("Invalid measurement value: " + measurementValue);
+            }
         } else {
             throw new IllegalArgumentException("Invalid ingredient string format: " + ingredientString);
         }
