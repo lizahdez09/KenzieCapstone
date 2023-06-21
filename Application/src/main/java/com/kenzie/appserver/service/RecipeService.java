@@ -55,12 +55,12 @@ public class RecipeService {
         return new Recipe(record);
     }
 
-    private RecipeRecord createRecipeRecordFromRecipe(Recipe existingRecipe) {
+    private RecipeRecord createRecipeRecordFromRecipe(Recipe recipe) {
         RecipeRecord record = new RecipeRecord();
-        record.setRecipeId(existingRecipe.getId());
-        record.setRecipeName(existingRecipe.getName());
-        record.setIngredients(existingRecipe.getIngredientsAsString());
-        record.setTimeToPrepare(existingRecipe.getTimeToPrepare());
+        record.setRecipeId(recipe.getId());
+        record.setRecipeName(recipe.getName());
+        record.setIngredients(recipe.getIngredientsAsString());
+        record.setTimeToPrepare(recipe.getTimeToPrepare());
         return record;
     }
 
