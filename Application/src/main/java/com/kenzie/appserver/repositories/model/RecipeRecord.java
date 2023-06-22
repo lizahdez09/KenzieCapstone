@@ -17,7 +17,7 @@ public class RecipeRecord {
     public String getId(){
         return id;
     }
-    @DynamoDBAttribute(attributeName = "name")
+    @DynamoDBAttribute(attributeName = "recipeName")
     public String getName(){
         return name;
     }
@@ -30,10 +30,10 @@ public class RecipeRecord {
         return timeToPrepare;
     }
 
-    public void setRecipeId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public void setRecipeName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
     public void setIngredients(String ingredients) {

@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class RecipeService {
@@ -62,8 +59,8 @@ public class RecipeService {
 
     private RecipeRecord createRecipeRecordFromRecipe(Recipe recipe) {
         RecipeRecord record = new RecipeRecord();
-        record.setRecipeId(recipe.getId());
-        record.setRecipeName(recipe.getName());
+        record.setId(recipe.getId());
+        record.setName(recipe.getName());
         record.setIngredients(recipe.getIngredientsAsString());
         record.setTimeToPrepare(recipe.getTimeToPrepare());
         return record;
@@ -76,8 +73,8 @@ public class RecipeService {
      */
     private RecipeRecord createRecipeRecordFromRequest(RecipeCreateRequest request) {
         RecipeRecord record = new RecipeRecord();
-        record.setRecipeId(UUID.randomUUID().toString());
-        record.setRecipeName(request.getName());
+        record.setId(UUID.randomUUID().toString());
+        record.setName(request.getName());
         record.setIngredients(request.getIngredients());
         record.setTimeToPrepare(request.getTimeToPrepare());
         return record;
