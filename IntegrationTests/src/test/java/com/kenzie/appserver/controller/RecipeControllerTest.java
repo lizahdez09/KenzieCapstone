@@ -44,8 +44,12 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipeById() throws Exception {
+        RecipeCreateRequest request = new RecipeCreateRequest();
+        request.setName("RecipeTest");
+        request.setIngredients("[{\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"},{\"name\":\"Ingredient\",\"amount\":\"2\",\"measurement\":\"TEASPOON\"}]");
+        request.setTimeToPrepare("30");
 
-        Recipe recipe = recipeService.addNewRecipe(new RecipeCreateRequest());
+        Recipe recipe = recipeService.addNewRecipe(request);
 
         // Send a GET request to retrieve the recipe by its ID
         mockMvc.perform(get("/recipe/{id}", recipe.getId())

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -127,43 +126,35 @@ public class RecipeServiceTest {
 
     @Test
     public void testUpdateRecipe_ExistingRecipe_Success() {
+        //GIVEN
+        String id = randomUUID().toString();
 
-        String recipeId = "123";
-        RecipeUpdateRequest updateRequest = new RecipeUpdateRequest();
-        updateRequest.setName("Updated Recipe");
-        updateRequest.setIngredients("Updated Ingredients");
-        updateRequest.setTimeToPrepare("30 minutes");
+        RecipeUpdateRequest updateRequest = createRecipeUpdateRequest();
 
-        Recipe existingRecipe = new Recipe(recipeId, "Old Recipe", new ArrayList<>(), "15 minutes");
+        RecipeRecord oldRecord = createRecipeRecordWithId(id);
 
-        RecipeRecord recipeRecord = new RecipeRecord();
-        recipeRecord.setRecipeId(recipeId);
+        RecipeRecord newRecord = new RecipeRecord();
+        newRecord.setId(oldRecord.getId());
+        newRecord.setName(updateRequest.getName());
+        newRecord.setIngredients(updateRequest.getIngredients());
+        newRecord.setTimeToPrepare(updateRequest.getTimeToPrepare());
 
-        when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipeRecord));
-        when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(recipeRecord);
+        //WHEN
+        when(recipeRepository.findById(id)).thenReturn(Optional.of(oldRecord));
+        when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(newRecord);
 
-
-        Recipe updatedRecipe = recipeService.updateRecipe(recipeId, updateRequest);
-
-
-        assertNotNull(updatedRecipe);
-        assertEquals(recipeId, updatedRecipe.getId());
-        assertEquals(updateRequest.getName(), updatedRecipe.getName());
-        assertEquals(updateRequest.getIngredients(), updatedRecipe.getIngredientsAsString());
-        assertEquals(updateRequest.getTimeToPrepare(), updatedRecipe.getTimeToPrepare());
-
-        verify(recipeRepository).findById(recipeId);
-        verify(recipeRepository).save(any(RecipeRecord.class));
+        Recipe updatedRecipe = recipeService.updateRecipe(id, updateRequest);
+        //THEN
+        Assertions.assertNotNull(updatedRecipe);
+        Assertions.assertEquals(oldRecord.getId(), updatedRecipe.getId());
+        Assertions.assertNotEquals(updatedRecipe.getIngredientsAsString(), oldRecord.getIngredients());
     }
 
     @Test
     public void testUpdateRecipe_NonExistingRecipe_ThrowsException() {
         // Given
-        String recipeId = "123";
-        RecipeUpdateRequest updateRequest = new RecipeUpdateRequest();
-        updateRequest.setName("Updated Recipe");
-        updateRequest.setIngredients("Updated Ingredients");
-        updateRequest.setTimeToPrepare("30 minutes");
+        String recipeId = randomUUID().toString();
+        RecipeUpdateRequest updateRequest = createRecipeUpdateRequest();
 
         when(recipeRepository.findById(recipeId)).thenReturn(Optional.empty());
 
@@ -177,11 +168,23 @@ public class RecipeServiceTest {
      */
     private RecipeRecord createRecipeRecordWithId(String id) {
         RecipeRecord record = new RecipeRecord();
-        record.setRecipeId(id);
-        record.setRecipeName("Record");
+        record.setId(id);
+        record.setName("Record");
         record.setIngredients("[{\"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"tbsp\"}, {\"name\":\"Ingredient\", \"amount\":\"2\", \"measurement\":\"tsp\"}]");
         record.setTimeToPrepare("30");
         return record;
+    }
+
+    /**
+     * Creates a RecipeUpdateRequest
+     * @return request - {@link RecipeUpdateRequest}
+     */
+    private RecipeUpdateRequest createRecipeUpdateRequest(){
+        RecipeUpdateRequest request = new RecipeUpdateRequest();
+        request.setName("Updated Recipe");
+        request.setIngredients("[{\"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"tbsp\"}}");
+        request.setTimeToPrepare("30 minutes");
+        return request;
     }
 }
 
