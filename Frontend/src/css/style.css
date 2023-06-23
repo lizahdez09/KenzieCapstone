@@ -99,7 +99,7 @@ p.login-link {
 
 /*Card div formatting*/
 .card {
-    border: var(--orange-brown-color) 3px solid;
+    border: var(--orange-brown-color) 2px solid;
     margin: 20px;
     padding: 10px;
 }
@@ -126,4 +126,38 @@ p.login-link {
 .image-link{
     display: flex;
      justify-content: center;
+}
+
+#type-field {
+    height: 21px;
+    width: 177px;
+}
+
+.leftColumn {
+    text-align: right;
+}
+
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 26px;
+    color: black;
+}
+
+.menu li.selectedTab {
+    background-color: var(--orange-brown-color);
+}
+
+.menu li:hover {
+    color: white;
+    background-color: var(--orange-brown-color);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
 }
