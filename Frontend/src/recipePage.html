@@ -22,19 +22,55 @@
     <button class="signUpBtn">Sign Up</button>
     <p class="login-link"> Already have an account? <a href="userPage.html">Log in</a></p>
 </header>
-<div class="card state active">
+
+
+<!-- WELCOMETAB state of recipePage.js -->
+<div class="card state" id="welcomeTab">
+    Welcome
+</div>
+
+
+<!-- SEARCHTAB state of recipePage.js-->
+<div class="card state" id="searchTab">
+
+</div>
+
+
+<!-- TYPETAB state of recipePage.js-->
+<div class="card state" id="typeTab">
+
+</div>
+
+
+<!-- CREATETAB state of recipePage.js-->
+<div class="card state active" id="createTab">
     <h2 class="cardTitle">Create a Recipe</h2>
-    <button class="ingredientBtn">Add Ingredient</button>
     <form class="card-content" id="createRecipe">
-        <p class="form-field">
-            <label>Recipe Name</label>
-            <input type="text" required class="validated-field" id="name-field"><br>
-            <label>Ingredients</label>
-            <p class="ingredients"></p>
-            <label>Time to Cook</label>
-            <input type="text" required class="validated-field" id="timeToCook-field"><br>
-        </p>
+        <table>
+            <tr>
+                <td class="leftColumn"><label>Recipe Name :</label></td>
+                <td><input type="text" required class="validated-field" id="name-field"><br></td>
+            </tr>
+            <tr>
+                <td class="leftColumn"><label>Type :</label></td>
+                <td><select id="type-field">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Dessert">Dessert</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td class="leftColumn"><label>Time to Cook :</label></td>
+                <td><input type="text" required class="validated-field" id="timeToCook-field"><br></td>
+            </tr>
+            <tr>
+                <td class="leftColumn"></td>
+                <td><button class="cardBtn">Continue</button></td>
+            </tr>
+        </table>
     </form>
 </div>
+
 </body>
 </html>
