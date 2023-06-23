@@ -16,15 +16,15 @@ class RecipePage extends BaseClass {
     this.TYPETAB = 2;
     this.CREATETAB = 3;
 
+    const menu = document.querySelector('.menu');
   }
 
   /**
    * Once the page has loaded, set up the event handlers and fetch the concert list.
    */
   async mount() {
-    // document.getElementById('get-by-id-form').addEventListener('submit', this.onGet);
-    // document.getElementById('create-form').addEventListener('submit', this.onCreate);
-    // document.getElementById('search-form').addEventListener('submit', this.onSearch);
+    document.querySelector('.menu').addEventListener('click', this.handleTabClick)
+
     this.client = new ExampleClient();
 
     this.dataStore.addChangeListener(this.onStateChange)
@@ -47,12 +47,44 @@ class RecipePage extends BaseClass {
       searchDiv.classList.remove("active");
       typeDiv.classList.remove("active");
       createDiv.classList.remove("active");
+    } else if (parentState === this.SEARCHTAB) {
+      welcomeDiv.classList.remove("active");
+      searchDiv.classList.add("active");
+      typeDiv.classList.remove("active");
+      createDiv.classList.remove("active");
+    } else if (parentState === this.TYPETAB) {
+      welcomeDiv.classList.remove("active");
+      searchDiv.classList.remove("active");
+      typeDiv.classList.add("active");
+      createDiv.classList.remove("active");
+    } else if (parentState === this.CREATETAB) {
+      welcomeDiv.classList.remove("active");
+      searchDiv.classList.remove("active");
+      typeDiv.classList.remove("active");
+      createDiv.classList.add("active");
     }
-
-
   }
 
   // Event Handlers --------------------------------------------------------------------------------------------------
+  async handleTabClick(event) {
+    // Prevent the page from refreshing on form submit
+    event.preventDefault();
+
+    if (event.target.matches('li')) {
+      const tabs = document.querySelectorAll('.menu li');
+      tabs.forEach(tab => {
+        tab.classList.remove('selectedTab');
+      });
+
+      const clickedTab = event.target;
+      clickedTab.classList.add('selectedTab');
+
+      // Perform any additional actions based on the clicked tab
+      // For example, you can show/hide content or trigger other functionality
+      console.log('Clicked tab:', clickedTab.id);
+
+    }
+  }
 
   async onGet(event) {
     // Prevent the page from refreshing on form submit

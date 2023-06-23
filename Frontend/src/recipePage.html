@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script type="text/javascript" src="examplePage.js"></script>
+    <script type="text/javascript" src="recipePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
@@ -26,25 +26,54 @@
 
 <!-- WELCOMETAB state of recipePage.js -->
 <div class="card state" id="welcomeTab">
+    <div class="cardTitle">
+        <ul class="menu">
+            <li>Recipes</li>
+            <li>Search Recipes</li>
+            <li>Search by Type</li>
+            <li class="selectedTab">Create Recipe</li>
+        </ul>
+    </div>
     Welcome
 </div>
 
 
 <!-- SEARCHTAB state of recipePage.js-->
 <div class="card state" id="searchTab">
-
+    <div class="cardTitle">
+        <ul class="menu">
+            <li id="tab-recipes" class="">Recipes</li>
+            <li id="tab-search-recipes" class="">Search Recipes</li>
+            <li id="tab-search-by-type" class="">Search by Type</li>
+            <li id="tab-create-recipe" class="selectedTab">Create Recipe</li>
+        </ul>
+    </div>
 </div>
 
 
 <!-- TYPETAB state of recipePage.js-->
 <div class="card state" id="typeTab">
-
+    <div class="cardTitle">
+        <ul class="menu">
+            <li>Recipes</li>
+            <li>Search Recipes</li>
+            <li>Search by Type</li>
+            <li class="selectedTab">Create Recipe</li>
+        </ul>
+    </div>
 </div>
 
 
 <!-- CREATETAB state of recipePage.js-->
 <div class="card state active" id="createTab">
-    <h2 class="cardTitle">Create a Recipe</h2>
+    <div class="cardTitle">
+        <ul class="menu">
+            <li>Recipes</li>
+            <li>Search Recipes</li>
+            <li>Search by Type</li>
+            <li class="selectedTab">Create Recipe</li>
+        </ul>
+    </div>
     <form class="card-content" id="createRecipe">
         <table>
             <tr>
