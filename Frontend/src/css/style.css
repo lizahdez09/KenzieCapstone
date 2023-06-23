@@ -99,7 +99,7 @@ p.login-link {
 
 /*Card div formatting*/
 .card {
-    border: var(--orange-brown-color) 2px solid;
+    border: var(--orange-brown-color) 3px solid;
     margin: 20px;
     padding: 10px;
 }
@@ -116,4 +116,14 @@ p.login-link {
 
 .state.active {
     display: block;
+}
+
+
+.borderContainer{
+   text-align: center;
+}
+
+.image-link{
+    display: flex;
+     justify-content: center;
 }
