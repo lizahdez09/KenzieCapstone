@@ -6,21 +6,22 @@ class RecipePage extends BaseClass {
   capturedFormValues = {};
   dataStore;
   menu;
+  ingredientCount = 1;
 
   constructor() {
     super();
-    this.bindClassMethods(['onStateChange', 'handleTabClick', 'continueBtnClicked'], this);
+    this.bindClassMethods(['onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
     this.SEARCHTAB = "tab-search-recipes";
     this.TYPETAB = "tab-search-by-type";
     this.CREATETAB = "tab-create-recipe";
-    this.CREATETABCHILD1 = 0;
-    this.CREATETABCHILD2 = 0;
+    this.CREATETABCHILD1 = "createRecipe1";
+    this.CREATETABCHILD2 = "createRecipe2";
 
     this.menu = document.querySelector('.menu');
-  }
+  };
 
   async mount() {
     this.client = new ExampleClient();
@@ -32,6 +33,8 @@ class RecipePage extends BaseClass {
 
   async onStateChange() {
     const parentState = this.dataStore.get("parentState");
+    const childState = this.dataStore.get("childState");
+
     const tabIds = {
       [this.WELCOMETAB]: "welcomeTab",
       [this.SEARCHTAB]: "searchTab",
@@ -48,8 +51,19 @@ class RecipePage extends BaseClass {
     activeTabDiv.classList.add("active");
 
     if (parentState === this.CREATETAB) {
-      const continueBtn = document.getElementById("createContinueBtn");
-      continueBtn.addEventListener('click', this.continueBtnClicked);
+      if (childState === this.CREATETABCHILD1) {
+        document.getElementById(this.CREATETABCHILD1.toString()).classList.add("active");
+        document.getElementById(this.CREATETABCHILD2.toString()).classList.remove("active");
+
+        document.getElementById("createContinueBtn")
+            .addEventListener('click', this.continueBtnClicked);
+      } else if (childState === this.CREATETABCHILD2) {
+        document.getElementById(this.CREATETABCHILD1.toString()).classList.remove("active");
+        document.getElementById(this.CREATETABCHILD2.toString()).classList.add("active");
+
+        document.getElementById("addIngredient")
+            .addEventListener('click', this.addIngredientClicked);
+      }
     }
   };
 
@@ -62,6 +76,9 @@ class RecipePage extends BaseClass {
 
       event.target.classList.add('selectedTab');
       this.dataStore.set("parentState", event.target.id);
+      if (event.target.id === this.CREATETAB) {
+        this.dataStore.set("childState", this.CREATETABCHILD1);
+      }
     }
   };
 
@@ -73,9 +90,41 @@ class RecipePage extends BaseClass {
     const cookTime = document.getElementById("timeToCook-field").value;
     this.capturedFormValues = { name, type, cookTime };
     console.log(this.capturedFormValues);
+    this.dataStore.set("childState", this.CREATETABCHILD2);
   };
 
+  addIngredientClicked(event) {
+    const ingredientForm = document.getElementById("ingredient-field");
+    const formId = this.buildIngredientFieldId();
+
+    const html = `
+    <div class="card">
+      <h2>${formId}</h2>
+      <label>Name</label>
+      <input type="text" required class="validated-field" id="${formId}-name">
+      <label>Measurement</label>
+      <select id="${formId}-measurement">
+        <option value="TEASPOON">tsp</option>
+        <option value="TABLESPOON">tbsp</option>
+        <option value="CUP">c</option>
+      </select>
+      <label>Amount</label>
+      <input type="text" required class="validated-field" id="${formId}-amount">
+    </div>
+  `;
+
+    ingredientForm.innerHTML += html;
+  };
   // Additional event handler methods and utility methods can be added here
+  buildIngredientFieldId() {
+    let results = '';
+
+    results += 'ingredient';
+    results += this.ingredientCount.toString();
+    console.log(results);
+    this.ingredientCount ++;
+    return results;
+  }
 }
 
 const main = async () => {
