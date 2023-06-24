@@ -46,7 +46,8 @@ public class RecipeControllerTest {
     public void testGetRecipeById() throws Exception {
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("RecipeTest");
-        request.setIngredients("[{\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"},{\"name\":\"Ingredient\",\"amount\":\"2\",\"measurement\":\"TEASPOON\"}]");
+        request.setFoodType("Dinner");
+        request.setIngredients(jsonIngredient());
         request.setTimeToPrepare("30");
 
         Recipe recipe = recipeService.addNewRecipe(request);
@@ -57,6 +58,7 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(is(recipe.getId())))
                 .andExpect(jsonPath("name").value(is(recipe.getName())))
+                .andExpect(jsonPath("foodType").value(is(recipe.getFoodTypeAsString())))
                 .andExpect(jsonPath("ingredients").value(is(recipe.getIngredientsAsString())))
                 .andExpect(jsonPath("timeToPrepare").value(is(recipe.getTimeToPrepare())))
                 .andDo(print());
@@ -67,7 +69,8 @@ public class RecipeControllerTest {
         //GIVEN
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("RecipeTest");
-        request.setIngredients("[{\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"},{\"name\":\"Ingredient\",\"amount\":\"2\",\"measurement\":\"TEASPOON\"}]");
+        request.setFoodType("Lunch");
+        request.setIngredients(jsonIngredient());
         request.setTimeToPrepare("30");
 
         mapper.registerModule(new JavaTimeModule());
@@ -80,8 +83,14 @@ public class RecipeControllerTest {
         //THEN
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value(is(request.getName())))
+                .andExpect(jsonPath("foodType").value(is(request.getFoodType())))
                 .andExpect(jsonPath("ingredients").value(is(request.getIngredients())))
                 .andExpect(jsonPath("timeToPrepare").value(is(request.getTimeToPrepare())))
                 .andDo(print());
+    }
+
+
+    private String jsonIngredient(){
+        return "[{\"id\":\"1\",\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"}]";
     }
 }

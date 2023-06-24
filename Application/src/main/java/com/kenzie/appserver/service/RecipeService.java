@@ -16,7 +16,6 @@ import java.util.UUID;
 public class RecipeService {
 
     private RecipeRepository recipeRepository;
-    private List<Recipe> recipes;
 
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
@@ -61,6 +60,7 @@ public class RecipeService {
         RecipeRecord record = new RecipeRecord();
         record.setId(recipe.getId());
         record.setName(recipe.getName());
+        record.setFoodType(recipe.getFoodTypeAsString());
         record.setIngredients(recipe.getIngredientsAsString());
         record.setTimeToPrepare(recipe.getTimeToPrepare());
         return record;
@@ -75,6 +75,7 @@ public class RecipeService {
         RecipeRecord record = new RecipeRecord();
         record.setId(UUID.randomUUID().toString());
         record.setName(request.getName());
+        record.setFoodType(request.getFoodType());
         record.setIngredients(request.getIngredients());
         record.setTimeToPrepare(request.getTimeToPrepare());
         return record;

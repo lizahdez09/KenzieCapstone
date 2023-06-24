@@ -22,84 +22,63 @@
     <button class="signUpBtn">Sign Up</button>
     <p class="login-link"> Already have an account? <a href="userPage.html">Log in</a></p>
 </header>
+<div class="card">
+    <div class="cardTitle">
+        <ul class="menu">
+            <li id="tab-recipes" class="selectedTab">Recipes</li>
+            <li id="tab-search-recipes" class="">Search Recipes</li>
+            <li id="tab-search-by-type" class="">Search by Type</li>
+            <li id="tab-create-recipe" class="">Create Recipe</li>
+        </ul>
+    </div>
 
 
 <!-- WELCOMETAB state of recipePage.js -->
-<div class="card state" id="welcomeTab">
-    <div class="cardTitle">
-        <ul class="menu">
-            <li>Recipes</li>
-            <li>Search Recipes</li>
-            <li>Search by Type</li>
-            <li class="selectedTab">Create Recipe</li>
-        </ul>
+    <div class="state" id="welcomeTab">
+        Recipe get all and display
     </div>
-    Welcome
-</div>
-
 
 <!-- SEARCHTAB state of recipePage.js-->
-<div class="card state" id="searchTab">
-    <div class="cardTitle">
-        <ul class="menu">
-            <li id="tab-recipes" class="">Recipes</li>
-            <li id="tab-search-recipes" class="">Search Recipes</li>
-            <li id="tab-search-by-type" class="">Search by Type</li>
-            <li id="tab-create-recipe" class="selectedTab">Create Recipe</li>
-        </ul>
+    <div class="state" id="searchTab">
+        Search recipes by ingredient?
     </div>
-</div>
 
 
 <!-- TYPETAB state of recipePage.js-->
-<div class="card state" id="typeTab">
-    <div class="cardTitle">
-        <ul class="menu">
-            <li>Recipes</li>
-            <li>Search Recipes</li>
-            <li>Search by Type</li>
-            <li class="selectedTab">Create Recipe</li>
-        </ul>
+    <div class="state" id="typeTab">
+        Filter Recipes by type
     </div>
-</div>
 
 
 <!-- CREATETAB state of recipePage.js-->
-<div class="card state active" id="createTab">
-    <div class="cardTitle">
-        <ul class="menu">
-            <li>Recipes</li>
-            <li>Search Recipes</li>
-            <li>Search by Type</li>
-            <li class="selectedTab">Create Recipe</li>
-        </ul>
+    <div class="state" id="createTab">
+        Create a Recipe ( not done )
+        <form class="card-content" id="createRecipe">
+            <table>
+                <tr>
+                    <td class="leftColumn"><label>Recipe Name :</label></td>
+                    <td><input type="text" required class="validated-field" id="name-field"><br></td>
+                </tr>
+                <tr>
+                    <td class="leftColumn"><label>Type :</label></td>
+                    <td><select id="type-field">
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Dessert">Dessert</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td class="leftColumn"><label>Time to Cook :</label></td>
+                    <td><input type="text" required class="validated-field" id="timeToCook-field"><br></td>
+                </tr>
+                <tr>
+                    <td class="leftColumn"></td>
+                    <td><button class="cardBtn" id="createContinueBtn" type="button">Continue</button></td>
+                </tr>
+            </table>
+        </form>
     </div>
-    <form class="card-content" id="createRecipe">
-        <table>
-            <tr>
-                <td class="leftColumn"><label>Recipe Name :</label></td>
-                <td><input type="text" required class="validated-field" id="name-field"><br></td>
-            </tr>
-            <tr>
-                <td class="leftColumn"><label>Type :</label></td>
-                <td><select id="type-field">
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Dinner">Dinner</option>
-                    <option value="Dessert">Dessert</option>
-                </select></td>
-            </tr>
-            <tr>
-                <td class="leftColumn"><label>Time to Cook :</label></td>
-                <td><input type="text" required class="validated-field" id="timeToCook-field"><br></td>
-            </tr>
-            <tr>
-                <td class="leftColumn"></td>
-                <td><button class="cardBtn">Continue</button></td>
-            </tr>
-        </table>
-    </form>
 </div>
-
 </body>
 </html>

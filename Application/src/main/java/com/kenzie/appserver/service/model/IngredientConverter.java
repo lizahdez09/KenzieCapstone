@@ -14,6 +14,7 @@ public class IngredientConverter {
         try {
             return objectMapper.writeValueAsString(ingredients);
         } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -23,6 +24,7 @@ public class IngredientConverter {
         try {
             return objectMapper.readValue(json, new TypeReference<List<Ingredient>>() {});
         } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
         }

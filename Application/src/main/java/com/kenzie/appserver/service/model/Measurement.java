@@ -1,9 +1,11 @@
 package com.kenzie.appserver.service.model;
 
+import com.kenzie.appserver.exceptions.InvalidMeasurementException;
+
 public enum Measurement {
-    TEASPOON("tsp"),
-    TABLESPOON("tbsp"),
-    CUP("c");
+    TEASPOON("teaspoon"),
+    TABLESPOON("tablespoon"),
+    CUP("cup");
 
 
     private final String stringValue;
@@ -22,6 +24,6 @@ public enum Measurement {
                 return measurement;
             }
         }
-        throw new IllegalArgumentException("Invalid measurement value: " + value);
+        throw new InvalidMeasurementException("Invalid measurement value: " + value);
     }
 }

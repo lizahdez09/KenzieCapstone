@@ -10,6 +10,7 @@ import java.util.Objects;
 public class RecipeRecord {
     private String id;
     private String name;
+    private String foodType;
     private String ingredients;
     private String timeToPrepare;
 
@@ -20,6 +21,10 @@ public class RecipeRecord {
     @DynamoDBAttribute(attributeName = "recipeName")
     public String getName(){
         return name;
+    }
+    @DynamoDBAttribute(attributeName = "foodType")
+    public String getFoodType() {
+        return foodType;
     }
     @DynamoDBAttribute(attributeName = "ingredients")
     public String getIngredients() {
@@ -35,6 +40,9 @@ public class RecipeRecord {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
     }
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;

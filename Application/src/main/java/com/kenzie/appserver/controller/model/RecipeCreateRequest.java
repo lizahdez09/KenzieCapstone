@@ -10,6 +10,9 @@ public class RecipeCreateRequest {
     @JsonProperty("name")
     private String name;
     @NotEmpty
+    @JsonProperty("foodType")
+    private String foodType;
+    @NotEmpty
     @JsonProperty("ingredients")
     private String ingredients;
     @NotEmpty
@@ -22,6 +25,14 @@ public class RecipeCreateRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
     }
 
     public String getIngredients() {

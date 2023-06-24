@@ -108,7 +108,8 @@ public class RecipeServiceTest {
 
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("Record");
-        request.setIngredients("Ingredient{name='Ingredient', amount='2', measurement='tsp'}");
+        request.setFoodType("Lunch");
+        request.setIngredients(jsonIngredient());
         request.setTimeToPrepare("30");
 
         //WHEN
@@ -170,7 +171,8 @@ public class RecipeServiceTest {
         RecipeRecord record = new RecipeRecord();
         record.setId(id);
         record.setName("Record");
-        record.setIngredients("[{\"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"tbsp\"}, {\"name\":\"Ingredient\", \"amount\":\"2\", \"measurement\":\"tsp\"}]");
+        record.setFoodType("Lunch");
+        record.setIngredients(jsonIngredient());
         record.setTimeToPrepare("30");
         return record;
     }
@@ -182,9 +184,14 @@ public class RecipeServiceTest {
     private RecipeUpdateRequest createRecipeUpdateRequest(){
         RecipeUpdateRequest request = new RecipeUpdateRequest();
         request.setName("Updated Recipe");
-        request.setIngredients("[{\"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"tbsp\"}}");
+        request.setFoodType("Lunch");
+        request.setIngredients(jsonIngredient());
         request.setTimeToPrepare("30 minutes");
         return request;
+    }
+
+    private String jsonIngredient() {
+        return "[{\"id\":\"1\", \"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"TABLESPOON\"}]";
     }
 }
 

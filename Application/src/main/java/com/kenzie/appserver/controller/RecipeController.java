@@ -10,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/recipe")
@@ -72,6 +70,7 @@ public class RecipeController {
         RecipeResponse response = new RecipeResponse();
         response.setId(recipe.getId());
         response.setName(recipe.getName());
+        response.setFoodType(recipe.getFoodTypeAsString());
         response.setIngredients(recipe.getIngredientsAsString());
         response.setTimeToPrepare(recipe.getTimeToPrepare());
         return response;

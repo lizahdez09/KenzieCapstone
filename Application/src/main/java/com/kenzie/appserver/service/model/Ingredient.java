@@ -2,6 +2,7 @@ package com.kenzie.appserver.service.model;
 
 public class Ingredient {
 
+    private String id;
     private String name;
     private String amount;
     private Measurement measurement;
@@ -9,10 +10,19 @@ public class Ingredient {
     public Ingredient() {
 
     }
-    public Ingredient(String name, String amount, Measurement measurement) {
+    public Ingredient(String id, String name, String amount, Measurement measurement) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.measurement = measurement;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -39,10 +49,15 @@ public class Ingredient {
         this.measurement = measurement;
     }
 
+    public void setMeasurement(String measurement) {
+        this.measurement = Measurement.fromString(measurement);
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", amount='" + amount + '\'' +
                 ", measurement='" + measurement.getStringValue() + '\'' +
                 '}';
