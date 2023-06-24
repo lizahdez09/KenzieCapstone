@@ -9,6 +9,9 @@ public class RecipeResponse {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("foodType")
+    private String foodType;
+
     @JsonProperty("name")
     private String name;
 
@@ -32,6 +35,14 @@ public class RecipeResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
     }
 
     public String getIngredients() {
