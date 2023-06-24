@@ -10,7 +10,7 @@ class RecipePage extends BaseClass {
 
   constructor() {
     super();
-    this.bindClassMethods(['onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
+    this.bindClassMethods(['addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -63,6 +63,8 @@ class RecipePage extends BaseClass {
 
         document.getElementById("addIngredient")
             .addEventListener('click', this.addIngredientClicked);
+        document.getElementById("addRecipe")
+            .addEventListener('click', this.addNewRecipe);
       }
     }
   };
@@ -93,13 +95,13 @@ class RecipePage extends BaseClass {
     this.dataStore.set("childState", this.CREATETABCHILD2);
   };
 
-  addIngredientClicked(event) {
+  async addIngredientClicked(event) {
     const ingredientForm = document.getElementById("ingredient-field");
     const formId = this.buildIngredientFieldId();
 
     const html = `
     <div class="card">
-      <h2>${formId}</h2>
+      <h2 class="ingredientTitle">Ingredient</h2>
       <label>Name</label>
       <input type="text" required class="validated-field" id="${formId}-name">
       <label>Measurement</label>
@@ -115,16 +117,18 @@ class RecipePage extends BaseClass {
 
     ingredientForm.innerHTML += html;
   };
-  // Additional event handler methods and utility methods can be added here
-  buildIngredientFieldId() {
-    let results = '';
 
-    results += 'ingredient';
-    results += this.ingredientCount.toString();
-    console.log(results);
-    this.ingredientCount ++;
-    return results;
+  async addNewRecipe(event) {
+
   }
+
+  buildIngredientFieldId() {
+    const id = `ingredient${this.ingredientCount}`;
+    this.ingredientCount++;
+    return id;
+  }
+
+
 }
 
 const main = async () => {
