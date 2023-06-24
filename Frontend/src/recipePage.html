@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <script type="text/javascript" src="recipePage.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
@@ -53,32 +52,42 @@
 <!-- CREATETAB state of recipePage.js-->
     <div class="state" id="createTab">
         Create a Recipe ( not done )
-        <form class="card-content" id="createRecipe">
-            <table>
-                <tr>
-                    <td class="leftColumn"><label>Recipe Name :</label></td>
-                    <td><input type="text" required class="validated-field" id="name-field"><br></td>
-                </tr>
-                <tr>
-                    <td class="leftColumn"><label>Type :</label></td>
-                    <td><select id="type-field">
-                        <option value="Breakfast">Breakfast</option>
-                        <option value="Lunch">Lunch</option>
-                        <option value="Dinner">Dinner</option>
-                        <option value="Dessert">Dessert</option>
-                    </select></td>
-                </tr>
-                <tr>
-                    <td class="leftColumn"><label>Time to Cook :</label></td>
-                    <td><input type="text" required class="validated-field" id="timeToCook-field"><br></td>
-                </tr>
-                <tr>
-                    <td class="leftColumn"></td>
-                    <td><button class="cardBtn" id="createContinueBtn" type="button">Continue</button></td>
-                </tr>
-            </table>
-        </form>
+        <div class="state" id="createRecipe1">
+            <form class="card-content">
+                <table>
+                    <tr>
+                        <td class="leftColumn"><label>Recipe Name :</label></td>
+                        <td><input type="text" required class="validated-field" id="name-field"><br></td>
+                    </tr>
+                    <tr>
+                        <td class="leftColumn"><label>Type :</label></td>
+                        <td><select id="type-field">
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Dessert">Dessert</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td class="leftColumn"><label>Time to Cook :</label></td>
+                        <td><input type="text" required class="validated-field" id="timeToCook-field"><br></td>
+                    </tr>
+                    <tr>
+                        <td class="leftColumn"></td>
+                        <td><button class="cardBtn" id="createContinueBtn" type="button">Continue</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="state" id="createRecipe2">
+            <button type="click" id="addIngredient">Add Ingredient</button>
+            <from class="card-content" id="ingredient-field">
+
+            </from>
+            <button type="submit" id="addRecipe">Add Recipe</button>
+        </div>
     </div>
 </div>
 </body>
+<script type="text/javascript" src="recipePage.js"></script>
 </html>
