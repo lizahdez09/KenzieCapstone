@@ -28,7 +28,7 @@ public class Recipe {
         this.id = record.getId();
         this.foodType = FoodType.fromValue(record.getFoodType());
         this.name = record.getName();
-        this.recipeIngredients = IngredientConverter.jsonToIngredients(record.getIngredients());
+        this.recipeIngredients = RecipeIngredientConverter.jsonToIngredients(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
     }
 
@@ -61,7 +61,7 @@ public class Recipe {
     }
 
     public String getIngredientsAsString() {
-        return IngredientConverter.ingredientsToJson(this.recipeIngredients);
+        return RecipeIngredientConverter.ingredientsToJson(this.recipeIngredients);
     }
 
     public List<RecipeIngredient> getIngredientsAsList() {
@@ -69,7 +69,7 @@ public class Recipe {
     }
 
     public void setIngredients(String ingredients) {
-        this.recipeIngredients = IngredientConverter.jsonToIngredients(ingredients);
+        this.recipeIngredients = RecipeIngredientConverter.jsonToIngredients(ingredients);
     }
 
     public void setIngredients(List<RecipeIngredient> recipeIngredients) {

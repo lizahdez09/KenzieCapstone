@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class IngredientConverter {
+public class RecipeIngredientConverter {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static String ingredientsToJson(List<Ingredient> recipeIngredients) {
+    public static String ingredientsToJson(List<RecipeIngredient> recipeIngredients) {
         try {
             return mapper.writeValueAsString(recipeIngredients);
         } catch (JsonProcessingException e) {
@@ -19,9 +19,9 @@ public class IngredientConverter {
         }
     }
 
-    public static List<Ingredient> jsonToIngredients(String json) {
+    public static List<RecipeIngredient> jsonToIngredients(String json) {
         try {
-            return mapper.readValue(json, new TypeReference<List<Ingredient>>() {});
+            return mapper.readValue(json, new TypeReference<List<RecipeIngredient>>() {});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;

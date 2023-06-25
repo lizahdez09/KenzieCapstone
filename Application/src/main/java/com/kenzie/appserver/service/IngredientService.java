@@ -1,6 +1,6 @@
 package com.kenzie.appserver.service;
 
-import com.kenzie.appserver.exceptions.IngredientNotFoundException;
+import com.kenzie.appserver.controller.model.IngredientCreateRequest;
 import com.kenzie.appserver.repositories.IngredientRepository;
 import com.kenzie.appserver.repositories.model.IngredientRecord;
 import com.kenzie.appserver.service.model.Ingredient;
@@ -33,10 +33,10 @@ public class IngredientService {
 
     /**
      * Checks to see if Ingredient exists by name, If no Ingredient exists by that name it will make a call to
-     * {@link IngredientService#createIngredient(String)} passing in the name to return a new {@link Ingredient}
+     * {@link IngredientService#createIngredient(IngredientCreateRequest)} passing in the name to return a new {@link Ingredient}
      * @param name the name of the Ingredient
      * @return {@link Ingredient}
-     * @see IngredientService#createIngredient(String)
+     * @see IngredientService#createIngredient(IngredientCreateRequest)
      */
     public Ingredient getOrCreateIngredient(String name) {
         List<Ingredient> ingredients = getAllIngredients();
@@ -45,18 +45,20 @@ public class IngredientService {
                 return ingredient;
             }
         }
-        return createIngredient(name);
+        IngredientCreateRequest request = new IngredientCreateRequest();
+        request.setName(name);
+        return createIngredient(request);
     }
 
     /**
-     * Creates a new Ingredient using {@link UUID#randomUUID()} to create an id, and the provided name.<br> Returns the new {@link Ingredient}.
-     * @param name the name of the Ingredient
+     * Creates a new Ingredient using {@link UUID#randomUUID()} to create an id,<br> and the provided name from the {@link IngredientCreateRequest}.<br> Returns the new {@link Ingredient}.
+     * @param request the {@link IngredientCreateRequest}
      * @return {@link Ingredient}
      */
-    public Ingredient createIngredient(String name) {
+    public Ingredient createIngredient(IngredientCreateRequest request) {
         IngredientRecord record = new IngredientRecord();
         record.setId(randomUUID().toString());
-        record.setName(name);
+        record.setName(request.getName());
         ingredientRepository.save(record);
         return new Ingredient(record);
     }
