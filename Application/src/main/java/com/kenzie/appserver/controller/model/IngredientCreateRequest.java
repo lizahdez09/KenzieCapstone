@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
 
-public class IngredientCreate {
+public class IngredientCreateRequest {
     @NotEmpty
     @JsonProperty("name")
     private String name;

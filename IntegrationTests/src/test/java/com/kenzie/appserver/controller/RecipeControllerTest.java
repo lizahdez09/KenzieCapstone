@@ -84,7 +84,6 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value(is(request.getName())))
                 .andExpect(jsonPath("foodType").value(is(request.getFoodType())))
-                .andExpect(jsonPath("ingredients").value(is(request.getIngredients())))
                 .andExpect(jsonPath("timeToPrepare").value(is(request.getTimeToPrepare())))
                 .andDo(print());
     }

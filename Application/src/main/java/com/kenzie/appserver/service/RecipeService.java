@@ -1,16 +1,14 @@
 package com.kenzie.appserver.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.appserver.controller.model.IngredientRequest;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Ingredient;
-import com.kenzie.appserver.service.model.IngredientConverter;
+import com.kenzie.appserver.service.model.RecipeIngredientConverter;
 import com.kenzie.appserver.service.model.Recipe;
 import com.kenzie.appserver.service.model.RecipeIngredient;
 import org.springframework.stereotype.Service;
@@ -50,32 +48,10 @@ public class RecipeService {
     }
 
     public Recipe addNewRecipe(RecipeCreateRequest request) {
-        // TODO check if ingredient exists
-        JsonNode ingredientsJson;
-        try {
-            ingredientsJson = mapper.readTree(request.getIngredients());
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid ingredients JSON format");
-        }
-        if (!ingredientsJson.isArray()) {
-            throw new IllegalArgumentException("Invalid ingredients JSON format. Expected an array.");
-        }
-
-        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
-
-        for (JsonNode ingredientJson : ingredientsJson) {
-            String ingredientName = ingredientJson.get("name").asText();
-            Ingredient ingredient = ingredientService.getOrCreateIngredient(ingredientName);
-
-            String amount = ingredientJson.get("amount").asText();
-            String measurement = ingredientJson.get("measurement").asText();
-
-            RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient.getId(), ingredient.getName(), amount, measurement);
-            recipeIngredients.add(recipeIngredient);
-        }
+        List<RecipeIngredient> recipeIngredients = checkIngredientsExist(request.getIngredients());
 
         RecipeRecord record = createRecipeRecordFromRequest(request);
-        record.setIngredients(IngredientConverter.ingredientsToJson(recipeIngredients));
+        record.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredients));
         recipeRepository.save(record);
         return new Recipe(record);
     }
@@ -83,16 +59,19 @@ public class RecipeService {
 
     public Recipe updateRecipe(String id, RecipeUpdateRequest request) {
         Recipe existingRecipe = getRecipeById(id);
-        if (existingRecipe == null) {
-            throw new RecipeNotFoundException("Recipe not found!");
-        }
+
+        List<RecipeIngredient> recipeIngredients = checkIngredientsExist(request.getIngredients());
+
         existingRecipe.setName(request.getName());
-        existingRecipe.setIngredients(request.getIngredients());
+        existingRecipe.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredients));
         existingRecipe.setTimeToPrepare(request.getTimeToPrepare());
+
         RecipeRecord record = createRecipeRecordFromRecipe(existingRecipe);
         recipeRepository.save(record);
+
         return new Recipe(record);
     }
+
 
     private RecipeRecord createRecipeRecordFromRecipe(Recipe recipe) {
         RecipeRecord record = new RecipeRecord();
@@ -116,5 +95,31 @@ public class RecipeService {
         record.setFoodType(request.getFoodType());
         record.setTimeToPrepare(request.getTimeToPrepare());
         return record;
+    }
+
+    private List<RecipeIngredient> checkIngredientsExist(String jsonIngredientList) {
+        JsonNode ingredientsJson;
+        try {
+            ingredientsJson = mapper.readTree(jsonIngredientList);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid ingredients JSON format");
+        }
+        if (!ingredientsJson.isArray()) {
+            throw new IllegalArgumentException("Invalid ingredients JSON format. Expected an array.");
+        }
+
+        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+
+        for (JsonNode ingredientJson : ingredientsJson) {
+            String ingredientName = ingredientJson.get("name").asText();
+            Ingredient ingredient = ingredientService.getOrCreateIngredient(ingredientName);
+
+            String amount = ingredientJson.get("amount").asText();
+            String measurement = ingredientJson.get("measurement").asText();
+
+            RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient.getId(), ingredient.getName(), amount, measurement);
+            recipeIngredients.add(recipeIngredient);
+        }
+        return recipeIngredients;
     }
 }

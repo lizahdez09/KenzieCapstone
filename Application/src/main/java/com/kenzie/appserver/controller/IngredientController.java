@@ -1,6 +1,6 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.IngredientCreate;
+import com.kenzie.appserver.controller.model.IngredientCreateRequest;
 import com.kenzie.appserver.controller.model.IngredientResponse;
 import com.kenzie.appserver.service.IngredientService;
 import com.kenzie.appserver.service.model.Ingredient;
@@ -39,10 +39,10 @@ public class IngredientController {
     }
 
     @PostMapping
-    public ResponseEntity<IngredientResponse> addNewIngredient(@RequestBody IngredientCreate ingredientCreate) {
+    public ResponseEntity<IngredientResponse> addNewIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
         //ingredientService.getOrCreateIngredient checks if the ingredient exists by name before creating
         return ResponseEntity.ok(createResponseFromIngredient(ingredientService
-                .getOrCreateIngredient(ingredientCreate.getName())));
+                .getOrCreateIngredient(ingredientCreateRequest.getName())));
     }
 
     private IngredientResponse createResponseFromIngredient(Ingredient ingredient) {

@@ -5,8 +5,9 @@ import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.IngredientRepository;
 import com.kenzie.appserver.repositories.RecipeRepository;
+import com.kenzie.appserver.repositories.model.IngredientRecord;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
-import com.kenzie.appserver.service.model.Recipe;
+import com.kenzie.appserver.service.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ public class RecipeServiceTest {
         ingredientService = new IngredientService(ingredientRepository);
         recipeService = new RecipeService(recipeRepository, ingredientService);
     }
+
     /** ------------------------------------------------------------------------
      *  recipeService.getAllRecipes
      *  ------------------------------------------------------------------------ **/
@@ -108,16 +110,26 @@ public class RecipeServiceTest {
     @Test
     public void addNewRecipe_returnsRecipe() {
         //GIVEN
+        String ingredientName = "Milk";
         String id = randomUUID().toString();
         RecipeRecord record = createRecipeRecordWithId(id);
+
+        IngredientRecord ingredientRecord = createIngredientRecord(ingredientName);
+        List<IngredientRecord> ingredientRecordList = new ArrayList<>();
+        ingredientRecordList.add(ingredientRecord);
+
+        RecipeIngredient recipeIngredient = createRecipeIngredient(ingredientRecord, "2", "CUP");
+        List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
+        recipeIngredientList.add(recipeIngredient);
 
         RecipeCreateRequest request = new RecipeCreateRequest();
         request.setName("Record");
         request.setFoodType("Lunch");
-        request.setIngredients(jsonIngredient());
+        request.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredientList));
         request.setTimeToPrepare("30");
 
         //WHEN
+        when(ingredientRepository.findAll()).thenReturn(ingredientRecordList);
         when(recipeRepository.save(record)).thenReturn(record);
         Recipe recipe = recipeService.addNewRecipe(request);
 
@@ -145,7 +157,14 @@ public class RecipeServiceTest {
         newRecord.setIngredients(updateRequest.getIngredients());
         newRecord.setTimeToPrepare(updateRequest.getTimeToPrepare());
 
+        List<IngredientRecord> ingredientRecordList = new ArrayList<>();
+        IngredientRecord ingredientRecord = new IngredientRecord();
+        ingredientRecord.setId(randomUUID().toString());
+        ingredientRecord.setName("Ingredient");
+        ingredientRecordList.add(ingredientRecord);
+
         //WHEN
+        when(ingredientRepository.findAll()).thenReturn(ingredientRecordList);
         when(recipeRepository.findById(id)).thenReturn(Optional.of(oldRecord));
         when(recipeRepository.save(any(RecipeRecord.class))).thenReturn(newRecord);
 
@@ -197,6 +216,21 @@ public class RecipeServiceTest {
 
     private String jsonIngredient() {
         return "[{\"id\":\"1\", \"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"TABLESPOON\"}]";
+    }
+    private IngredientRecord createIngredientRecord(String name){
+        IngredientRecord record = new IngredientRecord();
+        record.setId(randomUUID().toString());
+        record.setName(name);
+        return record;
+    }
+
+    private RecipeIngredient createRecipeIngredient(IngredientRecord record, String amount, String measurement) {
+        RecipeIngredient recipeIngredient = new RecipeIngredient();
+        recipeIngredient.setId(record.getId());
+        recipeIngredient.setName(record.getName());
+        recipeIngredient.setAmount(amount);
+        recipeIngredient.setMeasurement(measurement);
+        return recipeIngredient;
     }
 }
 
