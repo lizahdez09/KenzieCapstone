@@ -3,6 +3,7 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
 import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
+import com.kenzie.appserver.repositories.IngredientRepository;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 import com.kenzie.appserver.service.model.Recipe;
@@ -23,12 +24,16 @@ import static org.mockito.Mockito.*;
 public class RecipeServiceTest {
 
     private RecipeRepository recipeRepository;
+    private IngredientRepository ingredientRepository;
     private RecipeService recipeService;
+    private IngredientService ingredientService;
 
     @BeforeEach
     void setup() {
         recipeRepository = mock(RecipeRepository.class);
-        recipeService = new RecipeService(recipeRepository);
+        ingredientRepository = mock(IngredientRepository.class);
+        ingredientService = new IngredientService(ingredientRepository);
+        recipeService = new RecipeService(recipeRepository, ingredientService);
     }
     /** ------------------------------------------------------------------------
      *  recipeService.getAllRecipes

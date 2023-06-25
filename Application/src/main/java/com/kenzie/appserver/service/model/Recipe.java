@@ -13,7 +13,7 @@ public class Recipe {
     private String timeToPrepare;
 
     public Recipe() {
-        /*DO NOT REMOVE*/
+        /*DO NOT REMOVE - Need for JSON processing*/
     }
 
     public Recipe(String id, String name, FoodType foodType, List<RecipeIngredient> recipeIngredients, String timeToPrepare){
