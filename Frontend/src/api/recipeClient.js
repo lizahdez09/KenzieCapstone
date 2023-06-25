@@ -12,7 +12,7 @@ export default class RecipeClient extends BaseClass {
 
     clientLoaded(client) {
         this.client = client;
-        if (this.props.hasOwnProperty("onReady")){
+        if (this.props.hasOwnProperty("onReady")) {
             this.props.onReady();
         }
     }
@@ -26,29 +26,48 @@ export default class RecipeClient extends BaseClass {
         }
     }
 
-    async createRecipe(id, recipe, name, errorCallback) {
+    async createRecipe(id, name, foodType, ingredients, timeToPrepare, errorCallback) {
         try {
             const response = await this.client.post(`recipe`, {
                 id: id,
-                recipe: recipe,
-                name: name
+                name: name,
+                foodType: foodType,
+                ingredients: ingredients,
+                timeToPrepare: timeToPrepare
             });
             return response.data;
         } catch (error) {
-            this.handleError("createExample", error, errorCallback);
+            this.handleError("createRecipe", error, errorCallback);
         }
     }
 
-    async updateRecipe(id, recipe, name, errorCallback) {
+    async updateRecipe(id, name, foodType, ingredients, timeToPrepare, errorCallback) {
         try {
             const response = await this.client.update(`recipe`, {
                 id: id,
-                recipe: recipe,
-                name: name
+                name: name,
+                foodType: foodType,
+                ingredients: ingredients,
+                timeToPrepare: timeToPrepare
             });
             return response.data;
         } catch (error) {
             this.handleError("updateRecipe", error, errorCallback);
+        }
+    }
+
+    /**
+     * Helper method to log the error and run any error functions.
+     * @param error The error received from the server.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     */
+    handleError(method, error, errorCallback) {
+        console.error(method + " failed - " + error);
+        if (error.response.data.message !== undefined) {
+            console.error(error.response.data.message);
+        }
+        if (errorCallback) {
+            errorCallback(method + " failed - " + error);
         }
     }
 }
