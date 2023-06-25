@@ -3,10 +3,10 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       "AttributeDefinitions":
-        - "AttributeName": "recipeName"
+        - "AttributeName": "id"
           "AttributeType": "S"
       "KeySchema":
-        - "AttributeName": "recipeName"
+        - "AttributeName": "id"
           "KeyType": "HASH"
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false

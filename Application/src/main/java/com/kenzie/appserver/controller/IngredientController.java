@@ -33,15 +33,16 @@ public class IngredientController {
 
     @GetMapping("/{name}")
     public ResponseEntity<IngredientResponse> getIngredientByName(@PathVariable("name") String name) {
-        //ingredientService.getByName will create the Ingredient if not found, so we can just return it
-        return ResponseEntity.ok(createResponseFromIngredient(ingredientService.getByName(name)));
+        //ingredientService.getOrCreateIngredient will create the Ingredient if not found, so we can just return it
+        return ResponseEntity.ok(createResponseFromIngredient(ingredientService
+                .getOrCreateIngredient(name)));
     }
 
     @PostMapping
-    public ResponseEntity<IngredientResponse> addNewRecipe(@RequestBody IngredientCreate ingredientCreate) {
-        Ingredient ingredient = ingredientService.createIngredient(ingredientCreate.getName());
-
-        return ResponseEntity.ok(createResponseFromIngredient(ingredient));
+    public ResponseEntity<IngredientResponse> addNewIngredient(@RequestBody IngredientCreate ingredientCreate) {
+        //ingredientService.getOrCreateIngredient checks if the ingredient exists by name before creating
+        return ResponseEntity.ok(createResponseFromIngredient(ingredientService
+                .getOrCreateIngredient(ingredientCreate.getName())));
     }
 
     private IngredientResponse createResponseFromIngredient(Ingredient ingredient) {
