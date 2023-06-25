@@ -11,7 +11,7 @@ class RecipePage extends BaseClass {
 
   constructor() {
     super();
-    this.bindClassMethods(['buildRecipeTable', 'addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
+    this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -75,7 +75,7 @@ class RecipePage extends BaseClass {
   async buildRecipeTable() {
     const mainDiv = document.getElementById("welcomeTab");
     const recipes = await this.client.getAllRecipes();
-
+    mainDiv.innerHTML = ``;
     recipes.forEach((recipe) => {
       const id = recipe.id;
       const foodType = recipe.foodType;
@@ -108,28 +108,34 @@ class RecipePage extends BaseClass {
   }
 
   async openPopUp(event) {
-    const closeOverlayButton = document.getElementById("closeOverlayButton");
-    closeOverlayButton.addEventListener("click", () => {
-      overlay.style.display = "none";
-    });
-
     const recipeId = event.currentTarget.id;
-    console.log(event.currentTarget.id);
     const overlay = document.getElementById("overlay");
     overlay.style.display = "flex";
 
-    const overlayContentDiv = document.getElementById("overlayContent");
+    const overlayContentDiv = document.getElementById("smallOverlayContent");
+    overlayContentDiv.innerHTML = ""; // Clear previous content
+
+    const closeOverlayButton = document.getElementById("closeOverlayButton");
+
+    const closeOverlay = () => {
+      overlay.style.display = "none";
+      closeOverlayButton.removeEventListener("click", closeOverlay);
+    };
+
+    closeOverlayButton.addEventListener("click", closeOverlay);
+
     const recipe = await this.client.getRecipe(recipeId, this.errorHandler);
     console.log(recipe);
     const foodType = recipe.foodType;
     const name = recipe.name;
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
     const timeToPrepare = recipe.timeToPrepare;
 
-    overlayContentDiv.innerHTML += `
-    <h2>${name}</h2>
-    <p>${foodType}</p>
-    <p>${timeToPrepare}</p>
+    overlayContentDiv.innerHTML = `
+    <h2 class="ingredientTitlePopUp">${capitalizedName}</h2>
+    <p>Best suitable for ${foodType}</p>
+    <p>Time to Prepare : ${timeToPrepare} minutes</p>
   `;
 
     // Iterate over the ingredients array and create <p> elements
@@ -139,10 +145,11 @@ class RecipePage extends BaseClass {
       const ingredientMeasurement = ingredient.measurement;
 
       const ingredientElement = document.createElement("p");
-      ingredientElement.innerHTML = `${ingredientName}, ${ingredientAmount}, ${ingredientMeasurement}`;
+      ingredientElement.innerHTML = `${ingredientName}- Amount: ${ingredientAmount} ${ingredientMeasurement}`;
       overlayContentDiv.appendChild(ingredientElement);
     });
   }
+
 
   async handleTabClick(event) {
     event.preventDefault();
