@@ -1,7 +1,9 @@
 :root {
     --primary-color: #f1ede9;
     --secondary-color: #000000;
-    --orange-brown-color: #bfa161;
+    --orange-brown-color: rgba(191, 161, 97, 100);
+    --orange-brown-color-brighter: #ffce70;
+    --orange-brown-color-darker: #b28c60;
     --error-color: rgba(194, 0, 0, 0.71);
 }
 
@@ -165,4 +167,44 @@ p.login-link {
 .ingredientTitle {
     padding: 0px;
     margin: 0px;
+}
+
+.recipeCard {
+    display: flex;
+    flex-direction: row;
+    border: var(--orange-brown-color) 2px solid;
+    margin: 2px;
+    padding: 10px;
+}
+
+.info {
+    width: 33.3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlayContent {
+    background-color: #fff;
+    padding: 20px;
+    position: relative;
+}
+
+#closeOverlayButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }

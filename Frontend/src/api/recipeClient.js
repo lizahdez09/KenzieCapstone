@@ -17,24 +17,35 @@ export default class RecipeClient extends BaseClass {
         }
     }
 
+    async getAllRecipes(errorCallback) {
+        try {
+            const response = await this.client.get('/recipe');
+            return response.data;
+        } catch (error) {
+            this.handleError("getAllRecipes", error, errorCallback);
+        }
+    }
+
     async getRecipe(id, errorCallback) {
         try {
+            console.log("I get here.")
             const response = await this.client.get(`/recipe/${id}`);
+            console.log(response);
             return response.data;
         } catch (error) {
             this.handleError("getRecipe", error, errorCallback)
         }
     }
 
-    async createRecipe(id, name, foodType, ingredients, timeToPrepare, errorCallback) {
+    async createRecipe(name, foodType, ingredients, timeToPrepare, errorCallback) {
         try {
-            const response = await this.client.post(`recipe`, {
-                id: id,
+            const response = await this.client.post(`/recipe`, {
                 name: name,
                 foodType: foodType,
                 ingredients: ingredients,
                 timeToPrepare: timeToPrepare
             });
+            console.log(response.data);
             return response.data;
         } catch (error) {
             this.handleError("createRecipe", error, errorCallback);
@@ -43,7 +54,7 @@ export default class RecipeClient extends BaseClass {
 
     async updateRecipe(id, name, foodType, ingredients, timeToPrepare, errorCallback) {
         try {
-            const response = await this.client.update(`recipe`, {
+            const response = await this.client.update(`/recipe`, {
                 id: id,
                 name: name,
                 foodType: foodType,

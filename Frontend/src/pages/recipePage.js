@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import ExampleClient from "../api/exampleClient";
+import RecipeClient from "../api/recipeClient";
 
 class RecipePage extends BaseClass {
   capturedFormValues = {};
@@ -10,7 +11,7 @@ class RecipePage extends BaseClass {
 
   constructor() {
     super();
-    this.bindClassMethods(['addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
+    this.bindClassMethods(['buildRecipeTable', 'addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -24,7 +25,7 @@ class RecipePage extends BaseClass {
   };
 
   async mount() {
-    this.client = new ExampleClient();
+    this.client = new RecipeClient();
 
     this.menu.addEventListener('click', this.handleTabClick);
     this.dataStore.addChangeListener(this.onStateChange);
@@ -49,7 +50,9 @@ class RecipePage extends BaseClass {
 
     const activeTabDiv = document.getElementById(tabIds[parentState]);
     activeTabDiv.classList.add("active");
-
+    if (parentState === this.WELCOMETAB) {
+      await this.buildRecipeTable();
+    }
     if (parentState === this.CREATETAB) {
       if (childState === this.CREATETABCHILD1) {
         document.getElementById(this.CREATETABCHILD1.toString()).classList.add("active");
@@ -68,6 +71,78 @@ class RecipePage extends BaseClass {
       }
     }
   };
+
+  async buildRecipeTable() {
+    const mainDiv = document.getElementById("welcomeTab");
+    const recipes = await this.client.getAllRecipes();
+
+    recipes.forEach((recipe) => {
+      const id = recipe.id;
+      const foodType = recipe.foodType;
+      const name = recipe.name;
+      const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
+      const timeToPrepare = recipe.timeToPrepare;
+
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipeCard");
+      recipeCard.id = id;
+      const nameParagraph = document.createElement("p");
+      nameParagraph.classList.add("info");
+      nameParagraph.textContent = `Name: ${name}`;
+
+      const typeParagraph = document.createElement("p");
+      typeParagraph.classList.add("info");
+      typeParagraph.textContent = `Type: ${foodType}`;
+
+      const timeParagraph = document.createElement("p");
+      timeParagraph.classList.add("info");
+      timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+
+      recipeCard.appendChild(nameParagraph);
+      recipeCard.appendChild(typeParagraph);
+      recipeCard.appendChild(timeParagraph);
+
+      mainDiv.appendChild(recipeCard);
+      recipeCard.addEventListener('click', this.openPopUp);
+    });
+  }
+
+  async openPopUp(event) {
+    const closeOverlayButton = document.getElementById("closeOverlayButton");
+    closeOverlayButton.addEventListener("click", () => {
+      overlay.style.display = "none";
+    });
+
+    const recipeId = event.currentTarget.id;
+    console.log(event.currentTarget.id);
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "flex";
+
+    const overlayContentDiv = document.getElementById("overlayContent");
+    const recipe = await this.client.getRecipe(recipeId, this.errorHandler);
+    console.log(recipe);
+    const foodType = recipe.foodType;
+    const name = recipe.name;
+    const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
+    const timeToPrepare = recipe.timeToPrepare;
+
+    overlayContentDiv.innerHTML += `
+    <h2>${name}</h2>
+    <p>${foodType}</p>
+    <p>${timeToPrepare}</p>
+  `;
+
+    // Iterate over the ingredients array and create <p> elements
+    ingredients.forEach((ingredient) => {
+      const ingredientName = ingredient.name;
+      const ingredientAmount = ingredient.amount;
+      const ingredientMeasurement = ingredient.measurement;
+
+      const ingredientElement = document.createElement("p");
+      ingredientElement.innerHTML = `${ingredientName}, ${ingredientAmount}, ${ingredientMeasurement}`;
+      overlayContentDiv.appendChild(ingredientElement);
+    });
+  }
 
   async handleTabClick(event) {
     event.preventDefault();
@@ -106,9 +181,10 @@ class RecipePage extends BaseClass {
       <input type="text" required class="validated-field" id="${formId}-name">
       <label>Measurement</label>
       <select id="${formId}-measurement">
-        <option value="TEASPOON">tsp</option>
-        <option value="TABLESPOON">tbsp</option>
-        <option value="CUP">c</option>
+        <option value="TEASPOON">TSP</option>
+        <option value="TABLESPOON">TBSP</option>
+        <option value="CUP">C</option>
+        <option value="COUNT">Count</option>
       </select>
       <label>Amount</label>
       <input type="text" required class="validated-field" id="${formId}-amount">
@@ -119,7 +195,31 @@ class RecipePage extends BaseClass {
   };
 
   async addNewRecipe(event) {
+    const ingredientForm = document.getElementById("ingredient-field");
+    const ingredients = Array.from(ingredientForm.getElementsByClassName("card")).map(card => {
+      const name = card.querySelector("input[id$='-name']").value;
+      const measurement = card.querySelector("select[id$='-measurement']").value;
+      const amount = card.querySelector("input[id$='-amount']").value;
 
+      return {
+        name: name,
+        measurement: measurement,
+        amount: amount
+      };
+    });
+    const name = this.capturedFormValues.name;
+    const foodType = this.capturedFormValues.type;
+    const jsonIngredients = JSON.stringify(ingredients);
+    const cookTime = this.capturedFormValues.cookTime;
+
+    const createdRecipe = await this.client.createRecipe(name, foodType, jsonIngredients, cookTime, this.errorHandler);
+
+    if (createdRecipe) {
+      this.showMessage(`Created new Recipe named : ${createdRecipe.name}`)
+    } else {
+      this.errorHandler("Error creating!  Try again...");
+    }
+    this.dataStore.set("parentState", this.WELCOMETAB);
   }
 
   buildIngredientFieldId() {

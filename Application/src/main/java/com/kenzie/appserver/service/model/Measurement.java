@@ -5,7 +5,8 @@ import com.kenzie.appserver.exceptions.InvalidMeasurementException;
 public enum Measurement {
     TEASPOON("teaspoon"),
     TABLESPOON("tablespoon"),
-    CUP("cup");
+    CUP("cup"),
+    COUNT("count");
 
 
     private final String stringValue;
