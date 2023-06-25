@@ -2,7 +2,6 @@ package com.kenzie.appserver.service.model;
 
 import com.kenzie.appserver.repositories.model.RecipeRecord;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
@@ -10,18 +9,18 @@ public class Recipe {
     private String name;
 
     private FoodType foodType;
-    private List<Ingredient> ingredients;
+    private List<RecipeIngredient> recipeIngredients;
     private String timeToPrepare;
 
     public Recipe() {
         /*DO NOT REMOVE*/
     }
 
-    public Recipe(String id, String name, FoodType foodType, List<Ingredient> ingredients, String timeToPrepare){
+    public Recipe(String id, String name, FoodType foodType, List<RecipeIngredient> recipeIngredients, String timeToPrepare){
         this.id = id;
         this.name = name;
         this.foodType = foodType;
-        this.ingredients = ingredients;
+        this.recipeIngredients = recipeIngredients;
         this.timeToPrepare = timeToPrepare;
     }
 
@@ -29,7 +28,7 @@ public class Recipe {
         this.id = record.getId();
         this.foodType = FoodType.fromValue(record.getFoodType());
         this.name = record.getName();
-        this.ingredients = IngredientConverter.jsonToIngredients(record.getIngredients());
+        this.recipeIngredients = IngredientConverter.jsonToIngredients(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
     }
 
@@ -62,19 +61,19 @@ public class Recipe {
     }
 
     public String getIngredientsAsString() {
-        return IngredientConverter.ingredientsToJson(this.ingredients);
+        return IngredientConverter.ingredientsToJson(this.recipeIngredients);
     }
 
-    public List<Ingredient> getIngredientsAsList() {
-        return this.ingredients;
+    public List<RecipeIngredient> getIngredientsAsList() {
+        return this.recipeIngredients;
     }
 
     public void setIngredients(String ingredients) {
-        this.ingredients = IngredientConverter.jsonToIngredients(ingredients);
+        this.recipeIngredients = IngredientConverter.jsonToIngredients(ingredients);
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
     public String getTimeToPrepare() {

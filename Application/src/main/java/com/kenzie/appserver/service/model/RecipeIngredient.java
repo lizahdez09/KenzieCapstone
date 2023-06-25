@@ -1,21 +1,11 @@
 package com.kenzie.appserver.service.model;
 
-public class Ingredient {
+public class RecipeIngredient extends Ingredient {
 
     private String id;
     private String name;
     private String amount;
     private Measurement measurement;
-
-    public Ingredient() {
-
-    }
-    public Ingredient(String id, String name, String amount, Measurement measurement) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.measurement = measurement;
-    }
 
     public String getId() {
         return id;
