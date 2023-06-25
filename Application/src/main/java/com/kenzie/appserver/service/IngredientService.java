@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
 
@@ -30,7 +31,14 @@ public class IngredientService {
         return ingredients;
     }
 
-    public Ingredient getByName(String name) {
+    /**
+     * Checks to see if Ingredient exists by name, If no Ingredient exists by that name it will make a call to
+     * {@link IngredientService#createIngredient(String)} passing in the name to return a new {@link Ingredient}
+     * @param name the name of the Ingredient
+     * @return {@link Ingredient}
+     * @see IngredientService#createIngredient(String)
+     */
+    public Ingredient getOrCreateIngredient(String name) {
         List<Ingredient> ingredients = getAllIngredients();
         for (Ingredient ingredient : ingredients) {
             if (ingredient.getName().equals(name)) {
@@ -40,6 +48,11 @@ public class IngredientService {
         return createIngredient(name);
     }
 
+    /**
+     * Creates a new Ingredient using {@link UUID#randomUUID()} to create an id, and the provided name.<br> Returns the new {@link Ingredient}.
+     * @param name the name of the Ingredient
+     * @return {@link Ingredient}
+     */
     public Ingredient createIngredient(String name) {
         IngredientRecord record = new IngredientRecord();
         record.setId(randomUUID().toString());
