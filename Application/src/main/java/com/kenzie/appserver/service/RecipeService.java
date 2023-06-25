@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
 
 @Service
 public class RecipeService {
@@ -73,7 +74,7 @@ public class RecipeService {
      */
     private RecipeRecord createRecipeRecordFromRequest(RecipeCreateRequest request) {
         RecipeRecord record = new RecipeRecord();
-        record.setId(UUID.randomUUID().toString());
+        record.setId(randomUUID().toString());
         record.setName(request.getName());
         record.setFoodType(request.getFoodType());
         record.setIngredients(request.getIngredients());

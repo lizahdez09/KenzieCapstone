@@ -10,9 +10,9 @@ public class IngredientConverter {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String ingredientsToJson(List<Ingredient> ingredients) {
+    public static String ingredientsToJson(List<RecipeIngredient> recipeIngredients) {
         try {
-            return objectMapper.writeValueAsString(ingredients);
+            return objectMapper.writeValueAsString(recipeIngredients);
         } catch (JsonProcessingException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -20,9 +20,9 @@ public class IngredientConverter {
         }
     }
 
-    public static List<Ingredient> jsonToIngredients(String json) {
+    public static List<RecipeIngredient> jsonToIngredients(String json) {
         try {
-            return objectMapper.readValue(json, new TypeReference<List<Ingredient>>() {});
+            return objectMapper.readValue(json, new TypeReference<List<RecipeIngredient>>() {});
         } catch (JsonProcessingException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
