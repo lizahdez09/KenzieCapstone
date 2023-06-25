@@ -7,6 +7,17 @@ public class RecipeIngredient extends Ingredient {
     private String amount;
     private Measurement measurement;
 
+    public RecipeIngredient(){
+        /*DO NOT REMOVE - Need for JSON processing*/
+    }
+
+    public RecipeIngredient(String id, String name, String amount, String measurement) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.measurement = Measurement.valueOf(measurement);
+    }
+
     public String getId() {
         return id;
     }

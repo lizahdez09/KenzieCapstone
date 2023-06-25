@@ -8,13 +8,12 @@ import java.util.List;
 
 public class IngredientConverter {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static String ingredientsToJson(List<RecipeIngredient> recipeIngredients) {
         try {
-            return objectMapper.writeValueAsString(recipeIngredients);
+            return mapper.writeValueAsString(recipeIngredients);
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -22,9 +21,8 @@ public class IngredientConverter {
 
     public static List<RecipeIngredient> jsonToIngredients(String json) {
         try {
-            return objectMapper.readValue(json, new TypeReference<List<RecipeIngredient>>() {});
+            return mapper.readValue(json, new TypeReference<List<RecipeIngredient>>() {});
         } catch (JsonProcessingException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
         }
