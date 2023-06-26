@@ -106,6 +106,11 @@ p.login-link {
     padding: 10px;
 }
 
+.small-margin {
+    margin: 10px;
+    padding: 4px;
+}
+
 .cardTitle {
     font-family: "Caveat", serif;
     border-bottom: var(--orange-brown-color) 2px solid;
@@ -173,7 +178,7 @@ p.login-link {
     display: flex;
     flex-direction: row;
     border: var(--orange-brown-color) 2px solid;
-    margin: 2px;
+    margin: 12px;
     padding: 10px;
 }
 
@@ -194,32 +199,75 @@ p.login-link {
     display: none;
     justify-content: center;
     align-items: center;
+    border-radius: 40px;
+    overflow: hidden; /* Add this property to clip the overlay content */
 }
 
 #overlayContent {
     width: 100%;
     height: 100%;
-    background-color: var(--orange-brown-color);
-    padding: 20px;
+    background-color: rgba(191, 161, 97, 0.8);
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: flex-start;
+    font-family: "Caveat", serif;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .ingredientTitlePopUp {
-    font-size: 36px;
-    font-family: "Caveat", serif;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 50px;
+    background-color: rgba(147, 123, 75, 0.8); /* Adjust the color as desired */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-radius: 40px 40px 0 0; /* Rounded edges on top */
+}
+
+#overlayContent::-webkit-scrollbar {
+    width: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10%; /* Set the top position to 10% */
+    bottom: 10%; /* Set the bottom position to 10% */
+}
+
+#overlayContent::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.2); /* Set the background color of the scroll bar track */
+}
+
+#overlayContent::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4); /* Set the color of the scroll bar thumb */
+    border-radius: 5px; /* Adjust the border radius of the scroll bar thumb */
+}
+
+#overlayContent::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.6); /* Set the color of the scroll bar thumb on hover */
+}
+
+#overlayContent > * {
+    text-align: center;
+    font-size: 30px;
+    width: 100%;
 }
 
 #closeOverlayButton {
-    background: var(--orange-brown-color);
+    background: rgba(0, 0, 0, 0.0);
+    width: fit-content;
+    height: fit-content;
     border: none;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    position: fixed;
+    right: 12%;
+    font-size: 50px;
+    color: var(--orange-brown-color-brighter);
     cursor: grab;
+    z-index: 2;
 }
 
 
