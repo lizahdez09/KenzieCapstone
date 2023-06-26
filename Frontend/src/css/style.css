@@ -22,7 +22,7 @@
     background-color: var(--primary-color);
     color: var(--secondary-color);
     padding: 0 50px;
-    border-bottom: var(--orange-brown-color) solid 2px;
+    border-bottom:var(--orange-brown-color) solid 2px;
     height: 108px;
 }
 
@@ -222,3 +222,61 @@ p.login-link {
     cursor: grab;
 }
 
+
+.quickPicks{
+  font-size: 70px;
+  font-family: "Caveat", serif;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4900e;
+
+}
+
+#body-section{
+    padding: 20px;
+}
+
+#body-section .content {
+     display: flex;
+     flex-wrap: wrap;
+     padding: 0 4px;
+     border: #f4900e 2.5px solid;
+}
+#body-section p{
+    font-family: "Caveat", serif;
+    font-size: 18px;
+}
+
+.column{
+    flex: 50%;
+    padding: 0 10px;
+    font-family: "Caveat", serif;
+    font-size: 9px;
+    align-items: center;
+}
+
+.column img{
+    margin-top: 8px;
+    vertical-align:right;
+}
+.column p{
+    margin: 0;
+}
+.row p{
+    margin: 0;
+
+}
+.imageContainer{
+ display: flex;
+ align-items: center;
+}
+.image-container img {
+    margin-top: 8px;
+}
+
+.image-container p {
+    margin-left: 10px;
+}
