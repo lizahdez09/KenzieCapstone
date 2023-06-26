@@ -6,7 +6,8 @@ public enum Measurement {
     TEASPOON("teaspoon"),
     TABLESPOON("tablespoon"),
     CUP("cup"),
-    COUNT("count");
+    COUNT("count"),
+    POUND("pound");
 
 
     private final String stringValue;

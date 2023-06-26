@@ -1,6 +1,5 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
-import ExampleClient from "../api/exampleClient";
 import RecipeClient from "../api/recipeClient";
 
 class RecipePage extends BaseClass {
@@ -134,8 +133,9 @@ class RecipePage extends BaseClass {
 
     overlayContentDiv.innerHTML = `
     <h2 class="ingredientTitlePopUp">${capitalizedName}</h2>
-    <p>Best suitable for ${foodType}</p>
+    <p class="foodType">Best suitable for ${foodType}</p>
     <p>Time to Prepare : ${timeToPrepare} minutes</p>
+    <h3>Ingredients</h3>
   `;
 
     // Iterate over the ingredients array and create <p> elements
@@ -145,7 +145,7 @@ class RecipePage extends BaseClass {
       const ingredientMeasurement = ingredient.measurement;
 
       const ingredientElement = document.createElement("p");
-      ingredientElement.innerHTML = `${ingredientName}- Amount: ${ingredientAmount} ${ingredientMeasurement}`;
+      ingredientElement.innerHTML = `${ingredientName}-${ingredientAmount} ${ingredientMeasurement}`;
       overlayContentDiv.appendChild(ingredientElement);
     });
   }
@@ -181,25 +181,27 @@ class RecipePage extends BaseClass {
     const ingredientForm = document.getElementById("ingredient-field");
     const formId = this.buildIngredientFieldId();
 
-    const html = `
-    <div class="card">
-      <h2 class="ingredientTitle">Ingredient</h2>
-      <label>Name</label>
-      <input type="text" required class="validated-field" id="${formId}-name">
-      <label>Measurement</label>
-      <select id="${formId}-measurement">
-        <option value="TEASPOON">TSP</option>
-        <option value="TABLESPOON">TBSP</option>
-        <option value="CUP">C</option>
-        <option value="COUNT">Count</option>
-      </select>
-      <label>Amount</label>
-      <input type="text" required class="validated-field" id="${formId}-amount">
-    </div>
+    const ingredientCard = document.createElement("div");
+    ingredientCard.classList.add("card");
+    ingredientCard.classList.add("small-margin");
+    ingredientCard.innerHTML = `
+    <h2 class="ingredientTitle">Ingredient</h2>
+    <label>Name</label>
+    <input type="text" required class="validated-field" id="${formId}-name">
+    <label>Measurement</label>
+    <select id="${formId}-measurement">
+      <option value="TEASPOON">TSP</option>
+      <option value="TABLESPOON">TBSP</option>
+      <option value="CUP">C</option>
+      <option value="COUNT">Count</option>
+      <option value="POUND">Pound</option>
+    </select>
+    <label>Amount</label>
+    <input type="text" required class="validated-field" id="${formId}-amount">
   `;
 
-    ingredientForm.innerHTML += html;
-  };
+    ingredientForm.appendChild(ingredientCard);
+  }
 
   async addNewRecipe(event) {
     const ingredientForm = document.getElementById("ingredient-field");
