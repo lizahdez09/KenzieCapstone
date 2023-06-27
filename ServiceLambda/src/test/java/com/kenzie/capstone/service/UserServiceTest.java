@@ -28,26 +28,31 @@ public class UserServiceTest {
             userService = new UserService(userDao);
         }
 
-//        @Test
-//        public void testGetUserData_existingUser() {
-//            // Arrange
-//            String id = "123";
-//            String recipes = "Recipe1, Recipe2";
-//            String name = "John Doe";
-//            UserRecord userRecord = new UserRecord();
-//            userRecord.setId(id);
-//            userRecord.setName(name);
-//            userRecord.setFavoriteRecipes(recipes);
-//            when(userDao.getUserData(id)).thenReturn(userRecord);
-//
-//            // Act
-//            User user = userService.getUserData(id);
-//
-//            // Assert
-//            Assertions.assertEquals(id, user.getId());
-//            Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
+        @Test
+        public void testGetUserData_existingUser() {
+            // Arrange
+            String id = "123";
+            String name = "John Doe";
+            String email = "email";
+            String password = "password";
+           // String recipes = "Recipe1, Recipe2";String name = "John Doe";
+            UserRecord userRecord = new UserRecord();
+            userRecord.setId(id);
+            userRecord.setName(name);
+            userRecord.setEmail(email);
+            userRecord.setPassword(password);
+            when(userDao.getUserData(id)).thenReturn(userRecord);
+
+            // Act
+            User user = userService.getUserData(id);
+
+            // Assert
+            Assertions.assertEquals(id, user.getId());
 //            Assertions.assertEquals(name, user.getName());
-//        }
+//            Assertions.assertEquals(email,user.getEmail());
+//            Assertions.assertEquals(password,user.getPassword());
+            //** have to check on this **//
+        }
 
         @Test
         public void testGetUserData_nonExistingUser() {
@@ -59,26 +64,28 @@ public class UserServiceTest {
             Assertions.assertThrows(RuntimeException.class, () -> userService.getUserData(id));
         }
 
-//        @Test
-//        public void testSetUserData() {
-//            // Arrange
-//            String recipe1 = "Recipe1";
-//            String recipe2 = "Recipe2";
-//            String name = "John Doe";
-//
-//            UserRecord userRecord = new UserRecord();
-//            userRecord.setFavoriteRecipes("Recipe1, Recipe2");
-//            userRecord.setName("John Doe");
-//
-//            when(userDao.setUserData(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(userRecord);
-//
-//            // Act
-//            User user = userService.setUserData(recipe1, name);
-//
-//            // Assert
-//            Assertions.assertEquals(List.of(recipe1,recipe2), user.getRecipeId());
-//            Assertions.assertEquals(name, user.getName());
-//        }
+    @Test
+    public void testSetUserData() {
+        // Arrange
+        String name = "John Doe";
+        String password = "password";
+        String email = "email";
+       // String favoriteRecipes = "Recipe1, Recipe2";
+
+        UserRecord userRecord = new UserRecord();
+      //  userRecord.setFavoriteRecipes(favoriteRecipes);
+        userRecord.setName(name);
+
+        when(userDao.setUserData(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(userRecord);
+
+        // Act
+        User user = userService.setUserData(name, password, email);
+
+        // Assert
+        Assertions.assertEquals(name, user.getName());
+        Assertions.assertEquals(password, user.getPassword());
+      //  Assertions.assertEquals(favoriteRecipes, user.getFavoriteRecipes());
+    }
 
 //        @Test
 //        public void testUpdateUserData_existingUser() {
@@ -86,11 +93,12 @@ public class UserServiceTest {
 //            String id = "123";
 //            String recipes = "Recipe1, Recipe2";
 //            String name = "John Doe";
+//            String password = "password";
 //            UserRecord userRecord = new UserRecord();
 //            when(userDao.getUserData(id)).thenReturn(userRecord);
 //
 //            // Act
-//            User user = userService.updateUserData(id, recipes, name);
+//            User user = userService.updateUserData(id);
 //
 //            // Assert
 //            Assertions.assertEquals(id, user.getId());

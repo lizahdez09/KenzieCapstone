@@ -24,9 +24,9 @@ public class UserService {
         if (record != null && id.equals(record.getId())) {
             User user = new User();
             user.setId(record.getId());
-            List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-                    .map(String::trim)
-                    .collect(Collectors.toList());
+//            List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
+//                    .map(String::trim)
+//                    .collect(Collectors.toList());
           //  user.setRecipeId(recipeList);
             user.setName(record.getName());
             return user;
@@ -39,9 +39,9 @@ public class UserService {
     public User setUserData(String name, String password,String email) {
         String id = UUID.randomUUID().toString();
         UserRecord record = userDao.setUserData(id,name,password,email);
-        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
+//        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
+//                .map(String::trim)
+//                .collect(Collectors.toList());
         return new User(id, record.getName(),record.getPassword(), record.getEmail());
     }
 
@@ -57,9 +57,9 @@ public class UserService {
         record.setEmail(email);
         userDao.updateUserData(record);
 
-        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-                .map(String::trim)
-                .collect(Collectors.toList());
+//        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
+//                .map(String::trim)
+//                .collect(Collectors.toList());
         return new User(id, record.getName(),record.getPassword(),record.getEmail());
     }
 }
