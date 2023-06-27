@@ -8,8 +8,9 @@ public class Ingredient {
     private String name;
 
     public Ingredient() {
-
+        /*DO NOT REMOVE - Need for JSON processing*/
     }
+
     public Ingredient(String id, String name) {
         this.id = id;
         this.name = name;
