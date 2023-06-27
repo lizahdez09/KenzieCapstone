@@ -8,18 +8,16 @@ public class RecipeResponse {
 
     @JsonProperty("id")
     private String id;
-
     @JsonProperty("foodType")
     private String foodType;
-
     @JsonProperty("name")
     private String name;
-
     @JsonProperty("ingredients")
     private String ingredients;
-
     @JsonProperty("timeToPrepare")
     private String timeToPrepare;
+    @JsonProperty("instructions")
+    private String instructions;
 
     public String getId() {
         return id;
@@ -59,5 +57,13 @@ public class RecipeResponse {
 
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }

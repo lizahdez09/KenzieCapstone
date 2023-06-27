@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.appserver.controller.model.RecipeCreateRequest;
+import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.service.RecipeService;
 import com.kenzie.appserver.service.model.Recipe;
 import org.junit.jupiter.api.Test;
@@ -44,11 +45,7 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipeById() throws Exception {
-        RecipeCreateRequest request = new RecipeCreateRequest();
-        request.setName("RecipeTest");
-        request.setFoodType("Dinner");
-        request.setIngredients(jsonIngredient());
-        request.setTimeToPrepare("30");
+        RecipeCreateRequest request = createRecipeCreateRequest();
 
         Recipe recipe = recipeService.addNewRecipe(request);
 
@@ -67,11 +64,7 @@ public class RecipeControllerTest {
     @Test
     public void testAddNewRecipe() throws Exception {
         //GIVEN
-        RecipeCreateRequest request = new RecipeCreateRequest();
-        request.setName("RecipeTest");
-        request.setFoodType("Lunch");
-        request.setIngredients(jsonIngredient());
-        request.setTimeToPrepare("30");
+        RecipeCreateRequest request = createRecipeCreateRequest();
 
         mapper.registerModule(new JavaTimeModule());
         //WHEN
@@ -91,5 +84,23 @@ public class RecipeControllerTest {
 
     private String jsonIngredient(){
         return "[{\"id\":\"1\",\"name\":\"Ingredient\",\"amount\":\"1\",\"measurement\":\"TABLESPOON\"}]";
+    }
+
+    private RecipeCreateRequest createRecipeCreateRequest() {
+        RecipeCreateRequest request = new RecipeCreateRequest();
+        request.setName("RecipeTest");
+        request.setFoodType("Lunch");
+        request.setIngredients(jsonIngredient());
+        request.setTimeToPrepare("30");
+        return request;
+    }
+
+    private RecipeUpdateRequest createRecipeUpdateRequest() {
+        RecipeUpdateRequest request = new RecipeUpdateRequest();
+        request.setName("RecipeTest");
+        request.setFoodType("Lunch");
+        request.setIngredients(jsonIngredient());
+        request.setTimeToPrepare("30");
+        return request;
     }
 }

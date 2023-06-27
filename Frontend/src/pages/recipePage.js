@@ -76,11 +76,13 @@ class RecipePage extends BaseClass {
     const recipes = await this.client.getAllRecipes();
     mainDiv.innerHTML = ``;
     recipes.forEach((recipe) => {
+      console.log(recipe);
       const id = recipe.id;
       const foodType = recipe.foodType;
       const name = recipe.name;
       const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
       const timeToPrepare = recipe.timeToPrepare;
+      const instructions = recipe.instructions;
 
       const recipeCard = document.createElement("div");
       recipeCard.classList.add("recipeCard");
@@ -145,7 +147,13 @@ class RecipePage extends BaseClass {
       const ingredientMeasurement = ingredient.measurement;
 
       const ingredientElement = document.createElement("p");
-      ingredientElement.innerHTML = `${ingredientName}-${ingredientAmount} ${ingredientMeasurement}`;
+
+      if (ingredientAmount > "") {
+        ingredientElement.innerHTML = `${ingredientName}-${ingredientAmount} ${ingredientMeasurement}`;
+      } else {
+        ingredientElement.innerHTML = `${ingredientName}`;
+      }
+
       overlayContentDiv.appendChild(ingredientElement);
     });
   }

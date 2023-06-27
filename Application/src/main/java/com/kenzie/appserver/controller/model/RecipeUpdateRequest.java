@@ -18,6 +18,9 @@ public class RecipeUpdateRequest {
     @NotEmpty
     @JsonProperty("timeToPrepare")
     private String timeToPrepare;
+    @NotEmpty
+    @JsonProperty("instructions")
+    private String instructions;
 
     public String getName() {
         return name;
@@ -49,5 +52,13 @@ public class RecipeUpdateRequest {
 
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }
