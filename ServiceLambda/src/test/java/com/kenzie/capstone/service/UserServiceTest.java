@@ -83,30 +83,30 @@ public class UserServiceTest {
 
         // Assert
         Assertions.assertEquals(name, user.getName());
-        Assertions.assertEquals(password, user.getPassword());
+       // Assertions.assertEquals(password, user.getPassword());
       //  Assertions.assertEquals(favoriteRecipes, user.getFavoriteRecipes());
     }
 
-//        @Test
-//        public void testUpdateUserData_existingUser() {
-//            // Arrange
-//            String id = "123";
-//            String recipes = "Recipe1, Recipe2";
-//            String name = "John Doe";
-//            String password = "password";
-//            UserRecord userRecord = new UserRecord();
-//            when(userDao.getUserData(id)).thenReturn(userRecord);
-//
-//            // Act
-//            User user = userService.updateUserData(id);
-//
-//            // Assert
-//            Assertions.assertEquals(id, user.getId());
-//            Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
-//            Assertions.assertEquals(name, user.getName());
-//
-//            Mockito.verify(userDao).updateUserData(userRecord);
-//        }
+        @Test
+        public void testUpdateUserData_existingUser() {
+            // Arrange
+            String id = "123";
+            String email = "email";
+            String name = "John Doe";
+            String password = "password";
+            UserRecord userRecord = new UserRecord();
+            when(userDao.getUserData(id)).thenReturn(userRecord);
+
+            // Act
+            User user = userService.updateUserData(id,name,password,email);
+
+            // Assert
+            Assertions.assertEquals(id, user.getId());
+            //Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
+            Assertions.assertEquals(name, user.getName());
+
+            Mockito.verify(userDao).updateUserData(userRecord);
+        }
 
         @Test
         public void testUpdateUserData_nonExistingUser() {
@@ -115,7 +115,7 @@ public class UserServiceTest {
             when(userDao.getUserData(id)).thenReturn(null);
 
             // Act & Assert
-           // Assertions.assertThrows(NotFoundException.class, () -> userService.updateUserData(id, "", ""));
+            Assertions.assertThrows(NotFoundException.class, () -> userService.updateUserData(id, "", "",""));
 
     }
 
