@@ -36,7 +36,7 @@ class UserPage extends BaseClass {
                 <div>Id: ${user.id}</div>
                 <div>Name: ${user.name}</div>
                 <div>FoodType: ${user.foodType}</div>
-                <div>Ingerdients: ${user.ingredients}</div>
+                <div>Ingredients: ${user.ingredients}</div>
                 <div>TimeToPrepare: ${user.timeToPrepare}</div>
             `
         } else {

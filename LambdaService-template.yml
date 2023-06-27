@@ -12,7 +12,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.GetUserData
       Runtime: java11
-      Description: Get list of favorite recipes by recipeId
+      Description: Gets user data by user id
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -28,7 +28,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /favorites/{recipeId}
+            Path: /user/{id}
             Method: get
   SetUserDataFunction:
     Type: AWS::Serverless::Function
@@ -36,7 +36,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.SetUserData
       Runtime: java11
-      Description: Set favorite recipes
+      Description: Set user data
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -52,7 +52,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /favorites/
+            Path: /user/
             Method: post
   UpdateUserDataFunction:
     Type: AWS::Serverless::Function
@@ -75,5 +75,5 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /users/{id}
+            Path: /user/{id}
             Method: put
