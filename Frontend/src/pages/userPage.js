@@ -14,7 +14,7 @@ class UserPage extends BaseClass {
     }
 
     /**
-     * Once the page has loaded, set up the event handlers and fetch the concert list.
+     * Once the page has loaded, set up the event handlers and fetch the recipe list.
      */
     async mount() {
         document.getElementById('create-user-form').addEventListener('submit', this.onCreate);
@@ -29,9 +29,9 @@ class UserPage extends BaseClass {
     async renderUser() {
         let resultArea = document.getElementById("result-info");
 
-        const vehicles = this.dataStore.get("user");
+        const user = this.dataStore.get("user");
 
-        if (vehicles) {
+        if (user) {
             resultArea.innerHTML = `
                 <div>Id: ${user.id}</div>
                 <div>Name: ${user.name}</div>
@@ -77,7 +77,7 @@ class UserPage extends BaseClass {
         const createdRecipe = await this.client.createRecipe(id, name, foodType, ingredients, timeToPrepare, this.errorHandler);
         this.dataStore.set("user", createdRecipe);
 
-        if (createdVehicle) {
+        if (createdRecipe) {
             this.showMessage(`Create Successful!`)
         } else {
             this.errorHandler("Error creating!  Try again...");
@@ -89,8 +89,8 @@ class UserPage extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const vehiclePage = new VehiclePage();
-    await vehiclePage.mount();
+    const userPage = new UserPage();
+    await userPage.mount();
     console.log("page loaded")
 };
 
