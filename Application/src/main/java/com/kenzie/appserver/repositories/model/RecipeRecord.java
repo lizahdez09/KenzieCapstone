@@ -14,6 +14,8 @@ public class RecipeRecord {
     private String ingredients;
     private String timeToPrepare;
 
+    private String instructions;
+
     @DynamoDBHashKey(attributeName = "id")
     public String getId(){
         return id;
@@ -34,6 +36,10 @@ public class RecipeRecord {
     public String getTimeToPrepare() {
         return timeToPrepare;
     }
+    @DynamoDBAttribute(attributeName = "instructions")
+    public String getInstructions() {
+        return instructions;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -49,6 +55,10 @@ public class RecipeRecord {
     }
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 
     @Override
