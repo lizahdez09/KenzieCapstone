@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
@@ -45,7 +44,7 @@ public class UserServiceTest {
             User user = userService.getUserData(id);
 
             // Assert
-            Assertions.assertEquals(id, user.getUserId());
+            Assertions.assertEquals(id, user.getId());
             Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
             Assertions.assertEquals(name, user.getName());
         }
@@ -94,7 +93,7 @@ public class UserServiceTest {
             User user = userService.updateUserData(id, recipes, name);
 
             // Assert
-            Assertions.assertEquals(id, user.getUserId());
+            Assertions.assertEquals(id, user.getId());
             Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
             Assertions.assertEquals(name, user.getName());
 
