@@ -13,6 +13,7 @@ public class UserRecord {
     private String name;
     private String favoriteRecipes;
     private String password;
+    private String email;
 
     public String getPassword() {
         return password;
@@ -49,16 +50,24 @@ public class UserRecord {
         this.favoriteRecipes = favoriteRecipes;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserRecord that = (UserRecord) o;
-        return id.equals(that.id);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(favoriteRecipes, that.favoriteRecipes) && Objects.equals(password, that.password) && Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, favoriteRecipes, password, email);
     }
 }

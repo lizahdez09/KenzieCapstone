@@ -4,14 +4,20 @@ import UserClient from "../api/userClient";
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-class SignUpPage {
-  constructor() {
-    // Retrieve the signup form element
-    this.signupForm = document.getElementById('signup-form');
 
-    // Attach the event listener to the form's submit event
-    this.signupForm.addEventListener('submit', this.handleSubmit.bind(this));
+class SignUpPage extends BaseClass{
+  constructor() {
+     super();
+     this.bindClassMethods(['handleSubmit', 'handleSignup'], this);
+     this.dataStore = new DataStore();
+
+
   }
+     async mount() {
+          document.getElementById('signup-form').addEventListener('submit', this.handleSubmit());
+          this.client = new UserClient();
+          this.dataStore.addChangeListener(this.renderUser())
+      }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -29,7 +35,7 @@ class SignUpPage {
 
  async handleSignup(name, email, password) {
    try {
-     const response = await axios.post('/favorites/signup', { name, email, password });
+     const response = await axios.post('/user', { name, email, password });
      // Handle successful signup response
      console.log('Signup successful!', response.data);
      // Optionally, redirect to a success page or perform other actions
@@ -43,6 +49,12 @@ class SignUpPage {
 
   }
 }
+const main = async () => {
+    const signUpPage = new SignUpPage();
+    await signUpPage.mount();
+    console.log("page loaded")
+};
 
+window.addEventListener('DOMContentLoaded', main);
 // Create an instance of the SignUpPage class
 const signUpPage = new SignUpPage();

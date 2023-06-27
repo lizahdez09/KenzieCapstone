@@ -34,12 +34,13 @@ public class UpdateUserData implements RequestHandler<APIGatewayProxyRequestEven
                 .withHeaders(headers);
 
         String id = input.getPathParameters().get("id");
-        String recipes = input.getQueryStringParameters().get("favoriteRecipes");
+        String email = input.getQueryStringParameters().get("email");
         String name = input.getQueryStringParameters().get("name");
+        String password = input.getPathParameters().get("password");
 
         try {
             // Update user data
-            userLambService.updateUserData(id, recipes, name);
+            userLambService.updateUserData(id, name,password,email);
 
             response.setStatusCode(200);
             response.setBody(gson.toJson("Update successful"));

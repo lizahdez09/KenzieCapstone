@@ -18,7 +18,7 @@ export default class UserClient extends BaseClass {
     }
       async signup(name, email, password, errorCallback) {
         try {
-          const response = await this.client.post('/favorites', {
+          const response = await this.client.post('/user', {
             name,
             email,
             password

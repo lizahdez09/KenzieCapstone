@@ -34,11 +34,12 @@ public class UserDao {
         return mapper.load(UserRecord.class, id);
     }
 
-    public UserRecord setUserData(String id, String favoriteRecipes, String name) {
+    public UserRecord setUserData(String id, String name,String password,String email) {
         UserRecord userRecord = new UserRecord();
         userRecord.setId(id);
-        userRecord.setFavoriteRecipes(favoriteRecipes);
+        userRecord.setEmail(email);
         userRecord.setName(name);
+        userRecord.setPassword(password);
 
         try {
             mapper.save(userRecord, new DynamoDBSaveExpression()
