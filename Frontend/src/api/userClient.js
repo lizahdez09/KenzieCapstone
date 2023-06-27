@@ -4,7 +4,7 @@ import axios from 'axios'
 export default class UserClient extends BaseClass {
     constructor(props = {}) {
         super();
-        const methodsToBind = ['clientLoaded', 'getFavoriteRecipe', 'addFavoriteRecipe', 'updateFavoriteRecipe'];
+        const methodsToBind = ['clientLoaded', 'getFavoriteRecipe', 'addFavoriteRecipe', 'updateFavoriteRecipe','signup'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -16,6 +16,18 @@ export default class UserClient extends BaseClass {
             this.props.onReady();
         }
     }
+      async signup(name, email, password, errorCallback) {
+        try {
+          const response = await this.client.post('/favorites', {
+            name,
+            email,
+            password
+          });
+          return response.data;
+        } catch (error) {
+          this.handleError("signup", error, errorCallback);
+        }
+      }
 
     async getFavoriteRecipe(id, errorCallback) {
         try {
