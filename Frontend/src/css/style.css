@@ -291,7 +291,7 @@ p.login-link {
 #body-section .content {
      display: flex;
      flex-wrap: wrap;
-     padding: 1 5px;
+     padding: 15px;
      border: #f4900e 2.5px solid;
 
 
@@ -311,7 +311,6 @@ p.login-link {
 }
 .column img{
     margin-top: 8px;
-    vertical-align:right;
 }
 .column p{
     margin: 15px;
@@ -335,4 +334,9 @@ p.login-link {
 .image-container p {
     margin-left: 10px;
 
+}
+
+#instructions-field {
+    min-width: 300px;
+    min-height: 100px
 }

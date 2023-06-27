@@ -12,16 +12,20 @@ public class Recipe {
     private List<RecipeIngredient> recipeIngredients;
     private String timeToPrepare;
 
+    private String instructions;
+
     public Recipe() {
         /*DO NOT REMOVE - Need for JSON processing*/
     }
 
-    public Recipe(String id, String name, FoodType foodType, List<RecipeIngredient> recipeIngredients, String timeToPrepare){
+    public Recipe(String id, String name, FoodType foodType,
+                  List<RecipeIngredient> recipeIngredients, String timeToPrepare, String instructions){
         this.id = id;
         this.name = name;
         this.foodType = foodType;
         this.recipeIngredients = recipeIngredients;
         this.timeToPrepare = timeToPrepare;
+        this.instructions = instructions;
     }
 
     public Recipe(RecipeRecord record){
@@ -30,6 +34,7 @@ public class Recipe {
         this.name = record.getName();
         this.recipeIngredients = RecipeIngredientConverter.jsonToIngredients(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
+        this.instructions = record.getInstructions();
     }
 
     public String getId(){
@@ -82,6 +87,14 @@ public class Recipe {
 
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 
 }

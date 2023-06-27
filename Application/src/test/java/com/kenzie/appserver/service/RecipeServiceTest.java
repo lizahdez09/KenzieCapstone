@@ -257,6 +257,7 @@ public class RecipeServiceTest {
         record.setFoodType("Lunch");
         record.setIngredients(jsonIngredient());
         record.setTimeToPrepare("30");
+        record.setInstructions("Instructions");
         return record;
     }
 
@@ -270,12 +271,14 @@ public class RecipeServiceTest {
         request.setFoodType("Lunch");
         request.setIngredients(jsonIngredient());
         request.setTimeToPrepare("30 minutes");
+        request.setInstructions("Instructions");
         return request;
     }
 
     private String jsonIngredient() {
         return "[{\"id\":\"1\", \"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"TABLESPOON\"}]";
     }
+
     private IngredientRecord createIngredientRecord(String name){
         IngredientRecord record = new IngredientRecord();
         record.setId(randomUUID().toString());
