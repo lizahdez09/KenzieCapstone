@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.UUID.randomUUID;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -102,6 +102,65 @@ public class RecipeServiceTest {
 
         //THEN
         Assertions.assertThrows(RecipeNotFoundException.class, () -> recipeService.getRecipeById(id));
+    }
+
+    /** ------------------------------------------------------------------------
+     *  recipeService.getRecipeContainsIngredient
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void getRecipeContainsIngredient_returnsRecipe() {
+        //GIVEN
+        String id = randomUUID().toString();
+        List<RecipeRecord> recordList = new ArrayList<>();
+        RecipeRecord record = createRecipeRecordWithId(id);
+        recordList.add(record);
+
+        //WHEN
+        when(recipeRepository.findAll()).thenReturn(recordList);
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("1");
+
+        //THEN
+        assertNotNull(recipeList);
+        assertEquals(record.getId(), recipeList.get(0).getId());
+    }
+
+    @Test
+    void getRecipeContainsIngredient_returnsEmptyList() {
+        //GIVEN
+        String id = randomUUID().toString();
+        List<RecipeRecord> recordList = new ArrayList<>();
+        RecipeRecord record = createRecipeRecordWithId(id);
+        recordList.add(record);
+
+        //WHEN
+        when(recipeRepository.findAll()).thenReturn(recordList);
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("2");
+
+        //THEN
+        assertNotNull(recipeList);
+        assertTrue(recipeList.isEmpty());
+    }
+
+    @Test
+    void getRecipeContainsIngredient_returnsCertainRecipe() {
+        //GIVEN
+        String id = randomUUID().toString();
+        String id1 = randomUUID().toString();
+        List<RecipeRecord> recordList = new ArrayList<>();
+        RecipeRecord record = createRecipeRecordWithId(id);
+        recordList.add(record);
+        RecipeRecord record1 = createRecipeRecordWithId(id1);
+        record1.setIngredients(
+                "[{\"id\":\"10\", \"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"TABLESPOON\"}]");
+
+        //WHEN
+        when(recipeRepository.findAll()).thenReturn(recordList);
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("1");
+
+        //THEN
+        assertNotNull(recipeList);
+        assertEquals(1, recipeList.size());
+        assertEquals(record.getId(), recipeList.get(0).getId());
     }
 
     /** ------------------------------------------------------------------------

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.UUID.randomUUID;
 
@@ -45,6 +46,13 @@ public class RecipeService {
         return recipeRepository.findById(id)
                 .map(Recipe::new)
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found!"));
+    }
+
+    public List<Recipe> getRecipeContainsIngredient(String ingredientId) {
+        return getAllRecipes().stream()
+                .filter(recipe -> recipe.getIngredientsAsList().stream()
+                        .anyMatch(ingredient -> ingredient.getId().equals(ingredientId)))
+                .collect(Collectors.toList());
     }
 
     public Recipe addNewRecipe(RecipeCreateRequest request) {
