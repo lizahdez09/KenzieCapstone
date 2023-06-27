@@ -5,34 +5,53 @@ import java.util.Objects;
 
 public class User {
 
-    private String userId;
-    private List<String> recipeId;
+    private String id;
+    private List<String> favorites;
+    private String password;
     private String name;
 
-    public User(String userId, List<String> recipeId, String name) {
-        this.userId = userId;
-        this.recipeId = recipeId;
+    public User(String userId, List<String> recipeId, String name, String password) {
+        this.id = userId;
+        this.favorites = recipeId;
         this.name = name;
+        this.password = password;
+
 
     }
 
-    public User(){
+    public User() {
     }
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setFavorites(List<String> favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getFavorites() {
+        return favorites;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<String> getRecipeId() {
-        return recipeId;
+        return favorites;
     }
 
     public void setRecipeId(List<String> recipeId) {
-        this.recipeId = recipeId;
+        this.favorites = recipeId;
     }
 
     public String getName() {
@@ -48,11 +67,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(recipeId, user.recipeId) && Objects.equals(name, user.name);
+        return Objects.equals(id, user.id) && Objects.equals(favorites, user.favorites) && Objects.equals(password, user.password) && Objects.equals(name, user.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, recipeId, name);
+        return Objects.hash(id, favorites, password, name);
     }
 }

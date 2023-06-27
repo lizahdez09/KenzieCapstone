@@ -23,7 +23,7 @@ public class UserService {
         UserRecord record = userDao.getUserData(id);
         if (record != null && id.equals(record.getId())) {
             User user = new User();
-            user.setUserId(record.getId());
+            user.setId(record.getId());
             List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                     .map(String::trim)
                     .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class UserService {
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        return new User(id, recipeList, record.getName());
+        return new User(id, recipeList, record.getName(),record.getPassword());
     }
 
     public User updateUserData(String id, String recipes, String name) {
@@ -58,6 +58,6 @@ public class UserService {
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        return new User(id, recipeList, record.getName());
+        return new User(id, recipeList, record.getName(),record.getPassword());
     }
 }
