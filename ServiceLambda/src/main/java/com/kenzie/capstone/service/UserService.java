@@ -27,7 +27,7 @@ public class UserService {
             List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                     .map(String::trim)
                     .collect(Collectors.toList());
-            user.setRecipeId(recipeList);
+          //  user.setRecipeId(recipeList);
             user.setName(record.getName());
             return user;
         } else {
@@ -36,28 +36,30 @@ public class UserService {
     }
 
 
-    public User setUserData(String recipes, String name) {
+    public User setUserData(String name, String password,String email) {
         String id = UUID.randomUUID().toString();
-        UserRecord record = userDao.setUserData(id, recipes, name);
+        UserRecord record = userDao.setUserData(id,name,password,email);
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        return new User(id, recipeList, record.getName(),record.getPassword());
+        return new User(id, record.getName(),record.getPassword(), record.getEmail());
     }
 
-    public User updateUserData(String id, String recipes, String name) {
+    public User updateUserData(String id, String name, String password,String email) {
         UserRecord record = userDao.getUserData(id);
         if (record == null) {
             throw new NotFoundException("User not found with ID: " + id);
         }
 
-        record.setFavoriteRecipes(recipes);
+//        record.setFavoriteRecipes(recipes);
         record.setName(name);
+        record.setPassword(password);
+        record.setEmail(email);
         userDao.updateUserData(record);
 
         List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        return new User(id, recipeList, record.getName(),record.getPassword());
+        return new User(id, record.getName(),record.getPassword(),record.getEmail());
     }
 }

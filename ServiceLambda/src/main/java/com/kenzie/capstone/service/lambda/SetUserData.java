@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -39,19 +40,22 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String name = input.getPathParameters().get("name");
 
+        String name = input.getPathParameters().get("name");
+        String password = input.getPathParameters().get("password");
+        String id = UUID.randomUUID().toString();
+        String email = input.getPathParameters().get("email");
         String favRecipes = input.getPathParameters().get("favoriteRecipes") ;
 
 
-        if (name == null || favRecipes == null) {
+        if (name == null || email == null || password == null) {
             return response
                     .withStatusCode(400)
                     .withBody("data is invalid");
         }
 
         try {
-            User userData = userLambService.setUserData(favRecipes,name);
+            User userData = userLambService.setUserData(name,password,email);
             String output = gson.toJson(userData);
 
             return response
