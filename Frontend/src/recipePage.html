@@ -39,54 +39,72 @@
 
 <!-- SEARCHTAB state of recipePage.js-->
     <div class="state" id="searchTab">
-        Search recipes by ingredient?
+        <h2>Search recipes by ingredient:</h2>
+        <form id="searchForm">
+            <input type="text" id="searchInput" placeholder="Enter an ingredient">
+            <input type="click" id="filterButton" value="Add Ingredient">
+        </form>
     </div>
+    <div id="filterTags"></div>
 
 
 <!-- TYPETAB state of recipePage.js-->
     <div class="state" id="typeTab">
-        Filter Recipes by type
+        <h2>Search recipes by ingredient:</h2>
+        <form id="searchByTypeForm">
+            <input type="text" id="searchByTypeInput" placeholder="Enter an ingredient">
+            <input type="click" id="searchByTypeButton" value="Filter">
+        </form>
     </div>
 
 
 <!-- CREATETAB state of recipePage.js-->
     <div class="state" id="createTab">
-        Create a Recipe ( not done )
-        <div class="state" id="createRecipe1">
-            <form class="card-content">
-                <table>
-                    <tr>
-                        <td class="leftColumn"><label>Recipe Name :</label></td>
-                        <td><input type="text" required class="validated-field" id="name-field"></td>
-                    </tr>
-                    <tr>
-                        <td class="leftColumn"><label>Type :</label></td>
-                        <td><select id="type-field">
-                            <option value="Breakfast">Breakfast</option>
-                            <option value="Lunch">Lunch</option>
-                            <option value="Dinner">Dinner</option>
-                            <option value="Dessert">Dessert</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td class="leftColumn"><label>Time to Cook :</label></td>
-                        <td><input type="text" required class="validated-field" id="timeToCook-field"></td>
-                    </tr>
-                    <tr>
-                        <td class="leftColumn"></td>
-                        <td><button class="cardBtn" id="createContinueBtn" type="button">Continue to Ingredients</button></td>
-                    </tr>
-                </table>
+        Create a Recipe (not done)
+        <div class="recipe-form">
+            <h2 class="ingredient-title">Create a Recipe</h2>
+            <form class="ingredient-form">
+                <label class="ingredient-label" for="recipeName">Recipe Name:</label>
+                <input type="text" id="recipeName" name="recipeName" required><br><br>
+
+                <select class="select-full-width" id="foodType" name="foodType" required>
+                    <option value="" selected disabled>Select Food Type</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Dessert">Dessert</option>
+                </select><br><br>
+
+                <label class="ingredient-label" for="cookTime">Cook Time:</label>
+                <input type="text" id="cookTime" name="cookTime" required><br><br>
+
+                <label class="ingredient-label" for="cookingDirections">Cooking Directions:</label><br>
+                <textarea class="ingredient-textarea" id="cookingDirections" name="cookingDirections" rows="4" required></textarea><br><br>
+
+                <label class="ingredient-label" for="ingredients">Ingredients:</label><br>
+                <div id="ingredients">
+                    <div class="ingredient">
+                        <input type="text" name="ingredientName[]" placeholder="Name" required>
+                        <input type="text" name="ingredientAmount[]" placeholder="Amount" required>
+                        <select name="ingredientMeasurement[]" required>
+                            <option value="TEASPOON">Teaspoon</option>
+                            <option value="TABLESPOON">Tablespoon</option>
+                            <option value="CUP">Cup</option>
+                            <option value="COUNT">Count</option>
+                            <option value="POUND">Pound</option>
+                        </select>
+                        <span class="tooltip">Please fill out the previous ingredient fields.</span>
+                    </div>
+                </div>
+                <button class="add-ingredient-button" type="button" id="addIngredientButton">Add Ingredient</button><br><br>
+
+                <input class="submit-new-recipe" type="submit" value="Submit Recipe" id="submitNewRecipe">
             </form>
         </div>
-        <div class="state" id="createRecipe2">
-            <button type="click" id="addIngredient">Add Ingredient</button>
-            <from class="card-content" id="ingredient-field">
-
-            </from><br><br><br>
-            <button type="click" id="addRecipe">Add Recipe</button>
-        </div>
     </div>
+
+
+
 </div>
 <div id="overlay">
     <div id="overlayContent">
