@@ -1,19 +1,15 @@
 package com.kenzie.capstone.service.lambda;
 
-import com.kenzie.capstone.service.LambdaService;
-import com.kenzie.capstone.service.UserService;
-import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.ExampleData;
-import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
-
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kenzie.capstone.service.UserService;
+import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.model.User;
-import com.kenzie.capstone.service.model.UserRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,13 +36,10 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-
-        String name = input.getPathParameters().get("name");
-        String password = input.getPathParameters().get("password");
-        String id = UUID.randomUUID().toString();
-        String email = input.getPathParameters().get("email");
-        String favRecipes = input.getPathParameters().get("favoriteRecipes") ;
-
+        // Extract the data from the request event
+        String name = input.getQueryStringParameters().get("name");
+        String password = input.getQueryStringParameters().get("password");
+        String email = input.getQueryStringParameters().get("email");
 
         if (name == null || email == null || password == null) {
             return response
@@ -55,7 +48,7 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
 
         try {
-            User userData = userLambService.setUserData(name,password,email);
+            User userData = userLambService.setUserData(name, password, email);
             String output = gson.toJson(userData);
 
             return response
