@@ -13,4 +13,5 @@ INGREDIENTS=("Milk" "Onion" "Garlic" "Chicken" "Tomato" "Lettuce" "Carrot" "Spin
 for INGREDIENT_NAME in "${INGREDIENTS[@]}"; do
   JSON_PAYLOAD="{\"name\":\"$INGREDIENT_NAME\"}"
   curl -X POST -H "Content-Type: application/json" -d "$JSON_PAYLOAD" "$API_URL"
+  echo "$RESPONSE"
 done

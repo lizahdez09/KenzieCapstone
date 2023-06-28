@@ -13,14 +13,14 @@ public class RecipeRecord {
     private String foodType;
     private String ingredients;
     private String timeToPrepare;
-
     private String instructions;
+    private int favoriteCount;
 
     @DynamoDBHashKey(attributeName = "id")
     public String getId(){
         return id;
     }
-    @DynamoDBAttribute(attributeName = "recipeName")
+    @DynamoDBAttribute(attributeName = "name")
     public String getName(){
         return name;
     }
@@ -40,6 +40,10 @@ public class RecipeRecord {
     public String getInstructions() {
         return instructions;
     }
+    @DynamoDBAttribute(attributeName = "favoriteCount")
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -56,9 +60,11 @@ public class RecipeRecord {
     public void setTimeToPrepare(String timeToPrepare) {
         this.timeToPrepare = timeToPrepare;
     }
-
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 
     @Override

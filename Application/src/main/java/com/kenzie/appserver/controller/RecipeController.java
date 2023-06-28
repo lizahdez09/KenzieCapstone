@@ -61,7 +61,6 @@ public class RecipeController {
 
         return ResponseEntity.ok(createRecipeResponseFromRecipe(recipe));
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<RecipeResponse> updateRecipe(@PathVariable("id") String id, @RequestBody RecipeUpdateRequest recipeUpdateRequest) {
         try {
@@ -71,6 +70,13 @@ public class RecipeController {
         } catch (RecipeNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{id}/favorite")
+    public ResponseEntity<RecipeResponse> incrementFavoriteCount(@PathVariable("id") String id) {
+        Recipe updatedRecipe = recipeService.incrementFavoriteCount(id);
+        RecipeResponse recipeResponse = createRecipeResponseFromRecipe(updatedRecipe);
+        return ResponseEntity.ok(recipeResponse);
     }
 
     /**

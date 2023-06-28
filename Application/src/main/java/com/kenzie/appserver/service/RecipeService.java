@@ -7,10 +7,7 @@ import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.repositories.RecipeRepository;
 import com.kenzie.appserver.repositories.model.RecipeRecord;
-import com.kenzie.appserver.service.model.Ingredient;
-import com.kenzie.appserver.service.model.RecipeIngredientConverter;
-import com.kenzie.appserver.service.model.Recipe;
-import com.kenzie.appserver.service.model.RecipeIngredient;
+import com.kenzie.appserver.service.model.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -71,13 +68,21 @@ public class RecipeService {
         List<RecipeIngredient> recipeIngredients = checkIngredientsExist(request.getIngredients());
 
         existingRecipe.setName(request.getName());
+        existingRecipe.setFoodType(FoodType.fromValue(request.getFoodType()));
         existingRecipe.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredients));
         existingRecipe.setTimeToPrepare(request.getTimeToPrepare());
+        existingRecipe.setInstructions(request.getInstructions());
 
         RecipeRecord record = createRecipeRecordFromRecipe(existingRecipe);
         recipeRepository.save(record);
 
         return new Recipe(record);
+    }
+
+    public Recipe incrementFavoriteCount(String id) {
+        Recipe recipe = getRecipeById(id);
+        recipe.increaseFavoriteCount();
+        return recipe;
     }
 
 
@@ -102,6 +107,8 @@ public class RecipeService {
         record.setName(request.getName());
         record.setFoodType(request.getFoodType());
         record.setTimeToPrepare(request.getTimeToPrepare());
+        record.setInstructions(request.getInstructions());
+        record.setFavoriteCount(0);
         return record;
     }
 

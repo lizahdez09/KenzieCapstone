@@ -18,6 +18,8 @@ public class RecipeResponse {
     private String timeToPrepare;
     @JsonProperty("instructions")
     private String instructions;
+    @JsonProperty("favoriteCount")
+    private int favoriteCount;
 
     public String getId() {
         return id;
@@ -65,5 +67,13 @@ public class RecipeResponse {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
     }
 }
