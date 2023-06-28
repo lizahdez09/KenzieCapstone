@@ -35,6 +35,16 @@ export default class RecipeClient extends BaseClass {
         }
     }
 
+    async incrementFavoriteCount(id, errorCallback) {
+        try {
+            const response = await this.client.put(`/${id}/favorite`, id);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            this.handleError("incrementFavoriteCount", error, errorCallback);
+        }
+    }
+
     async createRecipe(name, foodType, ingredients, timeToPrepare, errorCallback) {
         try {
             const response = await this.client.post(`/recipe`, {

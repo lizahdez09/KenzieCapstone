@@ -7,25 +7,26 @@ import java.util.List;
 public class Recipe {
     private String id;
     private String name;
-
     private FoodType foodType;
     private List<RecipeIngredient> recipeIngredients;
     private String timeToPrepare;
-
     private String instructions;
+
+    private int favoriteCount;
 
     public Recipe() {
         /*DO NOT REMOVE - Need for JSON processing*/
     }
 
-    public Recipe(String id, String name, FoodType foodType,
-                  List<RecipeIngredient> recipeIngredients, String timeToPrepare, String instructions){
+    public Recipe(String id, String name, FoodType foodType, List<RecipeIngredient> recipeIngredients,
+                  String timeToPrepare, String instructions, int favoriteCount){
         this.id = id;
         this.name = name;
         this.foodType = foodType;
         this.recipeIngredients = recipeIngredients;
         this.timeToPrepare = timeToPrepare;
         this.instructions = instructions;
+        this.favoriteCount = favoriteCount;
     }
 
     public Recipe(RecipeRecord record){
@@ -35,6 +36,7 @@ public class Recipe {
         this.recipeIngredients = RecipeIngredientConverter.jsonToIngredients(record.getIngredients());
         this.timeToPrepare = record.getTimeToPrepare();
         this.instructions = record.getInstructions();
+        this.favoriteCount = record.getFavoriteCount();
     }
 
     public String getId(){
@@ -95,6 +97,18 @@ public class Recipe {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public void increaseFavoriteCount() {
+        this.favoriteCount ++;
     }
 
 }
