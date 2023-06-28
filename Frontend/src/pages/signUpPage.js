@@ -28,12 +28,19 @@ class SignUpPage extends BaseClass {
 
   async handleSignup(name, email, password) {
     try {
-      const response = await axios.post('/user', { name, email, password });
+      const response = await axios.post('/user', {
+        name,
+        email,
+        password
+      });
 
       console.log('Signup successful!', response.data);
+
+
     } catch (error) {
       console.error('Signup error:', error);
       alert('Signup failed. Please try again later.');
+
     }
   }
 }

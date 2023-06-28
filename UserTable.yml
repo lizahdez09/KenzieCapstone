@@ -2,13 +2,14 @@ Resources:
   UserTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      "AttributeDefinitions":
-        - "AttributeName": "Id"
-          "AttributeType": "S"
-      "KeySchema":
-        - "AttributeName": "Id"
-          "KeyType": "HASH"
+      AttributeDefinitions:
+        - AttributeName: "email"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "email"
+          KeyType: "HASH"
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false
       BillingMode: PAY_PER_REQUEST
       TableName: "UserTable"
+
