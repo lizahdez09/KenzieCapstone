@@ -340,3 +340,180 @@ p.login-link {
     min-width: 300px;
     min-height: 100px
 }
+
+.recipe-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.ingredient-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ingredient-form {
+    padding: 20px;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.ingredient-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+.ingredient-textarea,
+select {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.ingredient-textarea {
+    resize: vertical;
+}
+
+.add-ingredient-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.ingredient {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.submit-new-recipe {
+    background-color: rgba(191, 161, 97, 100);;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.select-full-width {
+    margin-top: 10px;
+    width: 95%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    top: -30px;
+    left: 0;
+    display: none; /* Add this line */
+}
+
+
+
+#searchForm {
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    margin: 10px;
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+#filterButton {
+    margin: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(191, 161, 97, 1);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#filterButton:hover {
+    background-color: rgba(191, 161, 97, 0.8);
+}
+
+#filterTags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: rgba(191, 161, 97, 1);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.removeButton {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+    border: none;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.removeButton:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#searchByTypeForm {
+    display: flex;
+    align-items: center;
+}
+
+#searchByTypeInput {
+    margin: 10px;
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+#searchByTypeButton {
+    margin: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(191, 161, 97, 1);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#searchByTypeButton:hover {
+    background-color: rgba(191, 161, 97, 0.8);
+}

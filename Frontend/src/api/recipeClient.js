@@ -45,13 +45,14 @@ export default class RecipeClient extends BaseClass {
         }
     }
 
-    async createRecipe(name, foodType, ingredients, timeToPrepare, errorCallback) {
+    async createRecipe(recipe, errorCallback) {
         try {
             const response = await this.client.post(`/recipe`, {
-                name: name,
-                foodType: foodType,
-                ingredients: ingredients,
-                timeToPrepare: timeToPrepare
+                name: recipe.name,
+                foodType: recipe.foodType,
+                ingredients: recipe.ingredients,
+                timeToPrepare: recipe.cookTime,
+                instructions: recipe.cookingDirections
             });
             console.log(response.data);
             return response.data;

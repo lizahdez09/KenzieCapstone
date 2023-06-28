@@ -7,18 +7,18 @@ class RecipePage extends BaseClass {
   dataStore;
   menu;
   ingredientCount = 1;
-
+  filterTags = [];
   constructor() {
     super();
-    this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe', 'onStateChange', 'handleTabClick', 'continueBtnClicked', 'addIngredientClicked'], this);
+    this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
+      'onStateChange', 'handleTabClick', 'addIngredient',
+      'addFilter'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
     this.SEARCHTAB = "tab-search-recipes";
     this.TYPETAB = "tab-search-by-type";
     this.CREATETAB = "tab-create-recipe";
-    this.CREATETABCHILD1 = "createRecipe1";
-    this.CREATETABCHILD2 = "createRecipe2";
 
     this.menu = document.querySelector('.menu');
   };
@@ -27,13 +27,15 @@ class RecipePage extends BaseClass {
     this.client = new RecipeClient();
 
     this.menu.addEventListener('click', this.handleTabClick);
+    document.getElementById('addIngredientButton').addEventListener('click', this.addIngredient);
+    document.getElementById('submitNewRecipe').addEventListener('click', this.addNewRecipe);
+    document.getElementById('filterButton').addEventListener('click', this.addFilter);
     this.dataStore.addChangeListener(this.onStateChange);
     this.dataStore.set("parentState", this.WELCOMETAB);
   };
 
   async onStateChange() {
     const parentState = this.dataStore.get("parentState");
-    const childState = this.dataStore.get("childState");
 
     const tabIds = {
       [this.WELCOMETAB]: "welcomeTab",
@@ -51,23 +53,6 @@ class RecipePage extends BaseClass {
     activeTabDiv.classList.add("active");
     if (parentState === this.WELCOMETAB) {
       await this.buildRecipeTable();
-    }
-    if (parentState === this.CREATETAB) {
-      if (childState === this.CREATETABCHILD1) {
-        document.getElementById(this.CREATETABCHILD1.toString()).classList.add("active");
-        document.getElementById(this.CREATETABCHILD2.toString()).classList.remove("active");
-
-        document.getElementById("createContinueBtn")
-            .addEventListener('click', this.continueBtnClicked);
-      } else if (childState === this.CREATETABCHILD2) {
-        document.getElementById(this.CREATETABCHILD1.toString()).classList.remove("active");
-        document.getElementById(this.CREATETABCHILD2.toString()).classList.add("active");
-
-        document.getElementById("addIngredient")
-            .addEventListener('click', this.addIngredientClicked);
-        document.getElementById("addRecipe")
-            .addEventListener('click', this.addNewRecipe);
-      }
     }
   };
 
@@ -174,62 +159,79 @@ class RecipePage extends BaseClass {
     }
   };
 
-  async continueBtnClicked(event) {
-    event.preventDefault();
+  async addIngredient(event) {
+    const ingredientContainer = document.getElementById('ingredients');
+    const ingredientInputs = ingredientContainer.getElementsByClassName('ingredient');
 
-    const name = document.getElementById("name-field").value;
-    const type = document.getElementById("type-field").value;
-    const cookTime = document.getElementById("timeToCook-field").value;
-    this.capturedFormValues = { name, type, cookTime };
-    console.log(this.capturedFormValues);
-    this.dataStore.set("childState", this.CREATETABCHILD2);
-  };
+    // Check if all previous ingredient fields are filled
+    let allFilled = true;
+    for (let i = 0; i < ingredientInputs.length; i++) {
+      const nameInput = ingredientInputs[i].querySelector('input[name="ingredientName[]"]');
+      const amountInput = ingredientInputs[i].querySelector('input[name="ingredientAmount[]"]');
 
-  async addIngredientClicked(event) {
-    const ingredientForm = document.getElementById("ingredient-field");
-    const formId = this.buildIngredientFieldId();
+      if (nameInput.value === '' || amountInput.value === '') {
+        allFilled = false;
+        // Show tooltip
+        const tooltip = ingredientInputs[i].querySelector('.tooltip');
+        tooltip.style.display = 'block';
+      } else {
+        // Hide tooltip if it was previously shown
+        const tooltip = ingredientInputs[i].querySelector('.tooltip');
+        tooltip.style.display = 'none';
+      }
+    }
 
-    const ingredientCard = document.createElement("div");
-    ingredientCard.classList.add("card");
-    ingredientCard.classList.add("small-margin");
-    ingredientCard.innerHTML = `
-    <h2 class="ingredientTitle">Ingredient</h2>
-    <label>Name</label>
-    <input type="text" required class="validated-field" id="${formId}-name">
-    <label>Measurement</label>
-    <select id="${formId}-measurement">
-      <option value="TEASPOON">TSP</option>
-      <option value="TABLESPOON">TBSP</option>
-      <option value="CUP">C</option>
-      <option value="COUNT">Count</option>
-      <option value="POUND">Pound</option>
-    </select>
-    <label>Amount</label>
-    <input type="text" required class="validated-field" id="${formId}-amount">
-  `;
+    if (allFilled) {
+      const newIngredient = document.createElement('div');
+      newIngredient.className = 'ingredient';
 
-    ingredientForm.appendChild(ingredientCard);
+      newIngredient.innerHTML = `
+      <input type="text" name="ingredientName[]" placeholder="Name" required>
+      <input type="text" name="ingredientAmount[]" placeholder="Amount" required>
+      <select name="ingredientMeasurement[]" required>
+          <option value="TEASPOON">Teaspoon</option>
+          <option value="TABLESPOON">Tablespoon</option>
+          <option value="CUP">Cup</option>
+          <option value="COUNT">Count</option>
+          <option value="POUND">Pound</option>
+      </select>
+      <span class="tooltip">Please fill out the previous ingredient fields.</span> <!-- Add this line -->
+    `;
+
+      ingredientContainer.appendChild(newIngredient);
+    }
   }
 
   async addNewRecipe(event) {
-    const ingredientForm = document.getElementById("ingredient-field");
-    const ingredients = Array.from(ingredientForm.getElementsByClassName("card")).map(card => {
-      const name = card.querySelector("input[id$='-name']").value;
-      const measurement = card.querySelector("select[id$='-measurement']").value;
-      const amount = card.querySelector("input[id$='-amount']").value;
+
+    const recipeNameInput = document.getElementById('recipeName');
+    const foodTypeInput = document.getElementById('foodType');
+    const cookTimeInput = document.getElementById('cookTime');
+    const cookingDirectionsInput = document.getElementById('cookingDirections');
+
+    const ingredientInputs = document.querySelectorAll('.ingredient');
+    const ingredients = Array.from(ingredientInputs).map((ingredient) => {
+      const nameInput = ingredient.querySelector('input[name="ingredientName[]"]');
+      const amountInput = ingredient.querySelector('input[name="ingredientAmount[]"]');
+      const measurementInput = ingredient.querySelector('select[name="ingredientMeasurement[]"]');
 
       return {
-        name: name,
-        measurement: measurement,
-        amount: amount
+        name: nameInput.value,
+        amount: amountInput.value,
+        measurement: measurementInput.value
       };
     });
-    const name = this.capturedFormValues.name;
-    const foodType = this.capturedFormValues.type;
-    const jsonIngredients = JSON.stringify(ingredients);
-    const cookTime = this.capturedFormValues.cookTime;
 
-    const createdRecipe = await this.client.createRecipe(name, foodType, jsonIngredients, cookTime, this.errorHandler);
+    const recipe = {
+      name: recipeNameInput.value,
+      foodType: foodTypeInput.value,
+      cookTime: cookTimeInput.value,
+      cookingDirections: cookingDirectionsInput.value,
+      ingredients: JSON.stringify(ingredients)
+    };
+
+    console.log(recipe);
+    const createdRecipe = await this.client.createRecipe(recipe, this.errorHandler);
 
     if (createdRecipe) {
       this.showMessage(`Created new Recipe named : ${createdRecipe.name}`)
@@ -239,10 +241,36 @@ class RecipePage extends BaseClass {
     this.dataStore.set("parentState", this.WELCOMETAB);
   }
 
-  buildIngredientFieldId() {
-    const id = `ingredient${this.ingredientCount}`;
-    this.ingredientCount++;
-    return id;
+  async addFilter(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const searchInput = document.getElementById('searchInput');
+    const searchTerm = searchInput.value.trim(); // Get the entered search term
+
+    if (searchTerm !== '') {
+      const filterTagsContainer = document.getElementById('filterTags');
+      const filterTag = document.createElement('span');
+      filterTag.className = 'tag';
+      filterTag.textContent = searchTerm;
+
+      // Create a button element to remove the filter tag
+      const removeButton = document.createElement('button');
+      removeButton.className = 'removeButton';
+      removeButton.textContent = 'x';
+
+      // Add event listener to the remove button
+      removeButton.addEventListener('click', () => {
+        filterTag.remove(); // Remove the filter tag when clicked
+      });
+
+      // Append the remove button to the filter tag
+      filterTag.appendChild(removeButton);
+
+      // Append the filter tag to the container
+      filterTagsContainer.appendChild(filterTag);
+
+      searchInput.value = ''; // Clear the search input
+    }
   }
 
 

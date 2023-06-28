@@ -18,7 +18,6 @@ public class RecipeCreateRequest {
     @NotEmpty
     @JsonProperty("timeToPrepare")
     private String timeToPrepare;
-
     @NotEmpty
     @JsonProperty("instructions")
     private String instructions;
