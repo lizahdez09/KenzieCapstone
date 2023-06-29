@@ -1,34 +1,40 @@
 package com.kenzie.capstone.service.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class UserData {
 
-    private String userId;
-    private String recipeId;
+    private String id;
+    private String email;
     private String name;
+    private String password;
+    private List<String> favoriteRecipes;
 
-    public UserData(String userId, String recipeId, String name) {
-        this.userId = userId;
-        this.recipeId = recipeId;
+    public UserData(String id, String email, String name, String password, String favorites) {
+        this.id = id;
+        this.email = email;
         this.name = name;
-
+        this.password = password;
+        this.favoriteRecipes = toList(favorites);
     }
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getRecipeId() {
-        return recipeId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRecipeId(String recipeId) {
-        this.recipeId = recipeId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -39,18 +45,37 @@ public class UserData {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getFavoriteRecipes() {
+        return favoriteRecipes;
+    }
+
+    public void setFavoriteRecipes(List<String> favoriteRecipes) {
+        this.favoriteRecipes = favoriteRecipes;
+    }
+
+    private List<String> toList(String favorites) {
+        String[] favoritesSplit = favorites.split(",");
+        return Arrays.asList(favoritesSplit);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserData userData = (UserData) o;
-        return Objects.equals(userId, userData.userId) &&
-                Objects.equals(recipeId, userData.recipeId) &&
-                Objects.equals(name, userData.name);
+        return id.equals(userData.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, recipeId, name);
+        return Objects.hash(id);
     }
 }
