@@ -11,9 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.List;
 
+import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
@@ -41,7 +40,7 @@ public class UserServiceTest {
             userRecord.setName(name);
             userRecord.setEmail(email);
             userRecord.setPassword(password);
-            when(userDao.getUserData(id)).thenReturn(userRecord);
+            when(userDao.getUserById(id)).thenReturn(userRecord);
 
             // Act
             User user = userService.getUserData(id);
@@ -58,7 +57,7 @@ public class UserServiceTest {
         public void testGetUserData_nonExistingUser() {
             // Arrange
             String id = "123";
-            when(userDao.getUserData(id)).thenReturn(null);
+            when(userDao.getUserById(id)).thenReturn(null);
 
             // Act & Assert
             Assertions.assertThrows(RuntimeException.class, () -> userService.getUserData(id));
@@ -67,24 +66,27 @@ public class UserServiceTest {
     @Test
     public void testSetUserData() {
         // Arrange
+        String id = randomUUID().toString();
         String name = "John Doe";
         String password = "password";
         String email = "email";
-       // String favoriteRecipes = "Recipe1, Recipe2";
 
         UserRecord userRecord = new UserRecord();
-      //  userRecord.setFavoriteRecipes(favoriteRecipes);
+        userRecord.setId(id);
         userRecord.setName(name);
+        userRecord.setPassword(password);
+        userRecord.setEmail(email);
 
-        when(userDao.setUserData(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(userRecord);
+        when(userDao.createNewUser(Mockito.anyString(), name, password, email)).thenReturn(userRecord);
 
         // Act
         User user = userService.setUserData(name, password, email);
 
         // Assert
+        Assertions.assertEquals(id, user.getId());
         Assertions.assertEquals(name, user.getName());
-       // Assertions.assertEquals(password, user.getPassword());
-      //  Assertions.assertEquals(favoriteRecipes, user.getFavoriteRecipes());
+        Assertions.assertEquals(password, user.getPassword());
+        Assertions.assertEquals(email, user.getEmail());
     }
 
         @Test
@@ -95,7 +97,7 @@ public class UserServiceTest {
             String name = "John Doe";
             String password = "password";
             UserRecord userRecord = new UserRecord();
-            when(userDao.getUserData(id)).thenReturn(userRecord);
+            when(userDao.getUserById(id)).thenReturn(userRecord);
 
             // Act
             User user = userService.updateUserData(id,name,password,email);
@@ -105,14 +107,14 @@ public class UserServiceTest {
             //Assertions.assertEquals(Arrays.asList("Recipe1", "Recipe2"), user.getRecipeId());
             Assertions.assertEquals(name, user.getName());
 
-            Mockito.verify(userDao).updateUserData(userRecord);
+            Mockito.verify(userDao).updateUser(userRecord);
         }
 
         @Test
         public void testUpdateUserData_nonExistingUser() {
             // Arrange
             String id = "123";
-            when(userDao.getUserData(id)).thenReturn(null);
+            when(userDao.getUserById(id)).thenReturn(null);
 
             // Act & Assert
             Assertions.assertThrows(NotFoundException.class, () -> userService.updateUserData(id, "", "",""));
