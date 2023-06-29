@@ -40,7 +40,7 @@ public class UpdateUserData implements RequestHandler<APIGatewayProxyRequestEven
 
         try {
             // Update user data
-            userLambService.updateUserData(id, name,password,email);
+            userLambService.updateUserData(id, name, password, email);
 
             response.setStatusCode(200);
             response.setBody(gson.toJson("Update successful"));

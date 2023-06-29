@@ -535,8 +535,8 @@ h1 {
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: left;
 }
+
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="password"] {
@@ -579,4 +579,5 @@ h1 {
 
 #instructions-field {
     min-width: 300px;
-    min-height: 100px
+    min-height: 100px;
+}
