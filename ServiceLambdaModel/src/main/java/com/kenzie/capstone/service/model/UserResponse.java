@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserResponse {
+    @JsonProperty("id")
     private String id;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("password")
     private String password;
+    @JsonProperty("favoriteRecipes")
     private String favoriteRecipes;
 
     public String getId() {
