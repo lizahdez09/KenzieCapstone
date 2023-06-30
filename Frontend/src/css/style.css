@@ -534,6 +534,7 @@ h1 {
   flex-direction: column;
   align-items: center;
 }
+
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="password"] {
@@ -582,4 +583,9 @@ html,body{
 
 #instructions-field {
     min-width: 300px;
-    min-height: 100px
+    min-height: 100px;
+}
+
+.aboutPage{
+    font-size: 20px;
+}

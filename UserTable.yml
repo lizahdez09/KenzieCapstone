@@ -3,10 +3,10 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName: "email"
+        - AttributeName: "id"
           AttributeType: "S"
       KeySchema:
-        - AttributeName: "email"
+        - AttributeName: "id"
           KeyType: "HASH"
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false

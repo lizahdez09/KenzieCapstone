@@ -6,10 +6,7 @@ import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class UserService {
     private UserDao userDao;
@@ -20,15 +17,11 @@ public class UserService {
     }
 
     public User getUserData(String id) {
-        UserRecord record = userDao.getUserData(id);
+        UserRecord record = userDao.getUserById(id);
         if (record != null && id.equals(record.getId())) {
-            User user = new User();
-            user.setId(record.getId());
-//            List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-//                    .map(String::trim)
-//                    .collect(Collectors.toList());
-          //  user.setRecipeId(recipeList);
-            user.setName(record.getName());
+            User user = new User(record.getId(), record.getEmail(),
+                    record.getName(), record.getPassword(),
+                    record.getFavoriteRecipes());
             return user;
         } else {
             throw new RuntimeException("No UserData found");
@@ -36,30 +29,25 @@ public class UserService {
     }
 
 
-    public User setUserData(String name, String password,String email) {
+    public User setUserData(String name, String password, String email) {
         String id = UUID.randomUUID().toString();
-        UserRecord record = userDao.setUserData(id,name,password,email);
-//        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-//                .map(String::trim)
-//                .collect(Collectors.toList());
-        return new User(id, record.getName(),record.getPassword(), record.getEmail());
+        UserRecord record = userDao.createNewUser(id, name, password, email);
+
+        return new User(record.getId(), record.getName(),
+                record.getPassword(), record.getEmail());
     }
 
-    public User updateUserData(String id, String name, String password,String email) {
-        UserRecord record = userDao.getUserData(id);
+    public User updateUserData(String id, String name, String password, String email) {
+        UserRecord record = userDao.getUserById(id);
         if (record == null) {
             throw new NotFoundException("User not found with ID: " + id);
         }
-
-//        record.setFavoriteRecipes(recipes);
         record.setName(name);
         record.setPassword(password);
         record.setEmail(email);
-        userDao.updateUserData(record);
-
-//        List<String> recipeList = Arrays.stream(record.getFavoriteRecipes().split(","))
-//                .map(String::trim)
-//                .collect(Collectors.toList());
-        return new User(id, record.getName(),record.getPassword(),record.getEmail());
+        userDao.updateUser(record);
+        return new User(record.getId(), record.getName(),
+                record.getPassword(), record.getEmail(),
+                record.getFavoriteRecipes());
     }
 }

@@ -30,16 +30,16 @@ public class UserDao {
         return user;
     }
 
-    public UserRecord getUserData(String id) {
+    public UserRecord getUserById(String id) {
         return mapper.load(UserRecord.class, id);
     }
 
-    public UserRecord setUserData(String id, String name,String password,String email) {
+    public UserRecord createNewUser(String id, String name, String password, String email) {
         UserRecord userRecord = new UserRecord();
         userRecord.setId(id);
-        userRecord.setEmail(email);
         userRecord.setName(name);
         userRecord.setPassword(password);
+        userRecord.setEmail(email);
 
         try {
             mapper.save(userRecord, new DynamoDBSaveExpression()
@@ -54,7 +54,7 @@ public class UserDao {
         return userRecord;
     }
 
-    public void updateUserData(UserRecord record) {
+    public void updateUser(UserRecord record) {
         try {
             mapper.save(record, new DynamoDBSaveExpression());
         } catch (Exception e) {

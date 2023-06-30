@@ -10,52 +10,52 @@ import java.util.Objects;
 public class UserRecord {
 
     private String id;
-    private String name;
-    private String favoriteRecipes;
-    private String password;
     private String email;
+    private String name;
+    private String password;
+    private String favoriteRecipes;
+
+
+    @DynamoDBHashKey(attributeName = "id")
+    public String getId() {
+        return id;
+    }
+    @DynamoDBAttribute(attributeName = "email")
     public String getEmail() {
         return email;
-    }
-
-    @DynamoDBHashKey(attributeName = "email")
-    public void setEmail(String email) {
-        this.email = email;
     }
     @DynamoDBAttribute(attributeName = "name")
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     @DynamoDBAttribute(attributeName = "password")
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getId() {
-        return id;
+    @DynamoDBAttribute(attributeName = "favorites")
+    public String getFavoriteRecipes() {
+        return favoriteRecipes;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getFavoriteRecipes() {
-        return favoriteRecipes;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setFavoriteRecipes(String favoriteRecipes) {
         this.favoriteRecipes = favoriteRecipes;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

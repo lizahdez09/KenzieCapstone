@@ -34,7 +34,7 @@ public class UserServiceClient {
         try {
             user = mapper.readValue(response, User.class);
         } catch (Exception e) {
-            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e.getMessage());
         }
         return user;
     }
