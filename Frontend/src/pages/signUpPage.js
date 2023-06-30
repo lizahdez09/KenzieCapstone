@@ -6,7 +6,7 @@ import axios from "axios";
 class SignUpPage extends BaseClass {
   constructor() {
     super();
-    this.bindClassMethods(['handleSubmit', 'handleSignup'], this);
+    this.bindClassMethods(['handleSubmit'], this);
     this.dataStore = new DataStore();
   }
 
@@ -16,33 +16,17 @@ class SignUpPage extends BaseClass {
     this.dataStore.addChangeListener(this.renderUser);
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    this.handleSignup(name, email, password);
+    this.client.signup(name, email, password);
   }
 
-  async handleSignup(name, email, password) {
-    try {
-      const response = await axios.post('/user', {
-        name,
-        email,
-        password
-      });
 
-      console.log('Signup successful!', response.data);
-
-
-    } catch (error) {
-      console.error('Signup error:', error);
-      alert('Signup failed. Please try again later.');
-
-    }
-  }
 }
 
 const main = async () => {

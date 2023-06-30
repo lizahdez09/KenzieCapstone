@@ -5,9 +5,9 @@ import com.kenzie.capstone.service.model.User;
 
 public class UserServiceClient {
 
-    private static final String GET_RECIPE_ENDPOINT = "recipe/{userId}";
-    private static final String SET_RECIPE_ENDPOINT = "recipe";
-    private static final String UPDATE_RECIPE_ENDPOINT = "recipe/{userId}";
+    private static final String GET_RECIPE_ENDPOINT = "user/{userId}";
+    private static final String SET_RECIPE_ENDPOINT = "user";
+    private static final String UPDATE_RECIPE_ENDPOINT = "user/{userId}";
 
     private ObjectMapper mapper;
 
