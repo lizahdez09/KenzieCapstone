@@ -20,6 +20,9 @@ public class User {
         this.password = password;
         this.favoriteRecipes = toList(favorites);
     }
+    public User(){
+
+    }
 
     public User(String id, String email, String name, String password) {
         this.id = id;
