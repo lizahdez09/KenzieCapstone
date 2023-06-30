@@ -5,6 +5,7 @@ import com.kenzie.appserver.service.UserService;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserResponse;
+import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok(createUserResponseFromUser(user));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, UserRequest userUpdateRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, UserUpdateRequest userUpdateRequest) {
         try {
             User updateUser = userService.updateUser(id, userUpdateRequest);
             UserResponse userResponse = createUserResponseFromUser(updateUser);
