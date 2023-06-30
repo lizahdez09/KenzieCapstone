@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.client.UserServiceClient;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
+import com.kenzie.capstone.service.model.UserResponse;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -26,13 +28,15 @@ public class UserService {
         return userServiceClient.getUserData(id);
     }
 
-   public User addNewUser(UserRequest userRequest){
+   public UserResponse addNewUser(UserRequest userRequest){
         //String userRequestJson;
 //        try {
 //            userRequestJson = mapper.writeValueAsString(userRequest);
 //        } catch (JsonProcessingException e) {
 //            throw new RuntimeException(e);
 //        }
+
+       userRequest.setId(UUID.randomUUID().toString());
 
         return userServiceClient.setUserData(userRequest);
     }

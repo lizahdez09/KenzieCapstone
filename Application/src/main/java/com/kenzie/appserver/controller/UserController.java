@@ -8,7 +8,7 @@ import com.kenzie.capstone.service.model.UserResponse;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -30,10 +30,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> addNewRecipe(UserRequest userCreateRequest) {
-        User user = userService.addNewUser(userCreateRequest);
+    public ResponseEntity<UserResponse> addNewUser(UserRequest userCreateRequest) {
+        UserResponse user = userService.addNewUser(userCreateRequest);
 
-        return ResponseEntity.ok(createUserResponseFromUser(user));
+        return ResponseEntity.ok(user);
     }
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, UserUpdateRequest userUpdateRequest) {

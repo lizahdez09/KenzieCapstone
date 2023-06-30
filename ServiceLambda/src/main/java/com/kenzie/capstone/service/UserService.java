@@ -27,6 +27,7 @@ public class UserService {
             throw new RuntimeException("No UserData found");
         }
     }
+    //not compatible with JSON
 
 
     public User setUserData(String id, String name, String password, String email, String favoriteRecipes) {

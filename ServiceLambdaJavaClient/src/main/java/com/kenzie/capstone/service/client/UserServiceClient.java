@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
+import com.kenzie.capstone.service.model.UserResponse;
 
 public class UserServiceClient {
 
@@ -29,7 +30,7 @@ public class UserServiceClient {
         return user;
     }
 
-    public User setUserData(UserRequest userRequest) {
+    public UserResponse setUserData(UserRequest userRequest) {
         EndpointUtility endpointUtility = new EndpointUtility();
         String userRequestJson;
         try {
@@ -38,9 +39,9 @@ public class UserServiceClient {
             throw new RuntimeException(e);
         }
         String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, userRequestJson);
-        User user;
+        UserResponse user;
         try {
-            user = mapper.readValue(response, User.class);
+            user = mapper.readValue(response, UserResponse.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e.getMessage());
         }
