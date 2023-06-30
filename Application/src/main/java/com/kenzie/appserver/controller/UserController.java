@@ -1,10 +1,9 @@
 package com.kenzie.appserver.controller;
 
-import com.kenzie.appserver.controller.model.RecipeCreateRequest;
-import com.kenzie.appserver.controller.model.RecipeUpdateRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.service.UserService;
 import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +24,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> addNewRecipe(@RequestBody RecipeCreateRequest recipeCreateRequest) {
-        User user = userService.addNewUser(recipeCreateRequest);
+    public ResponseEntity<UserResponse> addNewRecipe(UserRequest userCreateRequest) {
+        User user = userService.addNewUser(userCreateRequest);
 
         return ResponseEntity.ok(createUserResponseFromUser(user));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody RecipeUpdateRequest userUpdateRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, UserRequest userUpdateRequest) {
         try {
             User updateUser = userService.updateUser(id, userUpdateRequest);
             UserResponse userResponse = createUserResponseFromUser(updateUser);
