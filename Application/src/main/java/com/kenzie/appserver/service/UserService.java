@@ -26,38 +26,38 @@ public class UserService {
         return userServiceClient.getUserData(id);
     }
 
-/*    public User addNewUser(UserRequest userRequest){
-        String userRequestJson;
-        try {
-            userRequestJson = mapper.writeValueAsString(userRequest);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+   public User addNewUser(UserRequest userRequest){
+        //String userRequestJson;
+//        try {
+//            userRequestJson = mapper.writeValueAsString(userRequest);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        return userServiceClient.setUserData(userRequestJson);
-    }*/
+        return userServiceClient.setUserData(userRequest);
+    }
 
-/*    public User updateUser(String id, UserUpdateRequest userUpdateRequest) {
-        User existingUser = userServiceClient.getUserData(id);
-        if (existingUser == null) {
-            throw new RuntimeException("User not found with id: " + id);
-        }
+    public User updateUser(String id, UserUpdateRequest userUpdateRequest) {
+//        User existingUser = userServiceClient.getUserData(id);
+//        if (existingUser == null) {
+//            throw new RuntimeException("User not found with id: " + id);
+//        }
+//
+//        // Update the existing user object with the new data
+//        existingUser.setName(userUpdateRequest.getId());
+//        existingUser.setEmail(userUpdateRequest.getEmail());
+//        existingUser.setName(userUpdateRequest.getName());
+//        existingUser.setPassword(userUpdateRequest.getPassword());
+//        List<String> list = new ArrayList<>(Arrays.asList(userUpdateRequest.getFavoriteRecipes().split(",")));
+//        existingUser.setFavoriteRecipes(list);
+//
+//        String updatedUserJson;
+//        try {
+//            updatedUserJson = mapper.writeValueAsString(existingUser);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        // Update the existing user object with the new data
-        existingUser.setName(userUpdateRequest.getId());
-        existingUser.setEmail(userUpdateRequest.getEmail());
-        existingUser.setName(userUpdateRequest.getName());
-        existingUser.setPassword(userUpdateRequest.getPassword());
-        List<String> list = new ArrayList<>(Arrays.asList(userUpdateRequest.getFavoriteRecipes().split(",")));
-        existingUser.setFavoriteRecipes(list);
-
-        String updatedUserJson;
-        try {
-            updatedUserJson = mapper.writeValueAsString(existingUser);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        return userServiceClient.setUserData(updatedUserJson);
-    }*/
+        return null;
+    }
 }
