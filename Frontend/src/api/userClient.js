@@ -17,18 +17,28 @@ export default class UserClient extends BaseClass {
         }
     }
 
-      async signup(name, email, password, errorCallback) {
-        try {
-          const response = await this.client.post('/user', {
-            name,
-            email,
-            password
-          });
-          return response.data;
-        } catch (error) {
-          this.handleError("signup", error, errorCallback);
-        }
-      }
+         async signup(name, email, password, errorCallback) {
+             try {
+                 const userRequest = {
+                     id: "",
+                     name: name,
+                     email: email,
+                     password: password,
+                     favoriteRecipes: ""
+                 };
+                 const jsonString = JSON.stringify(userRequest);
+
+                 const response = await this.client.post('/user', jsonString, {
+                     headers: {
+                         'Content-Type': 'application/json'
+                     }
+                 });
+
+                 return response.data;
+             } catch (error) {
+                 this.handleError("signup", error, errorCallback);
+             }
+         }
 
     async getFavoriteRecipe(id, errorCallback) {
         try {

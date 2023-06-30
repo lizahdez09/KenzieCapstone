@@ -22,6 +22,9 @@ class SignUpPage extends BaseClass {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    console.log(name);
+    console.log(email);
+    console.log(password);
 
     await this.client.signup(name, email, password);
   }
