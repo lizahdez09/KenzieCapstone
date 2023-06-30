@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.UserRequest;
 
 public class UserServiceClient {
 
@@ -27,9 +28,9 @@ public class UserServiceClient {
         return user;
     }
 
-    public User setUserData(String data) {
+    public User setUserData(String userRequestJson) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, data);
+        String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, userRequestJson);
         User user;
         try {
             user = mapper.readValue(response, User.class);
