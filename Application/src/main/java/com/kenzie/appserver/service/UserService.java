@@ -16,17 +16,17 @@ import java.util.List;
 public class UserService {
 
     private ObjectMapper mapper = new ObjectMapper();
-    private UserServiceClient client;
+    private UserServiceClient userServiceClient;
 
     public UserService(UserServiceClient userServiceClient) {
-        this.client = userServiceClient;
+        this.userServiceClient = userServiceClient;
     }
 
     public User getById(String id) {
-        return client.getUserData(id);
+        return userServiceClient.getUserData(id);
     }
 
-    public User addNewUser(UserRequest userRequest){
+/*    public User addNewUser(UserRequest userRequest){
         String userRequestJson;
         try {
             userRequestJson = mapper.writeValueAsString(userRequest);
@@ -34,11 +34,11 @@ public class UserService {
             throw new RuntimeException(e);
         }
 
-        return client.setUserData(userRequestJson);
-    }
+        return userServiceClient.setUserData(userRequestJson);
+    }*/
 
-    public User updateUser(String id, UserUpdateRequest userUpdateRequest) {
-        User existingUser = client.getUserData(id);
+/*    public User updateUser(String id, UserUpdateRequest userUpdateRequest) {
+        User existingUser = userServiceClient.getUserData(id);
         if (existingUser == null) {
             throw new RuntimeException("User not found with id: " + id);
         }
@@ -58,6 +58,6 @@ public class UserService {
             throw new RuntimeException(e);
         }
 
-        return client.setUserData(updatedUserJson);
-    }
+        return userServiceClient.setUserData(updatedUserJson);
+    }*/
 }

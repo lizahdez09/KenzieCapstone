@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserService userService;
+
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("id") String id) {
         User user = userService.getById(id);
