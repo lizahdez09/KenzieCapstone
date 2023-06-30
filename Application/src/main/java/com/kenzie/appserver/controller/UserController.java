@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> addNewUser(UserRequest userCreateRequest) {
+    public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userCreateRequest) {
         UserResponse user = userService.addNewUser(userCreateRequest);
 
         return ResponseEntity.ok(user);
@@ -54,3 +54,4 @@ public class UserController {
         return response;
     }
 }
+//not setting any of the data - need @RequestBody
