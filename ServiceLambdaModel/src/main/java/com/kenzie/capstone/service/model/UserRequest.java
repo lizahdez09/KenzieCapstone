@@ -1,13 +1,27 @@
 package com.kenzie.capstone.service.model;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRequest {
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("password")
     private String password;
+    @JsonProperty("favoriteRecipes")
     private String favoriteRecipes;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -44,7 +58,8 @@ public class UserRequest {
     @Override
     public String toString() {
         return "UserRequest{" +
-                "email='" + email + '\'' +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", favoriteRecipes='" + favoriteRecipes + '\'' +

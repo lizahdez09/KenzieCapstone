@@ -37,9 +37,11 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
                 .withHeaders(headers);
 
         // Extract the data from the request event
+        String id = input.getQueryStringParameters().get("id");
         String name = input.getQueryStringParameters().get("name");
         String password = input.getQueryStringParameters().get("password");
         String email = input.getQueryStringParameters().get("email");
+        String favoriteRecipes = input.getQueryStringParameters().get("favoriteRecipes");
 
         if (name == null || email == null || password == null) {
             return response
@@ -48,7 +50,7 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
 
         try {
-            User userData = userLambService.setUserData(name, password, email);
+            User userData = userLambService.setUserData(id, name, password, email,favoriteRecipes);
             String output = gson.toJson(userData);
 
             return response

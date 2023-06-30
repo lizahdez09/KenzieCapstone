@@ -1,14 +1,15 @@
 package com.kenzie.capstone.service.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
 
 public class UserServiceClient {
 
-    private static final String GET_USER_ENDPOINT = "user/{userId}";
-    private static final String SET_USER_ENDPOINT = "user";
-    private static final String UPDATE_USER_ENDPOINT = "user/{userId}";
+    private static final String GET_USER_ENDPOINT = "/user/{userId}";
+    private static final String SET_USER_ENDPOINT = "/user";
+    private static final String UPDATE_USER_ENDPOINT = "/user/{userId}";
 
     private ObjectMapper mapper;
 
@@ -28,8 +29,14 @@ public class UserServiceClient {
         return user;
     }
 
-    public User setUserData(String userRequestJson) {
+    public User setUserData(UserRequest userRequest) {
         EndpointUtility endpointUtility = new EndpointUtility();
+        String userRequestJson;
+        try {
+            userRequestJson = mapper.writeValueAsString(userRequest);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         String response = endpointUtility.postEndpoint(SET_USER_ENDPOINT, userRequestJson);
         User user;
         try {

@@ -32,7 +32,7 @@ public class UserRecord {
     public String getPassword() {
         return password;
     }
-    @DynamoDBAttribute(attributeName = "favorites")
+    @DynamoDBAttribute(attributeName = "favoriteRecipes")
     public String getFavoriteRecipes() {
         return favoriteRecipes;
     }

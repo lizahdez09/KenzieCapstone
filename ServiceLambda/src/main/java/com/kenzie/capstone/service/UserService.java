@@ -29,9 +29,8 @@ public class UserService {
     }
 
 
-    public User setUserData(String name, String password, String email) {
-        String id = UUID.randomUUID().toString();
-        UserRecord record = userDao.createNewUser(id, name, password, email);
+    public User setUserData(String id, String name, String password, String email, String favoriteRecipes) {
+        UserRecord record = userDao.createNewUser(id, name, password, email, favoriteRecipes);
 
         return new User(record.getId(), record.getName(),
                 record.getPassword(), record.getEmail());

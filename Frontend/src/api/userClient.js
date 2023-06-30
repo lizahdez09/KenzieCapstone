@@ -16,9 +16,10 @@ export default class UserClient extends BaseClass {
             this.props.onReady();
         }
     }
+
       async signup(name, email, password, errorCallback) {
         try {
-          const response = await this.client.post('user', {
+          const response = await this.client.post('/user', {
             name,
             email,
             password
