@@ -24,7 +24,6 @@ public class UserServiceClient {
     }
 
     public UserResponse getUserData(String id) {
-        System.out.println("UserServiceClient- " + id);
         EndpointUtility endpointUtility = new EndpointUtility();
         String response = endpointUtility.getEndpoint(GET_USER_ENDPOINT.replace("{userId}", id));
         UserResponse user;

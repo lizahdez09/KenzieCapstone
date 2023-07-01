@@ -20,14 +20,11 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public User getUserData(String id) {
+    public UserRecord getUserData(String id) {
         UserRecord record = userDao.getUserById(id);
         log.info("record- " + record);
         if (record != null && id.equals(record.getId())) {
-            User user = new User(record.getId(), record.getEmail(),
-                    record.getName(), record.getPassword(),
-                    record.getFavoriteRecipes());
-            return user;
+            return record;
         } else {
             throw new RuntimeException("No UserData found");
         }
