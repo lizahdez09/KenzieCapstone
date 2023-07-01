@@ -9,6 +9,8 @@ import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static java.util.UUID.randomUUID;
+
 public class UserServiceClient {
 
     private static final String GET_USER_ENDPOINT = "user/{userId}";
@@ -35,6 +37,7 @@ public class UserServiceClient {
     }
 
     public UserResponse setUserData(UserRequest userRequest) {
+        userRequest.setId(randomUUID().toString());
         EndpointUtility endpointUtility = new EndpointUtility();
         String userRequestJson;
         try {
