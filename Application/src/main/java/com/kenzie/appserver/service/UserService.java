@@ -24,9 +24,9 @@ public class UserService {
         this.userServiceClient = userServiceClient;
     }
 
-    public User getById(String id) {
+/*    public User getById(String id) {
         return userServiceClient.getUserData(id);
-    }
+    }*/
 
    public UserResponse addNewUser(UserRequest userRequest){
         userRequest.setId(UUID.randomUUID().toString());
