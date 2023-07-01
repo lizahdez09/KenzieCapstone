@@ -8,9 +8,9 @@ import com.kenzie.capstone.service.model.UserResponse;
 
 public class UserServiceClient {
 
-    private static final String GET_USER_ENDPOINT = "/user/{userId}";
+    private static final String GET_USER_ENDPOINT = "user/{userId}";
     private static final String SET_USER_ENDPOINT = "/user";
-    private static final String UPDATE_USER_ENDPOINT = "/user/{userId}";
+    private static final String UPDATE_USER_ENDPOINT = "user/{userId}";
 
     private ObjectMapper mapper;
 
@@ -18,9 +18,9 @@ public class UserServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public User getUserData(String userId) {
+    public User getUserData(String id) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_USER_ENDPOINT.replace("{userId}", userId));
+        String response = endpointUtility.getEndpoint(GET_USER_ENDPOINT.replace("{userId}", id));
         User user;
         try {
             user = mapper.readValue(response, User.class);

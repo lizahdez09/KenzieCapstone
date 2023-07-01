@@ -12,6 +12,7 @@ import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 
 import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.UserResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,18 +38,19 @@ public class GetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("userId");
+        String id = String.valueOf(input);
 
         if (id == null || id.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("userId is invalid");
+                    .withBody("id is invalid");
         }
 
         try {
             User userData = userLambService.getUserData(id);
+            log.info("User- " + userData.toString());
             String output = gson.toJson(userData);
-
+            log.info(("output- " + output));
             return response
                     .withStatusCode(200)
                     .withBody(output);
