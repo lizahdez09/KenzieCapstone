@@ -1,14 +1,11 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
-import com.kenzie.appserver.service.UserService;
 import com.kenzie.capstone.service.client.UserServiceClient;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserResponse;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
