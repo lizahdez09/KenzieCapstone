@@ -2,43 +2,44 @@ package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.appserver.service.UserService;
+import com.kenzie.capstone.service.client.UserServiceClient;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserResponse;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
-
-    UserController(UserService userService) {
+    private UserServiceClient userService;
+    UserController(UserServiceClient userService) {
         this.userService = userService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("id") String id) {
-        User user = userService.getById(id);
 
+        UserResponse user = userService.getUserData(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(createUserResponseFromUser(user));
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userCreateRequest) {
-        UserResponse user = userService.addNewUser(userCreateRequest);
+        UserResponse user = userService.setUserData(userCreateRequest);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody UserUpdateRequest userUpdateRequest) {
         try {
-            User updateUser = userService.updateUser(id, userUpdateRequest);
+            User updateUser = userService.updateUserData(id, userUpdateRequest);
             UserResponse userResponse = createUserResponseFromUser(updateUser);
             return ResponseEntity.ok(userResponse);
         } catch (RecipeNotFoundException e) {
