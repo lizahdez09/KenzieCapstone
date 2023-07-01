@@ -6,7 +6,8 @@ import axios from "axios";
 class SignUpPage extends BaseClass {
   constructor() {
     super();
-    this.bindClassMethods(['onStateChange', 'handleButtonSelection', 'loginUser', 'signupUser'], this);
+    this.bindClassMethods(['sendHome', 'onStateChange', 'handleButtonSelection',
+      'loginUser', 'signupUser'], this);
     this.dataStore = new DataStore();
 
     this.LOGINBTN = "logInButtonSelection";
@@ -14,11 +15,12 @@ class SignUpPage extends BaseClass {
   }
 
   async mount() {
+
     document.getElementById('signUpButtonSelection').addEventListener('click', this.handleButtonSelection);
     document.getElementById('logInButtonSelection').addEventListener('click', this.handleButtonSelection);
     document.getElementById('loginSubmit').addEventListener('click', this.loginUser);
     document.getElementById('signupSubmit').addEventListener('click', this.signupUser);
-
+    document.getElementById('site-container').addEventListener('click', this.sendHome);
     this.client = new UserClient();
 
 
@@ -40,6 +42,10 @@ class SignUpPage extends BaseClass {
 
 
   /* Event Handles*/
+  async sendHome(event) {
+    window.location.href = "index.html";
+  }
+
   async handleButtonSelection(event) {
     event.preventDefault();
     this.dataStore.set("state", event.target.id);

@@ -10,7 +10,7 @@ class RecipePage extends BaseClass {
     super();
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
-      'addFilter'], this);
+      'addFilter', 'sendHome'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -23,7 +23,7 @@ class RecipePage extends BaseClass {
 
   async mount() {
     this.client = new RecipeClient();
-
+    document.getElementById('site-container').addEventListener('click', this.sendHome);
     this.menu.addEventListener('click', this.handleTabClick);
     document.getElementById('addIngredientButton').addEventListener('click', this.addIngredient);
     document.getElementById('submitNewRecipe').addEventListener('click', this.addNewRecipe);
@@ -89,6 +89,10 @@ class RecipePage extends BaseClass {
       mainDiv.appendChild(recipeCard);
       recipeCard.addEventListener('click', this.openPopUp);
     });
+  }
+
+  async sendHome(event) {
+    window.location.href = "index.html";
   }
 
   async openPopUp(event) {
