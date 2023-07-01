@@ -66,7 +66,8 @@ class SignUpPage extends BaseClass {
 
     const name = `${firstName} ${lastName}`;
 
-    await this.client.signup(name, email, password, this.errorHandler);
+    const user = await this.client.signup(name, email, password, this.errorHandler);
+    localStorage.setItem('user', user);
   }
 
 

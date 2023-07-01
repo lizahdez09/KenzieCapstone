@@ -4,12 +4,16 @@ import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
+import com.kenzie.capstone.service.model.UserResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import java.util.UUID;
 
 public class UserService {
     private UserDao userDao;
+    static final Logger log = LogManager.getLogger();
 
     @Inject
     public UserService(UserDao userDao) {
@@ -18,6 +22,7 @@ public class UserService {
 
     public User getUserData(String id) {
         UserRecord record = userDao.getUserById(id);
+        log.info("record- " + record);
         if (record != null && id.equals(record.getId())) {
             User user = new User(record.getId(), record.getEmail(),
                     record.getName(), record.getPassword(),
