@@ -3,6 +3,8 @@ package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class UserRequest {
     @JsonProperty("id")
     private String id;

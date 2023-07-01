@@ -6,27 +6,61 @@ import axios from "axios";
 class SignUpPage extends BaseClass {
   constructor() {
     super();
-    this.bindClassMethods(['handleSubmit'], this);
+    this.bindClassMethods(['onStateChange', 'handleButtonSelection', 'loginUser', 'signupUser'], this);
     this.dataStore = new DataStore();
+
+    this.LOGINBTN = "logInButtonSelection";
+    this.SIGNUPBTN = "signUpButtonSelection";
   }
 
   async mount() {
-    document.getElementById('signup-form').addEventListener('submit', this.handleSubmit);
+    document.getElementById('signUpButtonSelection').addEventListener('click', this.handleButtonSelection);
+    document.getElementById('logInButtonSelection').addEventListener('click', this.handleButtonSelection);
+    document.getElementById('loginSubmit').addEventListener('click', this.loginUser);
+    document.getElementById('signupSubmit').addEventListener('click', this.signupUser);
+
     this.client = new UserClient();
-    this.dataStore.addChangeListener(this.renderUser);
+
+
+    this.dataStore.addChangeListener(this.onStateChange);
   }
 
-  async handleSubmit(event) {
+  /* change listener*/
+  async onStateChange() {
+    const state = this.dataStore.get("state");
+
+    if (state === this.LOGINBTN) {
+      document.getElementById("loginFormContainer").classList.add("active");
+      document.getElementById("signupFormContainer").classList.remove("active");
+    } else if (state === this.SIGNUPBTN) {
+      document.getElementById("loginFormContainer").classList.remove("active");
+      document.getElementById("signupFormContainer").classList.add("active");
+    }
+  }
+
+
+  /* Event Handles*/
+  async handleButtonSelection(event) {
+    event.preventDefault();
+    this.dataStore.set("state", event.target.id);
+    console.log(event.target.id);
+  }
+
+  async loginUser(event) {
+
+  }
+
+  async signupUser(event) {
     event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    console.log(name);
-    console.log(email);
-    console.log(password);
+    const firstName = document.getElementById("signUpfirstName").value;
+    const lastName = document.getElementById("signUplastName").value;
+    const email = document.getElementById("signUpEmail").value;
+    const password = document.getElementById("signUpPassword").value;
 
-    await this.client.signup(name, email, password);
+    const name = `${firstName} ${lastName}`;
+
+    await this.client.signup(name, email, password, this.errorHandler);
   }
 
 
@@ -35,7 +69,6 @@ class SignUpPage extends BaseClass {
 const main = async () => {
   const signUpPage = new SignUpPage();
   await signUpPage.mount();
-  console.log("page loaded");
 };
 
 window.addEventListener('DOMContentLoaded', main);

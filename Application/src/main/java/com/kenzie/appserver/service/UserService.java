@@ -29,15 +29,7 @@ public class UserService {
     }
 
    public UserResponse addNewUser(UserRequest userRequest){
-        //String userRequestJson;
-//        try {
-//            userRequestJson = mapper.writeValueAsString(userRequest);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-
-       userRequest.setId(UUID.randomUUID().toString());
-
+        userRequest.setId(UUID.randomUUID().toString());
         return userServiceClient.setUserData(userRequest);
     }
 

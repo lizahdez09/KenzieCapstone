@@ -3,11 +3,9 @@ import DataStore from "../util/DataStore";
 import RecipeClient from "../api/recipeClient";
 
 class RecipePage extends BaseClass {
-  capturedFormValues = {};
-  dataStore;
+
   menu;
-  ingredientCount = 1;
-  filterTags = [];
+
   constructor() {
     super();
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
@@ -153,9 +151,6 @@ class RecipePage extends BaseClass {
 
       event.target.classList.add('selectedTab');
       this.dataStore.set("parentState", event.target.id);
-      if (event.target.id === this.CREATETAB) {
-        this.dataStore.set("childState", this.CREATETABCHILD1);
-      }
     }
   };
 
@@ -163,7 +158,6 @@ class RecipePage extends BaseClass {
     const ingredientContainer = document.getElementById('ingredients');
     const ingredientInputs = ingredientContainer.getElementsByClassName('ingredient');
 
-    // Check if all previous ingredient fields are filled
     let allFilled = true;
     for (let i = 0; i < ingredientInputs.length; i++) {
       const nameInput = ingredientInputs[i].querySelector('input[name="ingredientName[]"]');
@@ -171,11 +165,9 @@ class RecipePage extends BaseClass {
 
       if (nameInput.value === '' || amountInput.value === '') {
         allFilled = false;
-        // Show tooltip
         const tooltip = ingredientInputs[i].querySelector('.tooltip');
         tooltip.style.display = 'block';
       } else {
-        // Hide tooltip if it was previously shown
         const tooltip = ingredientInputs[i].querySelector('.tooltip');
         tooltip.style.display = 'none';
       }
@@ -195,7 +187,7 @@ class RecipePage extends BaseClass {
           <option value="COUNT">Count</option>
           <option value="POUND">Pound</option>
       </select>
-      <span class="tooltip">Please fill out the previous ingredient fields.</span> <!-- Add this line -->
+      <span class="tooltip">Please fill out the previous ingredient fields.</span>
     `;
 
       ingredientContainer.appendChild(newIngredient);
@@ -242,10 +234,10 @@ class RecipePage extends BaseClass {
   }
 
   async addFilter(event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
 
     const searchInput = document.getElementById('searchInput');
-    const searchTerm = searchInput.value.trim(); // Get the entered search term
+    const searchTerm = searchInput.value.trim();
 
     if (searchTerm !== '') {
       const filterTagsContainer = document.getElementById('filterTags');
@@ -253,23 +245,18 @@ class RecipePage extends BaseClass {
       filterTag.className = 'tag';
       filterTag.textContent = searchTerm;
 
-      // Create a button element to remove the filter tag
+
       const removeButton = document.createElement('button');
       removeButton.className = 'removeButton';
       removeButton.textContent = 'x';
-
-      // Add event listener to the remove button
       removeButton.addEventListener('click', () => {
-        filterTag.remove(); // Remove the filter tag when clicked
+        filterTag.remove();
       });
 
-      // Append the remove button to the filter tag
       filterTag.appendChild(removeButton);
-
-      // Append the filter tag to the container
       filterTagsContainer.appendChild(filterTag);
 
-      searchInput.value = ''; // Clear the search input
+      searchInput.value = '';
     }
   }
 

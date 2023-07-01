@@ -1,0 +1,116 @@
+/* styles.css */
+@import url("style.css");
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: var(--orange-brown-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    color: black;
+    background-color: var(--orange-brown-color-brighter);
+}
+
+.button:focus {
+    outline: none;
+}
+
+.centerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form .input-field {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.login-form .login-button {
+    width: 200px;
+    padding: 10px;
+    background-color: var(--orange-brown-color);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.7s ease;
+}
+
+.login-form .login-button:hover {
+    color: black;
+    background-color: var(--orange-brown-color-brighter);
+}
+
+.login-form .login-button:focus {
+    outline: none;
+}
+
+.signup-form {
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center the text within the container */
+}
+
+.signup-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-form .input-field {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.signup-form .signup-button {
+    width: 200px;
+    padding: 10px;
+    background-color: var(--orange-brown-color);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form .signup-button:hover {
+    background-color: var(--orange-brown-color-brighter);
+}
+
+.signup-form .signup-button:focus {
+    outline: none;
+}
+
+
