@@ -6,20 +6,23 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
 </head>
 <body class="background">
-<header class="header" id="header">
-    <div class="site-title">
-        <img src="images/Clever Chicken.png" width="100" height="100" alt="logo">
-        <a class="header_home" href="index.html">Recipes</a>
+<header class="header">
+    <div class="site-container" id="site-container">
+        <img class="site-Logo" src="images/Clever Chicken.png" alt="logo">
+        <a class="site-title">Clever Chicken</a>
     </div>
-    <nav class="navigation">
-        <ul>
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="recipePage.html">Recipes</a>
-        </ul>
-    </nav>
-    <button class="signUpBtn" onclick="window.location.href='/signUpPage.html'">Sign Up</button>
-    <p class="login-link"> Already have an account? <a href="userPage.html">Log in</a></p>
+    <div class="navigation-container">
+        <nav class="navigation">
+            <ul>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="recipePage.html">Recipes</a>
+            </ul>
+        </nav>
+    </div>
+    <div class="signup-container">
+        <a href="signUpPage.html" class="signUpBtn">Log in/Sign up</a>
+    </div>
 </header>
 <div class="card">
     <div class="cardTitle">

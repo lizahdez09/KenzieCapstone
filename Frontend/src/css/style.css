@@ -2,6 +2,7 @@
     --primary-color: #f1ede9;
     --secondary-color: #000000;
     --orange-brown-color: rgba(191, 161, 97, 100);
+    --orange-brown-color-rgb: #bfa161;
     --orange-brown-color-brighter: #ffce70;
     --orange-brown-color-darker: #b28c60;
     --error-color: rgba(194, 0, 0, 0.71);
@@ -15,78 +16,94 @@
 
 /* header */
 .header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+    font-family: "Caveat", serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 50px;
+    background-color: var(--primary-color);
+    padding: 10px;
     margin-bottom: 10px;
-    border-bottom:var(--orange-brown-color) solid 2px;
-    height: 108px;
+    border-bottom: 2px solid var(--orange-brown-color) ;
+}
+
+
+
+.site-container {
+    flex-basis: 33%; /* Increase the width to accommodate both logo and title */
+    display: flex; /* Add flex display */
+    align-items: center; /* Center the logo and title vertically */
+}
+.site-container:hover {
+    cursor: pointer;
+}
+
+.site-Logo {
+    width: 85px;
+    height: 85px;
+    margin-right: 10px;
 }
 
 .site-title {
+    font-size: 42px;
+    color: #bfa161;
+    text-decoration: none;
     display: flex;
     align-items: center;
-    font-family: "Caveat", Arial, sans-serif;
 }
 
-.header_home {
-    vertical-align: center;
-    padding: 10px;
-    font-size: 50px;
-    text-decoration: none;
-    width: 270px;
-    color: var(--secondary-color);
+.navigation-container {
+    flex-basis: 33%;
+    display: flex;
+    justify-content: center;
 }
-
-.signUpBtn {
-    background: var(--orange-brown-color);
-    padding: 8px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: black;
-    border: none;
-    margin-bottom: 10px;
-    position: fixed;
-    top: 3%;
-    right: 100px;
-    font-family: "Caveat", Arial, sans-serif;
-    font-size: 18px;
-}
-
-.signUpBtn:hover, signUpBtn:hover {
-    background:var(--orange-brown-color-brighter);
-}
-
-
 .navigation {
-    flex-grow: 1;
-    text-align: center;
+    border-bottom: 2px solid var(--orange-brown-color);
 }
 .navigation ul {
-    display: inline-block;
-    list-style: none;
-    padding: 0;
+    list-style-type: none;
     margin: 0;
-}
-
-.navigation li {
-    display: inline-block;
-    margin-right: 10px;
+    padding: 0;
 }
 
 .navigation a {
-    font-family: "Caveat", Arial, sans-serif;
-    text-decoration: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    display: inline-block;
+    font-size: 30px;
     color: #333;
-    border-right: 2px solid var(--orange-brown-color);
-    font-size: 27px;
-    font-weight: bold;
-    margin-right: 10px;
-    padding: 10px 15px;
+    text-decoration: none;
 }
 
+.navigation a:hover {
+    background: var(--orange-brown-color);
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.signup-container {
+    flex-basis: 33%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.signUpBtn {
+    display: inline-block;
+    padding: 6px;
+    background-color: var(--orange-brown-color);
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.6s ease;
+}
+
+.signUpBtn:hover {
+    background-color: var(--orange-brown-color-brighter);
+}
+
+/*End header stuff*/
 .about {
     margin-left: 40px;
 }
