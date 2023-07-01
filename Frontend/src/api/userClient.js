@@ -4,7 +4,7 @@ import axios from 'axios'
 export default class UserClient extends BaseClass {
     constructor(props = {}) {
         super();
-        const methodsToBind = ['clientLoaded', 'getFavoriteRecipe', 'addFavoriteRecipe', 'updateFavoriteRecipe','signup'];
+        const methodsToBind = ['clientLoaded', 'getFavoriteRecipe', 'addFavoriteRecipe', 'updateFavoriteRecipe', 'signup'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);

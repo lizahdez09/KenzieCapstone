@@ -32,11 +32,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userCreateRequest) {
         UserResponse user = userService.addNewUser(userCreateRequest);
-
         return ResponseEntity.ok(user);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, UserUpdateRequest userUpdateRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody UserUpdateRequest userUpdateRequest) {
         try {
             User updateUser = userService.updateUser(id, userUpdateRequest);
             UserResponse userResponse = createUserResponseFromUser(updateUser);
@@ -54,4 +54,3 @@ public class UserController {
         return response;
     }
 }
-//not setting any of the data - need @RequestBody

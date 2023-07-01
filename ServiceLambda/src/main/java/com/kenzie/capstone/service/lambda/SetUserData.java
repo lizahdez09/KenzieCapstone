@@ -37,13 +37,6 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        // Extract the data from the request event
-//        String id = input.getQueryStringParameters().get("id");
-//        String name = input.getQueryStringParameters().get("name");
-//        String password = input.getQueryStringParameters().get("password");
-//        String email = input.getQueryStringParameters().get("email");
-//        String favoriteRecipes = input.getQueryStringParameters().get("favoriteRecipes");
-
         UserRequest userRequest = gson.fromJson(input.getBody(),UserRequest.class);
         if (userRequest.getName() == null || userRequest.getEmail() == null || userRequest.getPassword() == null) {
             return response
@@ -52,10 +45,7 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
 
         try {
-            User userData = userLambService.setUserData(userRequest.getId(), userRequest.getName(),
-                    userRequest.getPassword(), userRequest.getEmail(), userRequest.getFavoriteRecipes());
             String output = gson.toJson(userRequest);
-            //User data needs to be converted to a userRequest to be able to be serialized by JSON
             return response
                     .withStatusCode(200)
                     .withBody(output);
@@ -67,7 +57,3 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
     }
 }
-
-
-//kinda patch work - but before its turn into a user - we have to turn it into a userResponse
-//wasnt working because of JSON - not compatible , did not know how to translate // backend is set up so that they only need those 3 inputs
