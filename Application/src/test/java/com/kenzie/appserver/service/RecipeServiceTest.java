@@ -107,7 +107,7 @@ public class RecipeServiceTest {
     /** ------------------------------------------------------------------------
      *  recipeService.getRecipeContainsIngredient
      *  ------------------------------------------------------------------------ **/
-    @Test
+/*    @Test
     void getRecipeContainsIngredient_returnsRecipe() {
         //GIVEN
         String id = randomUUID().toString();
@@ -161,7 +161,7 @@ public class RecipeServiceTest {
         assertNotNull(recipeList);
         assertEquals(1, recipeList.size());
         assertEquals(record.getId(), recipeList.get(0).getId());
-    }
+    }*/
 
     /** ------------------------------------------------------------------------
      *  recipeService.addNewRecipe

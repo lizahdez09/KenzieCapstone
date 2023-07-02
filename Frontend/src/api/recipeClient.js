@@ -4,7 +4,7 @@ import axios from 'axios'
 export default class RecipeClient extends BaseClass {
     constructor(props = {}) {
         super();
-        const methodsToBind = ['clientLoaded', 'getRecipe', 'createRecipe', 'updateRecipe'];
+        const methodsToBind = ['clientLoaded', 'getRecipe', 'createRecipe', 'updateRecipe', 'filterByIngredient'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -58,6 +58,15 @@ export default class RecipeClient extends BaseClass {
             return response.data;
         } catch (error) {
             this.handleError("createRecipe", error, errorCallback);
+        }
+    }
+
+    async filterByIngredient(ingredients, errorCallBack) {
+        try {
+            const response = await this.client.get(`/recipe/ingredients/${ingredients}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("login", error, errorCallBack);
         }
     }
 

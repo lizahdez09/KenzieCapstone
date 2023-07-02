@@ -84,37 +84,39 @@ class RecipePage extends BaseClass {
     const mainDiv = document.getElementById("welcomeTab");
     const recipes = await this.client.getAllRecipes();
     mainDiv.innerHTML = ``;
-    recipes.forEach((recipe) => {
-      console.log(recipe);
-      const id = recipe.id;
-      const foodType = recipe.foodType;
-      const name = recipe.name;
-      const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
-      const timeToPrepare = recipe.timeToPrepare;
-      const instructions = recipe.instructions;
+    if (recipes) {
+      recipes.forEach((recipe) => {
+        console.log(recipe);
+        const id = recipe.id;
+        const foodType = recipe.foodType;
+        const name = recipe.name;
+        const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
+        const timeToPrepare = recipe.timeToPrepare;
+        const instructions = recipe.instructions;
 
-      const recipeCard = document.createElement("div");
-      recipeCard.classList.add("recipeCard");
-      recipeCard.id = id;
-      const nameParagraph = document.createElement("p");
-      nameParagraph.classList.add("info");
-      nameParagraph.textContent = `Name: ${name}`;
+        const recipeCard = document.createElement("div");
+        recipeCard.classList.add("recipeCard");
+        recipeCard.id = id;
+        const nameParagraph = document.createElement("p");
+        nameParagraph.classList.add("info");
+        nameParagraph.textContent = `Name: ${name}`;
 
-      const typeParagraph = document.createElement("p");
-      typeParagraph.classList.add("info");
-      typeParagraph.textContent = `Type: ${foodType}`;
+        const typeParagraph = document.createElement("p");
+        typeParagraph.classList.add("info");
+        typeParagraph.textContent = `Type: ${foodType}`;
 
-      const timeParagraph = document.createElement("p");
-      timeParagraph.classList.add("info");
-      timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+        const timeParagraph = document.createElement("p");
+        timeParagraph.classList.add("info");
+        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
 
-      recipeCard.appendChild(nameParagraph);
-      recipeCard.appendChild(typeParagraph);
-      recipeCard.appendChild(timeParagraph);
+        recipeCard.appendChild(nameParagraph);
+        recipeCard.appendChild(typeParagraph);
+        recipeCard.appendChild(timeParagraph);
 
-      mainDiv.appendChild(recipeCard);
-      recipeCard.addEventListener('click', this.openPopUp);
-    });
+        mainDiv.appendChild(recipeCard);
+        recipeCard.addEventListener('click', this.openPopUp);
+      });
+    }
   }
 
   async sendHome(event) {
@@ -275,19 +277,28 @@ class RecipePage extends BaseClass {
       filterTag.className = 'tag';
       filterTag.textContent = searchTerm;
 
-
       const removeButton = document.createElement('button');
       removeButton.className = 'removeButton';
       removeButton.textContent = 'x';
       removeButton.addEventListener('click', () => {
         filterTag.remove();
+        updateCSV();
       });
 
       filterTag.appendChild(removeButton);
       filterTagsContainer.appendChild(filterTag);
 
       searchInput.value = '';
+
+      updateCSV();
     }
+  }
+
+  async updateCSV() {
+    const filterTagsContainer = document.getElementById('filterTags');
+    const tags = Array.from(filterTagsContainer.getElementsByClassName('tag')).map(tag => tag.textContent);
+    const csvString = tags.join(',');
+
   }
 
 
