@@ -21,6 +21,7 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser(@PathVariable("email") String email) {
 
         UserResponse user = userService.getUserData(email);
+        System.out.println(user.toString());
         if (user == null) {
             return ResponseEntity.notFound().build();
         }

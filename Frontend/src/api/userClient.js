@@ -4,7 +4,7 @@ import axios from 'axios'
 export default class UserClient extends BaseClass {
     constructor(props = {}) {
         super();
-        const methodsToBind = ['clientLoaded', 'getFavoriteRecipe', 'addFavoriteRecipe', 'updateFavoriteRecipe', 'signup'];
+        const methodsToBind = ['signup', 'login'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -17,63 +17,37 @@ export default class UserClient extends BaseClass {
         }
     }
 
-         async signup(name, email, password, errorCallback) {
-             try {
-                 const userRequest = {
-                     id: "",
-                     name: name,
-                     email: email,
-                     password: password,
-                     favoriteRecipes: ""
-                 };
-                 const jsonString = JSON.stringify(userRequest);
-
-                 const response = await this.client.post('/user', jsonString, {
-                     headers: {
-                         'Content-Type': 'application/json'
-                     }
-                 });
-
-                 return response.data;
-             } catch (error) {
-                 this.handleError("signup", error, errorCallback);
-             }
-         }
-
-    async getFavoriteRecipe(id, errorCallback) {
+    async signup(name, email, password, errorCallBack) {
         try {
-            const response = await this.client.get(`/user/${id}`);
-            return response.data;
-        } catch (error) {
-            this.handleError("getFavoriteRecipe", error, errorCallback)
-        }
-    }
-
-    async addFavoriteRecipe(id, name, favoriteRecipe, errorCallback) {
-        try {
-            const response = await this.client.post(`/user`, {
-                id: id,
+            const userRequest = {
+                id: "",
                 name: name,
-                favoriteRecipe: favoriteRecipe
+                email: email,
+                password: password,
+                favoriteRecipes: ""
+            };
+            const jsonString = JSON.stringify(userRequest);
+
+            const response = await this.client.post('/user', jsonString, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
             return response.data;
         } catch (error) {
-            this.handleError("addFavoriteRecipe", error, errorCallback);
+            this.handleError("signup", error, errorCallBack);
         }
     }
 
-    async updateFavoriteRecipe(id, name, favoriteRecipe, errorCallback) {
+    async login(email, password, errorCallBack) {
         try {
-            const response = await this.client.update(`/user/${id}`, {
-                id: id,
-                name: name,
-                favoriteRecipe: favoriteRecipe
-            });
+            const response = await this.client.get(`/user/${email}`);
             return response.data;
         } catch (error) {
-            this.handleError("updateFavoriteRecipe", error, errorCallback);
+            this.handleError("login", error, errorCallBack);
         }
     }
+
 
     /**
      * Helper method to log the error and run any error functions.
