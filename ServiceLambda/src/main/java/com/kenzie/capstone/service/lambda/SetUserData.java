@@ -10,6 +10,7 @@ import com.kenzie.capstone.service.UserService;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +38,7 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        UserRequest userRequest = gson.fromJson(input.getBody(),UserRequest.class);
+        UserRequest userRequest = gson.fromJson(input.getBody(), UserRequest.class);
         if (userRequest.getName() == null || userRequest.getEmail() == null || userRequest.getPassword() == null) {
             return response
                     .withStatusCode(400)
@@ -45,7 +46,8 @@ public class SetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         }
 
         try {
-            String output = gson.toJson(userRequest);
+            UserRecord userdata = userLambService.setUserData(userRequest);
+            String output = gson.toJson(userdata);
             return response
                     .withStatusCode(200)
                     .withBody(output);

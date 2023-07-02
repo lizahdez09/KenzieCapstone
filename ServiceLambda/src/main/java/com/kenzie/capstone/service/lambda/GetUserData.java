@@ -39,19 +39,16 @@ public class GetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
-        log.info("id- " + id);
-        if (id == null || id.length() == 0) {
+        String email = input.getPathParameters().get("id");
+        if (email == null || email.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("id is invalid");
+                    .withBody("email is invalid");
         }
 
         try {
-            UserRecord userData = userLambService.getUserData(id);
-            log.info("User- " + userData);
+            UserRecord userData = userLambService.getUserData(email);
             String output = gson.toJson(userData);
-            log.info(("output- " + output));
             return response
                     .withStatusCode(200)
                     .withBody(output);
