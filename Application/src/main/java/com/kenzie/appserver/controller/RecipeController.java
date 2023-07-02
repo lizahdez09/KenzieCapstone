@@ -36,13 +36,15 @@ public class RecipeController {
     @GetMapping("/ingredients/{ingredientNames}")
     public ResponseEntity<List<RecipeResponse>> getRecipeContainsIngredient(@PathVariable("ingredientNames") String ingredientNames) {
         String[] names = ingredientNames.split(",");
+        System.out.println("names- " + names);
         List<String> ingredientNamesList = Arrays.asList(names);
+        System.out.println("ingredientNamesList- " + ingredientNamesList);
         List<String> ingredientIds = new ArrayList<>();
 
         for (String name : ingredientNamesList) {
             ingredientIds.add(recipeService.getIngredientIdByName(name));
         }
-
+        System.out.println("ingredientIds- " + ingredientIds);
         List<RecipeResponse> responseList = new ArrayList<>();
 
         List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(ingredientIds);

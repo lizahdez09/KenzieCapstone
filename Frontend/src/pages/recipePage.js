@@ -10,7 +10,7 @@ class RecipePage extends BaseClass {
     super();
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
-      'addFilter', 'sendHome', 'renderUserInfo'], this);
+      'addFilter', 'sendHome', 'renderUserInfo', 'updateCSV'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -34,7 +34,7 @@ class RecipePage extends BaseClass {
     document.getElementById('submitNewRecipe').addEventListener('click', this.addNewRecipe);
     document.getElementById('filterButton').addEventListener('click', this.addFilter);
     this.dataStore.addChangeListener(this.onStateChange);
-    this.dataStore.set("parentState", this.WELCOMETAB);
+    this.dataStore.set("parentState", this.SEARCHTAB);
   };
 
   async onStateChange() {
@@ -280,9 +280,9 @@ class RecipePage extends BaseClass {
       const removeButton = document.createElement('button');
       removeButton.className = 'removeButton';
       removeButton.textContent = 'x';
-      removeButton.addEventListener('click', () => {
+      removeButton.addEventListener('click', async () => {
         filterTag.remove();
-        updateCSV();
+        await this.updateCSV();
       });
 
       filterTag.appendChild(removeButton);
@@ -290,16 +290,55 @@ class RecipePage extends BaseClass {
 
       searchInput.value = '';
 
-      updateCSV();
+      await this.updateCSV();
     }
   }
 
   async updateCSV() {
     const filterTagsContainer = document.getElementById('filterTags');
-    const tags = Array.from(filterTagsContainer.getElementsByClassName('tag')).map(tag => tag.textContent);
+    const tags = Array.from(filterTagsContainer.getElementsByClassName('tag'))
+        .map(tag => tag.textContent.replace(/x$/, ''));
     const csvString = tags.join(',');
+    console.log(csvString);
+    const recipes = await this.client.filterByIngredient(csvString);
+    const mainDiv = document.getElementById("recipe-filter-container");
+    mainDiv.innerHTML = '';
 
+    if (recipes) {
+      recipes.forEach((recipe) => {
+        console.log(recipe);
+        const id = recipe.id;
+        const foodType = recipe.foodType;
+        const name = recipe.name;
+        const ingredients = JSON.parse(recipe.ingredients);
+        const timeToPrepare = recipe.timeToPrepare;
+        const instructions = recipe.instructions;
+
+        const recipeCard = document.createElement("div");
+        recipeCard.classList.add("recipeCard");
+        recipeCard.id = id;
+        const nameParagraph = document.createElement("p");
+        nameParagraph.classList.add("info");
+        nameParagraph.textContent = `Name: ${name}`;
+
+        const typeParagraph = document.createElement("p");
+        typeParagraph.classList.add("info");
+        typeParagraph.textContent = `Type: ${foodType}`;
+
+        const timeParagraph = document.createElement("p");
+        timeParagraph.classList.add("info");
+        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+
+        recipeCard.appendChild(nameParagraph);
+        recipeCard.appendChild(typeParagraph);
+        recipeCard.appendChild(timeParagraph);
+
+        mainDiv.appendChild(recipeCard);
+        recipeCard.addEventListener('click', this.openPopUp);
+      });
+    }
   }
+
 
 
 }

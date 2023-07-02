@@ -45,10 +45,13 @@ public class RecipeService {
     }
 
     public String getIngredientIdByName(String name) {
-        return ingredientService.getOrCreateIngredient(name).getId();
+        Ingredient ingredient = ingredientService.getOrCreateIngredient(name);
+        System.out.println("Ingredient id- " + ingredient.getId());
+        return ingredient.getId();
     }
 
     public List<Recipe> getRecipeContainsIngredient(List<String> ingredientIds) {
+        System.out.println("getRecipeContainsIngredient- " + ingredientIds.toString());
         return getAllRecipes().stream()
                 .filter(recipe -> ingredientIds.stream()
                         .allMatch(ingredientId -> recipe.getIngredientsAsList().stream()

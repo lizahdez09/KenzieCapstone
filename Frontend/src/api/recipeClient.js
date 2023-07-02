@@ -64,6 +64,7 @@ export default class RecipeClient extends BaseClass {
     async filterByIngredient(ingredients, errorCallBack) {
         try {
             const response = await this.client.get(`/recipe/ingredients/${ingredients}`);
+            console.log(response.data);
             return response.data;
         } catch (error) {
             this.handleError("login", error, errorCallBack);
