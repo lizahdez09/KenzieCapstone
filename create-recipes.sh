@@ -1,69 +1,54 @@
 #!/bin/bash
 
 API_URL="http://localhost:8080/recipe"
+RECIPE_COUNT=20
 
-# Define an array of recipe objects
-recipes=(
-  '{
-    "name": "Test Recipe 1",
-    "foodType": "Lunch",
-    "ingredients": "[{\"name\": \"Ingredient 1\", \"amount\": \"2\", \"measurement\": \"CUP\"},
-                    {\"name\": \"Ingredient 2\", \"amount\": \"1\", \"measurement\": \"TABLESPOON\"}]",
-    "timeToPrepare": "30 minutes",
-    "instructions": "Cook in pan",
-    "favoriteCount": "3"
+# Array of possible food types
+food_types=("Breakfast" "Lunch" "Dinner" "Dessert")
+# Array of possible ingredients
+ingredients=("Salt" "Pepper" "Sugar" "Flour" "Butter" "Milk" "Eggs" "Chicken" "Beef" "Fish" "Rice" "Tomatoes" "Onions" "Garlic")
+# Array of possible measurements
+measurements=("TEASPOON" "TABLESPOON" "CUP" "COUNT" "POUND")
+# Function to generate a random recipe
+generate_recipe() {
+  local name="Recipe $((RANDOM % 1000 + 1))"
+  local food_type=${food_types[$((RANDOM % ${#food_types[@]}))]}
+  local ingredient_count=$((RANDOM % 5 + 1))
+  local ingredient_list="["
+
+  for ((i=0; i<$ingredient_count; i++)); do
+    local ingredient=${ingredients[$((RANDOM % ${#ingredients[@]}))]}
+    local amount=$((RANDOM % 4 + 1))
+    local measurement=${measurements[$((RANDOM % ${#measurements[@]}))]}
+
+    ingredient_list+="{\\\"name\\\": \\\"$ingredient\\\", \\\"amount\\\": \\\"$amount\\\", \\\"measurement\\\": \\\"$measurement\\\"}"
+
+    if ((i != ingredient_count - 1)); then
+      ingredient_list+=", "
+    fi
+  done
+
+  ingredient_list+="]"
+
+  local time_to_prepare="$((RANDOM % 60 + 15)) minutes"
+  local instructions="Cook according to instructions"
+  local favorite_count=$((RANDOM % 10))
+
+  local recipe='{
+    "name": "'$name'",
+    "foodType": "'$food_type'",
+    "ingredients": "'$ingredient_list'",
+    "timeToPrepare": "'$time_to_prepare'",
+    "instructions": "'$instructions'",
+    "favoriteCount": "'$favorite_count'"
   }'
-  # Add more recipes
-  #breakfast
-  '{
-    "name": "Test Recipe 1",
-    "foodType": "Breakfast",
-    "ingredients": "[{\"name\": \"large eggs\", \"amount\": \"2\", \"measurement\": \"COUNT\"},
-                    {\"name\": \"salt\", \"amount\": \"1/16\", \"measurement\": \"TEASPOON\"}]",
-                     {\"name\": \"pepper\", \"amount\": \"1/16\", \"measurement\": \"TEASPOON\"}]",
-    "timeToPrepare": "5 minutes",
-    "instructions": " Crack the eggs into a bowl and whisk them until well combined.Season with salt and pepper to taste.Heat a non-stick skillet over medium heat and melt the butter.Pour the whisked eggs into the skillet and let them cook for a few seconds.
-                      Using a spatula, gently stir the eggs until they form soft curds.Cook for another minute or until the eggs are fully cooked but still moist.Serve hot.",
-    "favoriteCount": "3"
-  }'
 
-'{
-   "name": "Banana Pancakes",
-   "foodType": "Breakfast",
-   "ingredients": "[{\"name\": \"banana\",\"amount\": \"1\"},
-                    {\"name\": \"pancake mix\",\"amount\": \"1\",\"measurement\": \"CUP\"},
-                    {\"name\": \"milk\",\"amount\": \"1.5\", \"measurement\": \"CUP\"},
-                    { \"name\": \"butter\",\"amount\": \"1\",\"measurement\": \"TABLESPOON\"}]",
-   "timeToPrepare": "10 minutes",
-   "instructions": "In a mixing bowl, mash the ripe banana until smooth. Add the pancake mix and milk to the bowl and stir until well combined.
-                   Heat a griddle or non-stick pan over medium heat and melt the butter. Pour 1/4 cup of the pancake batter onto the griddle for each pancake.
-                   Cook for 2-3 minutes on each side or until golden brown.\n6. Serve the pancakes with your favorite toppings, such as syrup or sliced bananas.",
-   "favoriteCount": "2"
- }'
+  echo "$recipe"
+}
 
-
-'{
-  "name": "Avocado Toast",
-  "foodType": "Breakfast",
-  "ingredients": "[{\"name\": \"avocado\",\"amount\": \"1\"},
-                {\"name\": \"bread slices,\"amount\": \"2\"},
-                {\"name\": \"salt\",\"amount\": \"to taste\"},
-                {\"name\": \"peppers\",\"amount\": \"1.5\",\"measurement\": \"CUP\"},
-                {\"name\": \"red pepper flakes\",\"amount\": \"optional\"}]",
-  "timeToPrepare": "5 minutes",
-  "instructions": "Toast the bread slices until golden and crispy. Cut the avocado in half, remove the pit, and scoop the flesh into a bowl.
-                  Mash the avocado with a fork and season with salt, pepper, and red pepper flakes (if desired).
-                  Spread the mashed avocado evenly onto the toast. Optionally, garnish with additional toppings like sliced tomatoes or a drizzle of olive oil. Serve immediately.",
-  "favoriteCount": "1"
-}'
-
-
-
-
-
-
-)
-
-for recipe in "${recipes[@]}"; do
+# Generate and post random recipes
+for ((i=0; i<RECIPE_COUNT; i++)); do
+  recipe=$(generate_recipe)
   curl -X POST -H "Content-Type: application/json" -d "$recipe" "$API_URL"
+  echo ""
 done

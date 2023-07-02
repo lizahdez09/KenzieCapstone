@@ -27,8 +27,8 @@
 <div class="card">
     <div class="cardTitle">
         <ul class="menu">
-            <li id="tab-recipes" class="selectedTab">All Recipes</li>
-            <li id="tab-search-recipes" class="">Search by Ingredients</li>
+            <li id="tab-recipes" class="">All Recipes</li>
+            <li id="tab-search-recipes" class="selectedTab">Search by Ingredients</li>
             <li id="tab-search-by-type" class="">Search by Type</li>
             <li id="tab-create-recipe" class="">Create Recipe</li>
         </ul>
@@ -45,18 +45,19 @@
         <h2>Search recipes by ingredient:</h2>
         <form id="searchForm">
             <input type="text" id="searchInput" placeholder="Enter an ingredient">
-            <input type="click" id="filterButton" value="Add Ingredient">
+            <button type="click" id="filterButton">Add Ingredient</button>
         </form>
+        <div id="filterTags"></div>
+        <div class="card" id="recipe-filter-container">
+        </div>
     </div>
-    <div id="filterTags"></div>
-
 
 <!-- TYPETAB state of recipePage.js-->
     <div class="state" id="typeTab">
         <h2>Search recipes by ingredient:</h2>
         <form id="searchByTypeForm">
             <input type="text" id="searchByTypeInput" placeholder="Enter an ingredient">
-            <input type="click" id="searchByTypeButton" value="Filter">
+            <button type="click" id="searchByTypeButton" value="Filter"></button>
         </form>
     </div>
 
