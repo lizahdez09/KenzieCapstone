@@ -55,3 +55,60 @@
         transform: rotate(360deg);
     }
 }
+
+.main-content {
+    margin-right: 3px;
+    margin-left: 3px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quickPicks {
+    width: 100%;
+    background: var(--orange-brown-color);
+    color: white;
+    margin-top: 0;
+    padding-top: 0;
+    text-align: center;
+}
+
+.row {
+    display: flex;
+}
+
+.quickPicksLeft {
+    padding: 5px;
+    flex: 2;
+    text-align: center;
+}
+
+.quickPicksLeft img {
+    width: 100%;
+    transition: all 0.4s ease;
+}
+
+.quickPicksLeft img:hover {
+    transform: scale(0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.quickPicksRight,
+.quickPicksFarRight {
+    padding: 5px;
+    flex: 1;
+    text-align: center;
+}
+
+.quickPicksRight img,
+.quickPicksFarRight img {
+    width: 100%;
+    transition: all 0.4s ease;
+}
+
+.quickPicksRight img:hover,
+.quickPicksFarRight img:hover {
+    transform: scale(0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
