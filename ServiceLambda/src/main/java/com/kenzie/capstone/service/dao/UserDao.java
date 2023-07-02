@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
+import com.kenzie.capstone.service.model.UserRequest;
 
 public class UserDao {
 
@@ -20,36 +21,36 @@ public class UserDao {
         try {
             mapper.save(user, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
-                            "id",
+                            "email",
                             new ExpectedAttributeValue().withExists(false)
                     )));
         } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("id has already been used");
+            throw new IllegalArgumentException("email has already been used");
         }
 
         return user;
     }
 
-    public UserRecord getUserById(String id) {
-        return mapper.load(UserRecord.class, id);
+    public UserRecord getUserByEmail(String email) {
+        return mapper.load(UserRecord.class, email);
     }
 
-    public UserRecord createNewUser(String id, String name, String password, String email, String favoriteRecipes) {
+    public UserRecord createNewUser(UserRequest request) {
         UserRecord userRecord = new UserRecord();
-        userRecord.setId(id);
-        userRecord.setName(name);
-        userRecord.setPassword(password);
-        userRecord.setEmail(email);
-        userRecord.setFavoriteRecipes(favoriteRecipes);
+        userRecord.setId(request.getId());
+        userRecord.setName(request.getName());
+        userRecord.setPassword(request.getPassword());
+        userRecord.setEmail(request.getEmail());
+        userRecord.setFavoriteRecipes(request.getFavoriteRecipes());
 
         try {
             mapper.save(userRecord, new DynamoDBSaveExpression()
                     .withExpected(ImmutableMap.of(
-                            "id",
+                            "email",
                             new ExpectedAttributeValue().withExists(false)
                     )));
         } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("id already exists");
+            throw new IllegalArgumentException("email already exists");
         }
 
         return userRecord;

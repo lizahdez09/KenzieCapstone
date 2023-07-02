@@ -17,10 +17,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable("id") String id) {
+    @GetMapping("/{email}")
+    public ResponseEntity<UserResponse> getUser(@PathVariable("email") String email) {
 
-        UserResponse user = userService.getUserData(id);
+        UserResponse user = userService.getUserData(email);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }

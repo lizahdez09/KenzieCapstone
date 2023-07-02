@@ -13,7 +13,7 @@ import static java.util.UUID.randomUUID;
 
 public class UserServiceClient {
 
-    private static final String GET_USER_ENDPOINT = "user/{userId}";
+    private static final String GET_USER_ENDPOINT = "user/{email}";
     private static final String SET_USER_ENDPOINT = "/user";
     private static final String UPDATE_USER_ENDPOINT = "user/{userId}";
     static final Logger log = LogManager.getLogger();
@@ -23,9 +23,9 @@ public class UserServiceClient {
         this.mapper = new ObjectMapper();
     }
 
-    public UserResponse getUserData(String id) {
+    public UserResponse getUserData(String email) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_USER_ENDPOINT.replace("{userId}", id));
+        String response = endpointUtility.getEndpoint(GET_USER_ENDPOINT.replace("{email}", email));
         UserResponse user;
         try {
             user = mapper.readValue(response, UserResponse.class);

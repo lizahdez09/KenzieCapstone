@@ -12,7 +12,7 @@ Resources:
       CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
       Handler: com.kenzie.capstone.service.lambda.GetUserData
       Runtime: java11
-      Description: Gets user data by user id
+      Description: Gets user data by user email
       MemorySize: 512
       Timeout: 240
       # Function's execution role
@@ -28,7 +28,7 @@ Resources:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /user/{id}
+            Path: /user/{email}
             Method: get
   SetUserDataFunction:
     Type: AWS::Serverless::Function

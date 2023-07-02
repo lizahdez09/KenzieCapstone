@@ -16,11 +16,11 @@ public class UserRecord {
     private String favoriteRecipes;
 
 
-    @DynamoDBHashKey(attributeName = "id")
+    @DynamoDBAttribute(attributeName = "id")
     public String getId() {
         return id;
     }
-    @DynamoDBAttribute(attributeName = "email")
+    @DynamoDBHashKey(attributeName = "email")
     public String getEmail() {
         return email;
     }

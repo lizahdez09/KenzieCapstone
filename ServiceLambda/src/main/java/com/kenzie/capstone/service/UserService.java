@@ -4,12 +4,11 @@ import com.amazonaws.services.kms.model.NotFoundException;
 import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
-import com.kenzie.capstone.service.model.UserResponse;
+import com.kenzie.capstone.service.model.UserRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
-import java.util.UUID;
 
 public class UserService {
     private UserDao userDao;
@@ -20,10 +19,10 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public UserRecord getUserData(String id) {
-        UserRecord record = userDao.getUserById(id);
+    public UserRecord getUserData(String email) {
+        UserRecord record = userDao.getUserByEmail(email);
         log.info("record- " + record);
-        if (record != null && id.equals(record.getId())) {
+        if (record != null && email.equals(record.getEmail())) {
             return record;
         } else {
             throw new RuntimeException("No UserData found");
@@ -32,15 +31,13 @@ public class UserService {
     //not compatible with JSON
 
 
-    public User setUserData(String id, String name, String password, String email, String favoriteRecipes) {
-        UserRecord record = userDao.createNewUser(id, name, password, email, favoriteRecipes);
-
-        return new User(record.getId(), record.getName(),
-                record.getPassword(), record.getEmail());
+    public UserRecord setUserData(UserRequest request) {
+        UserRecord record = userDao.createNewUser(request);
+        return record;
     }
 
     public User updateUserData(String id, String name, String password, String email) {
-        UserRecord record = userDao.getUserById(id);
+        UserRecord record = userDao.getUserByEmail(id);
         if (record == null) {
             throw new NotFoundException("User not found with ID: " + id);
         }
