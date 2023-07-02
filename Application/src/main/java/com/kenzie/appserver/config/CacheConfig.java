@@ -13,7 +13,8 @@ public class CacheConfig {
     // Create a Cache here if needed
 
     @Bean
-    public CacheStore myCache() {
-        return new CacheStore(120, TimeUnit.SECONDS);
+    public CacheStore MostFavoriteRecipeCache() {
+        return new CacheStore(30, TimeUnit.MINUTES);
     }
 }
+//changes cache to store and expire every 30 mins instead of every 2 mins
