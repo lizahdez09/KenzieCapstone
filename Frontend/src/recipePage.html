@@ -45,10 +45,10 @@
         <h2>Search recipes by ingredient:</h2>
         <form id="searchForm">
             <input type="text" id="searchInput" placeholder="Enter an ingredient">
-            <button type="click" id="filterButton">Add Ingredient</button>
+            <button type="click" id="filterButton">Add Ingredient to filter</button>
         </form>
         <div id="filterTags"></div>
-        <div class="card" id="recipe-filter-container">
+        <div id="recipe-filter-container">
         </div>
     </div>
 
@@ -56,9 +56,16 @@
     <div class="state" id="typeTab">
         <h2>Search recipes by ingredient:</h2>
         <form id="searchByTypeForm">
-            <input type="text" id="searchByTypeInput" placeholder="Enter an ingredient">
-            <button type="click" id="searchByTypeButton" value="Filter"></button>
+            <select id="searchByTypeInput">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Dessert">Dessert</option>
+            </select>
+            <button type="click" id="searchByTypeButton">Filter</button>
         </form>
+        <div id="filter-type-container">
+        </div>
     </div>
 
 

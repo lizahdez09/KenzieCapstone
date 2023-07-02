@@ -442,6 +442,7 @@ select {
 }
 
 #searchInput {
+    width: 50%;
     margin: 10px;
     flex-grow: 1;
     padding: 8px;

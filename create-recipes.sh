@@ -13,7 +13,7 @@ measurements=("TEASPOON" "TABLESPOON" "CUP" "COUNT" "POUND")
 generate_recipe() {
   local name="Recipe $((RANDOM % 1000 + 1))"
   local food_type=${food_types[$((RANDOM % ${#food_types[@]}))]}
-  local ingredient_count=$((RANDOM % 5 + 1))
+  local ingredient_count=$((RANDOM % 10 + 1))
   local ingredient_list="["
 
   for ((i=0; i<$ingredient_count; i++)); do

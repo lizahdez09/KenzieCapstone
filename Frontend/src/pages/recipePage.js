@@ -10,7 +10,8 @@ class RecipePage extends BaseClass {
     super();
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
-      'addFilter', 'sendHome', 'renderUserInfo', 'updateCSV'], this);
+      'addFilter', 'sendHome', 'renderUserInfo', 'updateCSV',
+      'filterByType'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -33,6 +34,7 @@ class RecipePage extends BaseClass {
     document.getElementById('addIngredientButton').addEventListener('click', this.addIngredient);
     document.getElementById('submitNewRecipe').addEventListener('click', this.addNewRecipe);
     document.getElementById('filterButton').addEventListener('click', this.addFilter);
+    document.getElementById("searchByTypeButton").addEventListener('click', this.filterByType);
     this.dataStore.addChangeListener(this.onStateChange);
     this.dataStore.set("parentState", this.SEARCHTAB);
   };
@@ -90,7 +92,7 @@ class RecipePage extends BaseClass {
         const id = recipe.id;
         const foodType = recipe.foodType;
         const name = recipe.name;
-        const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
+        const ingredients = JSON.parse(recipe.ingredients);
         const timeToPrepare = recipe.timeToPrepare;
         const instructions = recipe.instructions;
 
@@ -129,7 +131,7 @@ class RecipePage extends BaseClass {
     overlay.style.display = "flex";
 
     const overlayContentDiv = document.getElementById("smallOverlayContent");
-    overlayContentDiv.innerHTML = ""; // Clear previous content
+    overlayContentDiv.innerHTML = "";
 
     const closeOverlayButton = document.getElementById("closeOverlayButton");
 
@@ -145,7 +147,7 @@ class RecipePage extends BaseClass {
     const foodType = recipe.foodType;
     const name = recipe.name;
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
-    const ingredients = JSON.parse(recipe.ingredients); // Parse the ingredients string
+    const ingredients = JSON.parse(recipe.ingredients);
     const timeToPrepare = recipe.timeToPrepare;
 
     overlayContentDiv.innerHTML = `
@@ -155,7 +157,6 @@ class RecipePage extends BaseClass {
     <h3>Ingredients</h3>
   `;
 
-    // Iterate over the ingredients array and create <p> elements
     ingredients.forEach((ingredient) => {
       const ingredientName = ingredient.name;
       const ingredientAmount = ingredient.amount;
@@ -171,12 +172,17 @@ class RecipePage extends BaseClass {
 
       overlayContentDiv.appendChild(ingredientElement);
     });
+    const close = (event) => {
+      if (!overlay.contains(event.target) || overlayContentDiv.contains(event.target)) {
+        closeOverlay();
+        document.removeEventListener('click', close);
+      }
+    };
+    document.addEventListener('click', close);
   }
 
 
   async handleTabClick(event) {
-    event.preventDefault();
-
     if (event.target.matches('li')) {
       const tabs = document.querySelectorAll('.menu li');
       tabs.forEach(tab => tab.classList.remove('selectedTab'));
@@ -339,8 +345,47 @@ class RecipePage extends BaseClass {
     }
   }
 
+  async filterByType(event) {
+    event.preventDefault();
+    const filter = document.getElementById("searchByTypeInput").value;
+    const recipes = await this.client.filterByType(filter);
+    const mainDiv = document.getElementById("filter-type-container");
+    mainDiv.innerHTML = '';
 
+    if (recipes) {
+      recipes.forEach((recipe) => {
+        console.log(recipe);
+        const id = recipe.id;
+        const foodType = recipe.foodType;
+        const name = recipe.name;
+        const ingredients = JSON.parse(recipe.ingredients);
+        const timeToPrepare = recipe.timeToPrepare;
+        const instructions = recipe.instructions;
 
+        const recipeCard = document.createElement("div");
+        recipeCard.classList.add("recipeCard");
+        recipeCard.id = id;
+        const nameParagraph = document.createElement("p");
+        nameParagraph.classList.add("info");
+        nameParagraph.textContent = `Name: ${name}`;
+
+        const typeParagraph = document.createElement("p");
+        typeParagraph.classList.add("info");
+        typeParagraph.textContent = `Type: ${foodType}`;
+
+        const timeParagraph = document.createElement("p");
+        timeParagraph.classList.add("info");
+        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+
+        recipeCard.appendChild(nameParagraph);
+        recipeCard.appendChild(typeParagraph);
+        recipeCard.appendChild(timeParagraph);
+
+        mainDiv.appendChild(recipeCard);
+        recipeCard.addEventListener('click', this.openPopUp);
+      });
+    }
+  }
 }
 
 const main = async () => {

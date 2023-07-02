@@ -32,6 +32,17 @@ public class RecipeController {
         }
         return ResponseEntity.ok(responseList);
     }
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<RecipeResponse>> getRecipeByType(@PathVariable("type") String type) {
+        List<RecipeResponse> responseList = new ArrayList<>();
+
+        List<Recipe> recipes = recipeService.getRecipeByType(type);
+        for (Recipe recipe : recipes) {
+            responseList.add(createRecipeResponseFromRecipe(recipe));
+        }
+        return ResponseEntity.ok(responseList);
+
+    }
 
     @GetMapping("/ingredients/{ingredientNames}")
     public ResponseEntity<List<RecipeResponse>> getRecipeContainsIngredient(@PathVariable("ingredientNames") String ingredientNames) {
@@ -58,11 +69,9 @@ public class RecipeController {
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> get(@PathVariable("id") String id) {
         Recipe recipe = recipeService.getRecipeById(id);
-
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(createRecipeResponseFromRecipe(recipe));
     }
 
@@ -83,7 +92,7 @@ public class RecipeController {
         }
     }
 
-    @PutMapping("/{id}/favorite")
+    @PutMapping("/favorite/{id}")
     public ResponseEntity<RecipeResponse> incrementFavoriteCount(@PathVariable("id") String id) {
         Recipe updatedRecipe = recipeService.incrementFavoriteCount(id);
         RecipeResponse recipeResponse = createRecipeResponseFromRecipe(updatedRecipe);

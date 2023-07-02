@@ -44,6 +44,12 @@ public class RecipeService {
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found!"));
     }
 
+    public List<Recipe> getRecipeByType(String type) {
+        return getAllRecipes().stream()
+                .filter(recipe -> recipe.getFoodTypeAsString().equalsIgnoreCase(type))
+                .collect(Collectors.toList());
+    }
+
     public String getIngredientIdByName(String name) {
         Ingredient ingredient = ingredientService.getOrCreateIngredient(name);
         System.out.println("Ingredient id- " + ingredient.getId());
