@@ -5,7 +5,7 @@ import UserClient from "../api/userClient";
 /**
  * Logic needed for the view playlist page of the website.
  */
-class UserPage extends BaseClass {
+class AboutPage extends BaseClass {
 
     constructor() {
         super();
@@ -43,6 +43,7 @@ class UserPage extends BaseClass {
 
         userInfoContainer.appendChild(welcomeMessage);
         userInfoContainer.appendChild(logoutButton);
+
     }
     // Event Handlers --------------------------------------------------------------------------------------------------
 
@@ -52,8 +53,8 @@ class UserPage extends BaseClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const userPage = new UserPage();
-    await userPage.mount();
+    const aboutPage = new AboutPage();
+    await aboutPage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);

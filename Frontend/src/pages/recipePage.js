@@ -10,7 +10,7 @@ class RecipePage extends BaseClass {
     super();
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
-      'addFilter', 'sendHome'], this);
+      'addFilter', 'sendHome', 'renderUserInfo'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -22,6 +22,11 @@ class RecipePage extends BaseClass {
   };
 
   async mount() {
+    if (!localStorage.getItem('userInfo')) {
+      window.location.href = 'index.html';
+    }
+    await this.renderUserInfo();
+
     this.client = new RecipeClient();
     document.getElementById('site-container').addEventListener('click', this.sendHome);
     this.menu.addEventListener('click', this.handleTabClick);
@@ -53,6 +58,27 @@ class RecipePage extends BaseClass {
       await this.buildRecipeTable();
     }
   };
+
+  async renderUserInfo(){
+    const user = localStorage.getItem('userInfo');
+    const userInfo = JSON.parse(user);
+    const userInfoContainer = document.getElementById("user-info-container");
+
+    const welcomeMessage = document.createElement("p");
+    welcomeMessage.textContent = `Welcome, ${userInfo.name}!`;
+
+
+    const logoutButton = document.createElement("button");
+    logoutButton.textContent = "Logout";
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('favorites');
+      location.reload();
+    });
+
+    userInfoContainer.appendChild(welcomeMessage);
+    userInfoContainer.appendChild(logoutButton);
+  }
 
   async buildRecipeTable() {
     const mainDiv = document.getElementById("welcomeTab");
