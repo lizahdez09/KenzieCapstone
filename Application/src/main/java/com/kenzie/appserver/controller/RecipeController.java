@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -32,11 +33,19 @@ public class RecipeController {
         return ResponseEntity.ok(responseList);
     }
 
-    @GetMapping("/ingredients/{id}")
-    public ResponseEntity<List<RecipeResponse>> getRecipeContainsIngredient(@PathVariable("id") String id) {
+    @GetMapping("/ingredients/{ingredientNames}")
+    public ResponseEntity<List<RecipeResponse>> getRecipeContainsIngredient(@PathVariable("ingredientNames") String ingredientNames) {
+        String[] names = ingredientNames.split(",");
+        List<String> ingredientNamesList = Arrays.asList(names);
+        List<String> ingredientIds = new ArrayList<>();
+
+        for (String name : ingredientNamesList) {
+            ingredientIds.add(recipeService.getIngredientIdByName(name));
+        }
+
         List<RecipeResponse> responseList = new ArrayList<>();
 
-        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(id);
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(ingredientIds);
         for (Recipe recipe : recipeList) {
             responseList.add(createRecipeResponseFromRecipe(recipe));
         }

@@ -21,7 +21,6 @@ import static java.util.UUID.randomUUID;
 public class RecipeService {
     private ObjectMapper mapper = new ObjectMapper();
     private RecipeRepository recipeRepository;
-
     private IngredientService ingredientService;
 
     public RecipeService(RecipeRepository recipeRepository, IngredientService ingredientService) {
@@ -45,10 +44,15 @@ public class RecipeService {
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found!"));
     }
 
-    public List<Recipe> getRecipeContainsIngredient(String ingredientId) {
+    public String getIngredientIdByName(String name) {
+        return ingredientService.getOrCreateIngredient(name).getId();
+    }
+
+    public List<Recipe> getRecipeContainsIngredient(List<String> ingredientIds) {
         return getAllRecipes().stream()
-                .filter(recipe -> recipe.getIngredientsAsList().stream()
-                        .anyMatch(ingredient -> ingredient.getId().equals(ingredientId)))
+                .filter(recipe -> ingredientIds.stream()
+                        .allMatch(ingredientId -> recipe.getIngredientsAsList().stream()
+                                .anyMatch(ingredient -> ingredient.getId().equals(ingredientId))))
                 .collect(Collectors.toList());
     }
 
