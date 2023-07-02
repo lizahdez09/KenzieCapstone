@@ -41,7 +41,7 @@ public class IngredientService {
     public Ingredient getOrCreateIngredient(String name) {
         List<Ingredient> ingredients = getAllIngredients();
         for (Ingredient ingredient : ingredients) {
-            if (ingredient.getName().equals(name)) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
                 return ingredient;
             }
         }
