@@ -8,24 +8,24 @@ import java.util.concurrent.TimeUnit;
 
 public class CacheStore {
 
-    private Cache<String, Recipe> cache;
+    private Cache<String, Recipe> mostFavoriteRecipecache;
 
     public CacheStore(int expiry, TimeUnit timeUnit) {
-        this.cache = CacheBuilder.newBuilder()
+        this.mostFavoriteRecipecache = CacheBuilder.newBuilder()
                 .expireAfterWrite(expiry, timeUnit)
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
                 .build();
     }
 
     public Recipe get(String key) {
-        return cache.getIfPresent(key);
+        return mostFavoriteRecipecache.getIfPresent(key);
     }
 
     public void evict(String key) {
-        cache.invalidate(key);
+        mostFavoriteRecipecache.invalidate(key);
     }
 
     public void add(String key, Recipe value) {
-        cache.put(key, value);
+        mostFavoriteRecipecache.put(key, value);
     }
 }
