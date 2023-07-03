@@ -77,14 +77,15 @@ class HomePage extends BaseClass {
 
     async login(event) {
         event.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
 
         const spinner = document.getElementById("spinner");
         spinner.style.display = "block";
-
+        const userLoginRequest = {
+            email: document.getElementById('loginEmail').value,
+            password:document.getElementById('loginPassword').value
+        }
         try {
-            const user = await this.client.login(email, password, this.errorHandler);
+            const user = await this.client.login(userLoginRequest, this.errorHandler);
             localStorage.setItem('userInfo', JSON.stringify({
                 id: user.id,
                 email: user.email,
