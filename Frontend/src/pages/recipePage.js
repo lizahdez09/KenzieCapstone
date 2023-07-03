@@ -149,6 +149,7 @@ class RecipePage extends BaseClass {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     const ingredients = JSON.parse(recipe.ingredients);
     const timeToPrepare = recipe.timeToPrepare;
+    const instructions = recipe.instructions;
 
     overlayContentDiv.innerHTML = `
     <h2 class="ingredientTitlePopUp">${capitalizedName}</h2>
@@ -172,13 +173,9 @@ class RecipePage extends BaseClass {
 
       overlayContentDiv.appendChild(ingredientElement);
     });
-    const close = (event) => {
-      if (!overlay.contains(event.target) || overlayContentDiv.contains(event.target)) {
-        closeOverlay();
-        document.removeEventListener('click', close);
-      }
-    };
-    document.addEventListener('click', close);
+    overlayContentDiv.innerHTML += `
+    <h2 class="ingredientTitlePopUp">Cooking Instructions</h2>
+    <p>${instructions}</p>`;
   }
 
 

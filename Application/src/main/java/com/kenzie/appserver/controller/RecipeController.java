@@ -111,6 +111,7 @@ public class RecipeController {
         response.setFoodType(recipe.getFoodTypeAsString());
         response.setIngredients(recipe.getIngredientsAsString());
         response.setTimeToPrepare(recipe.getTimeToPrepare());
+        response.setInstructions(recipe.getInstructions());
         return response;
     }
 }
