@@ -6,14 +6,19 @@ RECIPE_COUNT=20
 # Array of possible food types
 food_types=("Breakfast" "Lunch" "Dinner" "Dessert")
 # Array of possible ingredients
-ingredients=("Salt" "Pepper" "Sugar" "Flour" "Butter" "Milk" "Eggs" "Chicken" "Beef" "Fish" "Rice" "Tomatoes" "Onions" "Garlic")
+ingredients=("Milk" "Onion" "Garlic" "Chicken" "Tomato" "Lettuce" "Carrot" "Spinach" "Onion" "Potato" "Cucumber" "Celery" "Cabbage"
+            "Leek" "Asparagus" "Peas" "Cauliflower" "Avocado" "Pepper" "Broccoli" "Artichoke" "Pumpkin" "Radish" "Mushroom" "Corn"
+             "Grapes" "Watermelon" "Orange" "Pear" "Plum" "Pear" "Strawberry" "Blueberry" "Mango" "Papaya" "Apricot" "Banana" "Grapefruit"
+             "Lemon" "Lime" "Pineapple" "Melon" "Coconut" "Peach" "Kiwi" "Cherry" "Bread" "Rice" "Quinoa" "Flour" "Barley" "Chickpeas"
+             "Buckwheat" "Millet" "Wheat" "Oats" "Rye" "Couscous" "Hominy" "Cornmeal" "Semolina" "Bran" "Muesli" "Panko" "Matzo" "Corn Starch"
+             "Beef" "Pork" "Veal" "Shrimp" "Crab" "Turkey" "Tofu" "Soybeans" "Egg" "Yogurt" )
 # Array of possible measurements
 measurements=("TEASPOON" "TABLESPOON" "CUP" "COUNT" "POUND")
 # Function to generate a random recipe
 generate_recipe() {
   local name="Recipe $((RANDOM % 1000 + 1))"
   local food_type=${food_types[$((RANDOM % ${#food_types[@]}))]}
-  local ingredient_count=$((RANDOM % 10 + 1))
+  local ingredient_count=$((RANDOM % 12 + 1))
   local ingredient_list="["
 
   for ((i=0; i<$ingredient_count; i++)); do
