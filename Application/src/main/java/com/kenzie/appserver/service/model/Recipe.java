@@ -11,7 +11,6 @@ public class Recipe {
     private List<RecipeIngredient> recipeIngredients;
     private String timeToPrepare;
     private String instructions;
-
     private int favoriteCount;
 
     public Recipe() {
