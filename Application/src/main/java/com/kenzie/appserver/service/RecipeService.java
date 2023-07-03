@@ -50,6 +50,16 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
+    public List<Recipe> getRecipeByTime(int time) {
+        return getAllRecipes().stream()
+                .filter(recipe -> {
+                    String recipeTime = recipe.getTimeToPrepare();
+                    int recipeNumericTime = Integer.parseInt(recipeTime.replace(" minutes", ""));
+                    return recipeNumericTime <= time;
+                })
+                .collect(Collectors.toList());
+    }
+
     public String getIngredientIdByName(String name) {
         Ingredient ingredient = ingredientService.getOrCreateIngredient(name);
         System.out.println("Ingredient id- " + ingredient.getId());
