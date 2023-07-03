@@ -9,11 +9,11 @@ import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
 
-public class UserDao {
+public class NonCachingUserDao {
 
     private DynamoDBMapper mapper;
 
-    public UserDao(DynamoDBMapper mapper) {
+    public NonCachingUserDao(DynamoDBMapper mapper) {
         this.mapper = mapper;
     }
 

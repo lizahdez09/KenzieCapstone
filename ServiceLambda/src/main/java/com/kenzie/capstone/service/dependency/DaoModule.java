@@ -1,8 +1,7 @@
 package com.kenzie.capstone.service.dependency;
 
 
-import com.kenzie.capstone.service.dao.ExampleDao;
-import com.kenzie.capstone.service.dao.UserDao;
+import com.kenzie.capstone.service.dao.NonCachingUserDao;
 import com.kenzie.capstone.service.util.DynamoDbClientProvider;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -30,8 +29,8 @@ public class DaoModule {
     @Provides
     @Named("UserDao")
     @Inject
-    public UserDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
-        return new UserDao(mapper);
+    public NonCachingUserDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
+        return new NonCachingUserDao(mapper);
     }
 
 }
