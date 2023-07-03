@@ -30,6 +30,7 @@
             <li id="tab-recipes" class="">All Recipes</li>
             <li id="tab-search-recipes" class="selectedTab">Search by Ingredients</li>
             <li id="tab-search-by-type" class="">Search by Type</li>
+            <li id="tab-search-by-time" class="">Search by Time</li>
             <li id="tab-create-recipe" class="">Create Recipe</li>
         </ul>
     </div>
@@ -42,7 +43,7 @@
 
 <!-- SEARCHTAB state of recipePage.js-->
     <div class="state" id="searchTab">
-        <h2>Search recipes by ingredient:</h2>
+        <h2>Search recipes by ingredient</h2>
         <form id="searchForm">
             <input type="text" id="searchInput" placeholder="Enter an ingredient">
             <button type="click" id="filterButton">Add Ingredient to filter</button>
@@ -54,9 +55,10 @@
 
 <!-- TYPETAB state of recipePage.js-->
     <div class="state" id="typeTab">
-        <h2>Search recipes by ingredient:</h2>
+        <h2>Search recipes by Type</h2>
         <form id="searchByTypeForm">
             <select id="searchByTypeInput">
+                <option value="" disabled selected>Please select a type</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
                 <option value="Dinner">Dinner</option>
@@ -68,6 +70,21 @@
         </div>
     </div>
 
+<!-- TIMETAB state of recipePage.js-->
+    <div class="state" id="timeTab">
+        <h2>Search recipes by Time</h2>
+        <form id="searchByTimeForm">
+            <select id="searchByTimeInput">
+                <option value="" disabled selected>Please select a time</option>
+                <option value="15">Under 15 minutes</option>
+                <option value="30">Under 30 minutes</option>
+                <option value="45">Under 45 minutes</option>
+                <option value="60">Under 60 minutes</option>
+            </select>
+        </form>
+        <div id="filter-time-container">
+        </div>
+    </div>
 
 <!-- CREATETAB state of recipePage.js-->
     <div class="state" id="createTab">

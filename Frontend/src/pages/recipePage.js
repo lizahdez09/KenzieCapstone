@@ -11,12 +11,13 @@ class RecipePage extends BaseClass {
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
       'addFilter', 'sendHome', 'renderUserInfo', 'updateCSV',
-      'filterByType'], this);
+      'filterByType', 'filterByTime'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
     this.SEARCHTAB = "tab-search-recipes";
     this.TYPETAB = "tab-search-by-type";
+    this.TIMETAB = "tab-search-by-time";
     this.CREATETAB = "tab-create-recipe";
 
     this.menu = document.querySelector('.menu');
@@ -34,7 +35,8 @@ class RecipePage extends BaseClass {
     document.getElementById('addIngredientButton').addEventListener('click', this.addIngredient);
     document.getElementById('submitNewRecipe').addEventListener('click', this.addNewRecipe);
     document.getElementById('filterButton').addEventListener('click', this.addFilter);
-    document.getElementById("searchByTypeButton").addEventListener('click', this.filterByType);
+    document.getElementById("searchByTypeInput").addEventListener('change', this.filterByType);
+    document.getElementById("searchByTimeInput").addEventListener('change', this.filterByTime);
     this.dataStore.addChangeListener(this.onStateChange);
     this.dataStore.set("parentState", this.SEARCHTAB);
   };
@@ -46,6 +48,7 @@ class RecipePage extends BaseClass {
       [this.WELCOMETAB]: "welcomeTab",
       [this.SEARCHTAB]: "searchTab",
       [this.TYPETAB]: "typeTab",
+      [this.TIMETAB]: "timeTab",
       [this.CREATETAB]: "createTab"
     };
 
@@ -86,7 +89,8 @@ class RecipePage extends BaseClass {
     const mainDiv = document.getElementById("welcomeTab");
     const recipes = await this.client.getAllRecipes();
     mainDiv.innerHTML = ``;
-    if (recipes) {
+
+    if (recipes.length > 0) {
       recipes.forEach((recipe) => {
         console.log(recipe);
         const id = recipe.id;
@@ -118,6 +122,18 @@ class RecipePage extends BaseClass {
         mainDiv.appendChild(recipeCard);
         recipeCard.addEventListener('click', this.openPopUp);
       });
+    } else {
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipeCard");
+      recipeCard.style.textAlign = "center";
+      recipeCard.style.color = "red";
+
+      const nameParagraph = document.createElement("p");
+      nameParagraph.style.fontSize = "24px";
+      nameParagraph.textContent = "No Recipes found! Try again later...";
+
+      recipeCard.appendChild(nameParagraph);
+      mainDiv.appendChild(recipeCard);
     }
   }
 
@@ -307,7 +323,7 @@ class RecipePage extends BaseClass {
     const mainDiv = document.getElementById("recipe-filter-container");
     mainDiv.innerHTML = '';
 
-    if (recipes) {
+    if (recipes && recipes.length > 0) {
       recipes.forEach((recipe) => {
         console.log(recipe);
         const id = recipe.id;
@@ -339,6 +355,18 @@ class RecipePage extends BaseClass {
         mainDiv.appendChild(recipeCard);
         recipeCard.addEventListener('click', this.openPopUp);
       });
+    } else {
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipeCard");
+      recipeCard.style.textAlign = "center";
+      recipeCard.style.color = "red";
+
+      const nameParagraph = document.createElement("p");
+      nameParagraph.style.fontSize = "24px";
+      nameParagraph.textContent = "No Recipes found! Try again later...";
+
+      recipeCard.appendChild(nameParagraph);
+      mainDiv.appendChild(recipeCard);
     }
   }
 
@@ -349,7 +377,7 @@ class RecipePage extends BaseClass {
     const mainDiv = document.getElementById("filter-type-container");
     mainDiv.innerHTML = '';
 
-    if (recipes) {
+    if (recipes.length > 0) {
       recipes.forEach((recipe) => {
         console.log(recipe);
         const id = recipe.id;
@@ -381,6 +409,73 @@ class RecipePage extends BaseClass {
         mainDiv.appendChild(recipeCard);
         recipeCard.addEventListener('click', this.openPopUp);
       });
+    } else {
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipeCard");
+      recipeCard.style.textAlign = "center";
+      recipeCard.style.color = "red";
+
+      const nameParagraph = document.createElement("p");
+      nameParagraph.style.fontSize = "24px";
+      nameParagraph.textContent = "No Recipes found! Try again later...";
+
+      recipeCard.appendChild(nameParagraph);
+      mainDiv.appendChild(recipeCard);
+    }
+  }
+
+  async filterByTime(event) {
+    event.preventDefault();
+    const filter = document.getElementById("searchByTimeInput").value;
+    console.log(filter);
+    const recipes = await this.client.filterByTime(filter);
+    const mainDiv = document.getElementById("filter-time-container");
+    mainDiv.innerHTML = '';
+
+    if (recipes.length > 0) {
+      recipes.forEach((recipe) => {
+        console.log(recipe);
+        const id = recipe.id;
+        const foodType = recipe.foodType;
+        const name = recipe.name;
+        const ingredients = JSON.parse(recipe.ingredients);
+        const timeToPrepare = recipe.timeToPrepare;
+        const instructions = recipe.instructions;
+
+        const recipeCard = document.createElement("div");
+        recipeCard.classList.add("recipeCard");
+        recipeCard.id = id;
+        const nameParagraph = document.createElement("p");
+        nameParagraph.classList.add("info");
+        nameParagraph.textContent = `Name: ${name}`;
+
+        const typeParagraph = document.createElement("p");
+        typeParagraph.classList.add("info");
+        typeParagraph.textContent = `Type: ${foodType}`;
+
+        const timeParagraph = document.createElement("p");
+        timeParagraph.classList.add("info");
+        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+
+        recipeCard.appendChild(nameParagraph);
+        recipeCard.appendChild(typeParagraph);
+        recipeCard.appendChild(timeParagraph);
+
+        mainDiv.appendChild(recipeCard);
+        recipeCard.addEventListener('click', this.openPopUp);
+      });
+    } else {
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipeCard");
+      recipeCard.style.textAlign = "center";
+      recipeCard.style.color = "red";
+
+      const nameParagraph = document.createElement("p");
+      nameParagraph.style.fontSize = "24px";
+      nameParagraph.textContent = "No Recipes found! Try again later...";
+
+      recipeCard.appendChild(nameParagraph);
+      mainDiv.appendChild(recipeCard);
     }
   }
 }
