@@ -80,10 +80,12 @@ class HomePage extends BaseClass {
 
         const spinner = document.getElementById("spinner");
         spinner.style.display = "block";
+
         const userLoginRequest = {
             email: document.getElementById('loginEmail').value,
-            password:document.getElementById('loginPassword').value
+            password: document.getElementById('loginPassword').value
         }
+
         try {
             const user = await this.client.login(userLoginRequest, this.errorHandler);
             localStorage.setItem('userInfo', JSON.stringify({
@@ -95,7 +97,19 @@ class HomePage extends BaseClass {
             location.reload();
         } catch (error) {
             console.error(error);
+            console.log(error.response.status)
             spinner.style.display = "none";
+            const errorMessage = document.getElementById("errorMessage");
+
+            if (error.response && error.response.status === 500) {
+                errorMessage.textContent = `No user found by ${userLoginRequest.email}`;
+            } else if (error.response && error.response.status === 404) {
+                errorMessage.textContent = "Incorrect password";
+            } else {
+                errorMessage.textContent = "An error occurred. Please try again later.";
+            }
+
+            errorMessage.style.display = "block";
         }
     }
 
