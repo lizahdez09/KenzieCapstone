@@ -17,7 +17,6 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse> getUser(@RequestBody UserLoginRequest userLoginRequest) {
-
         UserResponse user = userService.getUserData(userLoginRequest.getEmail());
 
         if (user == null) {
