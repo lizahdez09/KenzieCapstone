@@ -1,11 +1,9 @@
 package com.kenzie.appserver.controller;
 
+import com.kenzie.capstone.service.model.UserLoginRequest;
 import com.kenzie.appserver.exceptions.RecipeNotFoundException;
 import com.kenzie.capstone.service.client.UserServiceClient;
-import com.kenzie.capstone.service.model.User;
-import com.kenzie.capstone.service.model.UserRequest;
-import com.kenzie.capstone.service.model.UserResponse;
-import com.kenzie.capstone.service.model.UserUpdateRequest;
+import com.kenzie.capstone.service.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
@@ -17,16 +15,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable("email") String email) {
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> getUser(@RequestBody UserLoginRequest userLoginRequest) {
 
-        UserResponse user = userService.getUserData(email);
-        System.out.println(user.toString());
+        UserResponse user = userService.getUserData(userLoginRequest.getEmail());
+
         if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        if (user.getPassword().equalsIgnoreCase(userLoginRequest.getPassword())) {
+            return ResponseEntity.ok(user);
+        } else {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);
     }
+
 
     @PostMapping
     public ResponseEntity<UserResponse> addNewUser(@RequestBody UserRequest userCreateRequest) {
