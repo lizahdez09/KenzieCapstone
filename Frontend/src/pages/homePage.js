@@ -98,6 +98,7 @@ class HomePage extends BaseClass {
         } catch (error) {
             console.error(error);
             console.log(error.response.status)
+            console.log(error.response.data.message)
             spinner.style.display = "none";
             const errorMessage = document.getElementById("errorMessage");
 

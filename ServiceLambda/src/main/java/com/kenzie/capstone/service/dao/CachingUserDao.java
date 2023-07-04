@@ -3,6 +3,7 @@ package com.kenzie.capstone.service.dao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kenzie.capstone.service.caching.CacheClient;
@@ -12,6 +13,7 @@ import com.kenzie.capstone.service.model.UserRequest;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 public class CachingUserDao implements UserDao {
 
@@ -29,10 +31,12 @@ public class CachingUserDao implements UserDao {
 
     @Override
     public UserRecord getUserByEmail(String email) {
-        System.out.println("CachingDAO email - " + email);
-        if (cacheClient.getValue(email).isPresent()) {
-            System.out.println("User found in cache - " + cacheClient.getValue(email));
-            return fromJson(String.valueOf(cacheClient.getValue(email)));
+        Optional<String> cachedValue = cacheClient.getValue(email);
+
+        if (cachedValue.isPresent()) {
+            String json = cachedValue.get();
+            System.out.println("User found in cache - " + json);
+            return fromJson(json);
         } else {
             UserRecord user = nonCachingUserDao.getUserByEmail(email);
             System.out.println("User found from Dao - " + GSON.toJson(user));
@@ -68,7 +72,7 @@ public class CachingUserDao implements UserDao {
     ).enableComplexMapKeySerialization();
 
     private UserRecord fromJson(String json) {
-        return GSON.fromJson(json, UserRecord.class);
+        return GSON.fromJson(json, new TypeToken<UserRecord>(){}.getType());
     }
 
     private void addToCache(UserRecord user) {

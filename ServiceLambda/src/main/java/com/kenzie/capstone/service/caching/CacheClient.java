@@ -16,23 +16,32 @@ public class CacheClient {
     }
     public void setValue(String key, int seconds, String value) {
         checkNonNullKey(key);
-        try (Jedis cache = DaggerServiceComponent.create().provideJedis()) {
+        Jedis cache = DaggerServiceComponent.create().provideJedis();
+        try {
             cache.setex(key, seconds, value);
+        } finally {
+            cache.close();
         }
     }
 
     public Optional<String> getValue(String key) {
         checkNonNullKey(key);
-        try (Jedis cache = DaggerServiceComponent.create().provideJedis()) {
+        Jedis cache = DaggerServiceComponent.create().provideJedis();
+        try {
             String value = cache.get(key);
             return Optional.ofNullable(value);
+        } finally {
+            cache.close();
         }
     }
 
     public void invalidate(String key) {
         checkNonNullKey(key);
-        try (Jedis cache = DaggerServiceComponent.create().provideJedis()) {
+        Jedis cache = DaggerServiceComponent.create().provideJedis();
+        try {
             cache.del(key);
+        } finally {
+            cache.close();
         }
     }
 
