@@ -17,20 +17,6 @@ public class NonCachingUserDao {
         this.mapper = mapper;
     }
 
-    public User storeUserData(User user) {
-        try {
-            mapper.save(user, new DynamoDBSaveExpression()
-                    .withExpected(ImmutableMap.of(
-                            "email",
-                            new ExpectedAttributeValue().withExists(false)
-                    )));
-        } catch (ConditionalCheckFailedException e) {
-            throw new IllegalArgumentException("email has already been used");
-        }
-
-        return user;
-    }
-
     public UserRecord getUserByEmail(String email) {
         return mapper.load(UserRecord.class, email);
     }
@@ -56,11 +42,12 @@ public class NonCachingUserDao {
         return userRecord;
     }
 
-    public void updateUser(UserRecord record) {
+    public UserRecord updateUser(UserRecord record) {
         try {
             mapper.save(record, new DynamoDBSaveExpression());
         } catch (Exception e) {
             throw new IllegalStateException("Failed to update user data: " + e.getMessage());
         }
+        return null;
     }
 }

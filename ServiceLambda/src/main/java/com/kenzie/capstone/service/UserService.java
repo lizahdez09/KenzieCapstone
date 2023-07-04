@@ -1,7 +1,7 @@
 package com.kenzie.capstone.service;
 
 import com.amazonaws.services.kms.model.NotFoundException;
-import com.kenzie.capstone.service.dao.NonCachingUserDao;
+import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
@@ -11,16 +11,16 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 
 public class UserService {
-    private NonCachingUserDao nonCachingUserDao;
+    private UserDao userDao;
     static final Logger log = LogManager.getLogger();
 
     @Inject
-    public UserService(NonCachingUserDao nonCachingUserDao) {
-        this.nonCachingUserDao = nonCachingUserDao;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public UserRecord getUserData(String email) {
-        UserRecord record = nonCachingUserDao.getUserByEmail(email);
+        UserRecord record = this.userDao.getUserByEmail(email);
         log.info("record- " + record);
         if (record != null && email.equals(record.getEmail())) {
             return record;
@@ -32,19 +32,19 @@ public class UserService {
 
 
     public UserRecord setUserData(UserRequest request) {
-        UserRecord record = nonCachingUserDao.createNewUser(request);
+        UserRecord record = this.userDao.createNewUser(request);
         return record;
     }
 
     public User updateUserData(String id, String name, String password, String email) {
-        UserRecord record = nonCachingUserDao.getUserByEmail(id);
+        UserRecord record = userDao.getUserByEmail(id);
         if (record == null) {
             throw new NotFoundException("User not found with ID: " + id);
         }
         record.setName(name);
         record.setPassword(password);
         record.setEmail(email);
-        nonCachingUserDao.updateUser(record);
+        userDao.updateUser(record);
         return new User(record.getId(), record.getName(),
                 record.getPassword(), record.getEmail(),
                 record.getFavoriteRecipes());
