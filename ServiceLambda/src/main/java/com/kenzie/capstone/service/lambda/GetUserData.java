@@ -39,7 +39,7 @@ public class GetUserData implements RequestHandler<APIGatewayProxyRequestEvent, 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String email = input.getPathParameters().get("id");
+        String email = input.getPathParameters().get("email");
         if (email == null || email.length() == 0) {
             return response
                     .withStatusCode(400)
