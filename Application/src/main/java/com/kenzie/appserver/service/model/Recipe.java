@@ -110,4 +110,8 @@ public class Recipe {
         this.favoriteCount ++;
     }
 
+    public void decreaseFavoriteCount() {
+        this.favoriteCount --;
+    }
+
 }

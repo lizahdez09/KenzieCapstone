@@ -38,7 +38,6 @@
 
 <!-- WELCOMETAB state of recipePage.js -->
     <div class="state" id="welcomeTab">
-        Recipe get all and display
     </div>
 
 <!-- SEARCHTAB state of recipePage.js-->
@@ -88,12 +87,11 @@
 
 <!-- CREATETAB state of recipePage.js-->
     <div class="state" id="createTab">
-        Create a Recipe (not done)
         <div class="recipe-form">
             <h2 class="ingredient-title">Create a Recipe</h2>
             <form class="ingredient-form">
                 <label class="ingredient-label" for="recipeName">Recipe Name:</label>
-                <input type="text" id="recipeName" name="recipeName" required><br><br>
+                <input type="text" id="recipeName" name="recipeName" required placeholder="Enter Recipe Name"><br><br>
 
                 <select class="select-full-width" id="foodType" name="foodType" required>
                     <option value="" selected disabled>Select Food Type</option>
@@ -104,10 +102,10 @@
                 </select><br><br>
 
                 <label class="ingredient-label" for="cookTime">Cook Time:</label>
-                <input type="text" id="cookTime" name="cookTime" required><br><br>
+                <input type="text" id="cookTime" name="cookTime" required placeholder="Enter time in minutes"><br><br>
 
                 <label class="ingredient-label" for="cookingDirections">Cooking Directions:</label><br>
-                <textarea class="ingredient-textarea" id="cookingDirections" name="cookingDirections" rows="4" required></textarea><br><br>
+                <textarea class="ingredient-textarea" id="cookingDirections" name="cookingDirections" rows="4" required placeholder="Enter the cooking directions"></textarea><br><br>
 
                 <label class="ingredient-label" for="ingredients">Ingredients:</label><br>
                 <div id="ingredients">
@@ -138,7 +136,7 @@
     <div id="overlayContent">
         <button id="closeOverlayButton">x</button>
         <div id="smallOverlayContent">
-
+            <button id="favoriteButton">&#9734;</button>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 API_URL="http://localhost:8080/recipe"
-RECIPE_COUNT=20
+RECIPE_COUNT=5
 
 # Array of possible food types
 food_types=("Breakfast" "Lunch" "Dinner" "Dessert")

@@ -200,6 +200,7 @@
     align-items: center;
 }
 
+/* START Recipe Popup overlay styling */
 #overlay {
     position: fixed;
     top: 10%;
@@ -226,6 +227,8 @@
     font-family: "Caveat", serif;
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
+    z-index: 1
 }
 
 .ingredientTitlePopUp {
@@ -277,9 +280,22 @@
     right: 12%;
     font-size: 50px;
     color: var(--orange-brown-color-brighter);
-    cursor: grab;
+    cursor: pointer;
     z-index: 2;
 }
+
+.favoriteButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 40px;
+    background: none;
+    border: none;
+    color: gold;
+    cursor: pointer;
+    z-index: 2;
+}
+/* END Recipe Popup overlay styling */
 
 #instructions-field {
     min-width: 300px;

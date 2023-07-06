@@ -5,7 +5,7 @@ export default class RecipeClient extends BaseClass {
     constructor(props = {}) {
         super();
         const methodsToBind = ['clientLoaded', 'getRecipe', 'createRecipe',
-            'updateRecipe', 'filterByIngredient', 'filterByType', 'filterByTime'];
+            'updateRecipe', 'filterByIngredient', 'filterByType', 'filterByTime', 'favorite', 'unFavorite'];
         this.bindClassMethods(methodsToBind, this);
         this.props = props;
         this.clientLoaded(axios);
@@ -87,6 +87,24 @@ export default class RecipeClient extends BaseClass {
             return response.data;
         } catch (error) {
             this.handleError("filterByTime", error, errorCallBack)
+        }
+    }
+
+    async favorite(id, errorCallBack) {
+        try {
+            const response = await this.client.put(`/recipe/favorite/${id}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("favorite", error, errorCallBack);
+        }
+    }
+
+    async unFavorite(id, errorCallBack) {
+        try {
+            const response = await this.client.put(`/recipe/unfavorite/${id}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("favorite", error, errorCallBack);
         }
     }
 

@@ -105,6 +105,20 @@ public class RecipeService {
     public Recipe incrementFavoriteCount(String id) {
         Recipe recipe = getRecipeById(id);
         recipe.increaseFavoriteCount();
+
+        RecipeRecord record = createRecipeRecordFromRecipe(recipe);
+        recipeRepository.save(record);
+
+        return recipe;
+    }
+
+    public Recipe decrementFavoriteCount(String id) {
+        Recipe recipe = getRecipeById(id);
+        recipe.decreaseFavoriteCount();
+
+        RecipeRecord record = createRecipeRecordFromRecipe(recipe);
+        recipeRepository.save(record);
+
         return recipe;
     }
 
@@ -116,6 +130,8 @@ public class RecipeService {
         record.setFoodType(recipe.getFoodTypeAsString());
         record.setIngredients(recipe.getIngredientsAsString());
         record.setTimeToPrepare(recipe.getTimeToPrepare());
+        record.setInstructions(recipe.getInstructions());
+        record.setFavoriteCount(recipe.getFavoriteCount());
         return record;
     }
 
