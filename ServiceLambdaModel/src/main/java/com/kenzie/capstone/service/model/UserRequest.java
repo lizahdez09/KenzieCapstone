@@ -3,6 +3,8 @@ package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 
 public class UserRequest {
     @JsonProperty("id")
@@ -14,7 +16,7 @@ public class UserRequest {
     @JsonProperty("password")
     private String password;
     @JsonProperty("favoriteRecipes")
-    private String favoriteRecipes;
+    private List<String> favoriteRecipes;
 
     public String getId() {
         return id;
@@ -48,11 +50,11 @@ public class UserRequest {
         this.password = password;
     }
 
-    public String getFavoriteRecipes() {
+    public List<String> getFavoriteRecipes() {
         return favoriteRecipes;
     }
 
-    public void setFavoriteRecipes(String favoriteRecipes) {
+    public void setFavoriteRecipes(List<String> favoriteRecipes) {
         this.favoriteRecipes = favoriteRecipes;
     }
 

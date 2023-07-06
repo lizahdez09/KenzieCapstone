@@ -13,12 +13,12 @@ public class User {
     private String password;
     private List<String> favoriteRecipes;
 
-    public User(String id, String email, String name, String password, String favorites) {
+    public User(String id, String email, String name, String password, List<String> favorites) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
-        this.favoriteRecipes = toList(favorites);
+        this.favoriteRecipes = favorites;
     }
     public User(){
 
@@ -30,11 +30,6 @@ public class User {
         this.name = name;
         this.password = password;
         this.favoriteRecipes = new ArrayList<>();
-    }
-
-    public User(String email, List<String> favoriteRecipes) {
-        this.email = email;
-        this.favoriteRecipes = favoriteRecipes;
     }
 
     public String getId() {

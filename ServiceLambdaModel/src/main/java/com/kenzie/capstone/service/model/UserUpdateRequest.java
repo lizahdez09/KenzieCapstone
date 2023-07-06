@@ -1,8 +1,14 @@
 package com.kenzie.capstone.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
 public class UserUpdateRequest {
+    @JsonProperty("email")
     private String email;
-    private String favoriteRecipes;
+    @JsonProperty("favoriteRecipes")
+    private List<String> favoriteRecipes;
 
     public String getEmail() {
         return email;
@@ -12,11 +18,11 @@ public class UserUpdateRequest {
         this.email = email;
     }
 
-    public String getFavoriteRecipes() {
+    public List<String> getFavoriteRecipes() {
         return favoriteRecipes;
     }
 
-    public void setFavoriteRecipes(String favoriteRecipes) {
+    public void setFavoriteRecipes(List<String> favoriteRecipes) {
         this.favoriteRecipes = favoriteRecipes;
     }
 

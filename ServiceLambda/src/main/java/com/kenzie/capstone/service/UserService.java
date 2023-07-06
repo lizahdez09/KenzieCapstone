@@ -5,6 +5,7 @@ import com.kenzie.capstone.service.dao.UserDao;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
+import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,16 +41,16 @@ public class UserService {
         return record;
     }
 
-    public User updateUserFavoriteRecipes(String email, List<String> favorites) {
-        UserRecord user = userDao.getUserByEmail(email);
+    public User updateUserFavoriteRecipes(UserUpdateRequest userUpdateRequest) {
+        UserRecord user = userDao.getUserByEmail(userUpdateRequest.getEmail());
         if (user == null) {
-            throw new NotFoundException("User not found with email: " + email);
+            throw new NotFoundException("User not found with email: " + userUpdateRequest.getEmail());
         }
 
-        user.setFavoriteRecipes(favorites.toString());
+        user.setFavoriteRecipes(userUpdateRequest.getFavoriteRecipes());
         userDao.updateUser(user);
 
         // Only return the updated user's favorite recipes
-        return new User(user.getEmail(), Arrays.asList(user.getFavoriteRecipes()));
+        return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getFavoriteRecipes());
     }
 }

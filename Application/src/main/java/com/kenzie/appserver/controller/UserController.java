@@ -40,10 +40,10 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/{email}")
-    public ResponseEntity<UserResponse> updateUserFavoriteRecipes(@PathVariable("email") String email, @RequestBody UserUpdateRequest userUpdateRequest) {
+    @PostMapping("user/update")
+    public ResponseEntity<UserResponse> updateUserFavoriteRecipes(@RequestBody UserUpdateRequest userUpdateRequest) {
         try {
-            UserResponse updatedUser = userService.updateUserFavoriteRecipes(email, userUpdateRequest);
+            UserResponse updatedUser = userService.updateUserFavoriteRecipes(userUpdateRequest);
             return ResponseEntity.ok(updatedUser);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
