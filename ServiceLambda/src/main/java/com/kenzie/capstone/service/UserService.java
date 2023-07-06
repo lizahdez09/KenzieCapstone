@@ -20,7 +20,7 @@ public class UserService {
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
-    @Inject
+
     public UserService() {}
 
     public UserRecord getUserData(String email) {
