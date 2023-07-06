@@ -1,5 +1,6 @@
 package com.kenzie.capstone.service.lambda;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
@@ -12,6 +13,7 @@ import com.kenzie.capstone.service.dependency.ServiceComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,24 +28,24 @@ public class UpdateUserData implements RequestHandler<APIGatewayProxyRequestEven
         log.info(gson.toJson(input));
 
         ServiceComponent serviceComponent = DaggerServiceComponent.create();
-        UserService userLambService = serviceComponent.provideLambdaService();
+        UserService userService = serviceComponent.provideLambdaService();
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
-                .withHeaders(headers);
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent().withHeaders(headers);
 
-        String id = input.getPathParameters().get("id");
         String email = input.getQueryStringParameters().get("email");
-        String name = input.getQueryStringParameters().get("name");
-        String password = input.getPathParameters().get("password");
+        String favorites = input.getQueryStringParameters().get("favorites");
 
         try {
             // Update user data
-            userLambService.updateUserData(id, name, password, email);
+            userService.updateUserFavoriteRecipes(email, Collections.singletonList(favorites));
 
             response.setStatusCode(200);
             response.setBody(gson.toJson("Update successful"));
+        } catch (NotFoundException e) {
+            response.setStatusCode(404);
+            response.setBody(gson.toJson("User not found: " + e.getMessage()));
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setBody(gson.toJson("Update failed: " + e.getMessage()));
