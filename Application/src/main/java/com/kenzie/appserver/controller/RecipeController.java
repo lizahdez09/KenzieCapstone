@@ -106,6 +106,13 @@ public class RecipeController {
         return ResponseEntity.ok(recipeResponse);
     }
 
+    @PutMapping("/unfavorite/{id}")
+    public ResponseEntity<RecipeResponse> decrementFavoriteCount(@PathVariable("id") String id) {
+        Recipe updatedRecipe = recipeService.decrementFavoriteCount(id);
+        RecipeResponse recipeResponse = createRecipeResponseFromRecipe(updatedRecipe);
+        return ResponseEntity.ok(recipeResponse);
+    }
+
     /**
      * Creates a RecipeResponse from a Recipe
      * @param recipe {@link Recipe}

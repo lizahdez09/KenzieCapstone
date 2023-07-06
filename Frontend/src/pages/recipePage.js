@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import RecipeClient from "../api/recipeClient";
+import UserClient from "../api/userClient";
 
 class RecipePage extends BaseClass {
 
@@ -11,7 +12,7 @@ class RecipePage extends BaseClass {
     this.bindClassMethods(['openPopUp', 'buildRecipeTable', 'addNewRecipe',
       'onStateChange', 'handleTabClick', 'addIngredient',
       'addFilter', 'sendHome', 'renderUserInfo', 'updateCSV',
-      'filterByType', 'filterByTime'], this);
+      'filterByType', 'filterByTime', 'handleFavorite'], this);
 
     this.dataStore = new DataStore();
     this.WELCOMETAB = "tab-recipes";
@@ -30,6 +31,7 @@ class RecipePage extends BaseClass {
     await this.renderUserInfo();
 
     this.client = new RecipeClient();
+    this.userClient = new UserClient();
     document.getElementById('site-container').addEventListener('click', this.sendHome);
     this.menu.addEventListener('click', this.handleTabClick);
     document.getElementById('addIngredientButton').addEventListener('click', this.addIngredient);
@@ -170,7 +172,7 @@ class RecipePage extends BaseClass {
     overlayContentDiv.innerHTML = `
     <h2 class="ingredientTitlePopUp">${capitalizedName}</h2>
     <p class="foodType">Best suitable for ${foodType}</p>
-    <p>Time to Prepare : ${timeToPrepare} minutes</p>
+    <p>Time to Prepare: ${timeToPrepare} minutes</p>
     <h3>Ingredients</h3>
   `;
 
@@ -189,11 +191,52 @@ class RecipePage extends BaseClass {
 
       overlayContentDiv.appendChild(ingredientElement);
     });
+
     overlayContentDiv.innerHTML += `
     <h2 class="ingredientTitlePopUp">Cooking Instructions</h2>
-    <p>${instructions}</p>`;
+    <p>${instructions}</p>
+  `;
+    //LEAVING FAVORITE BUTTON OUT FOR NOW
+    const favoriteButton = document.createElement("button");
+    favoriteButton.innerHTML = "&#9734;";
+    favoriteButton.classList.add("favoriteButton");
+    favoriteButton.id = recipeId;
+
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (favorites.includes(recipeId)) {
+      favoriteButton.innerHTML = "&#9733;";
+      favoriteButton.classList.add("favorite");
+    }
+
+    favoriteButton.addEventListener("click", this.handleFavorite);
+
+    overlayContentDiv.prepend(favoriteButton);
   }
 
+  async handleFavorite(event){
+    const favoriteButton = event.currentTarget;
+    const clickedRecipeId = event.target.id;
+    console.log(clickedRecipeId);
+    const isFavorite = favoriteButton.classList.contains("favorite");
+
+    if (isFavorite) {
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      const updatedFavorites = favorites.filter((id) => id !== clickedRecipeId);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      favoriteButton.innerHTML = "&#9734;";
+      favoriteButton.classList.remove("favorite");
+      await this.client.unFavorite(clickedRecipeId, this.errorHandler);
+      console.log("remove from fav");
+    } else {
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      favorites.push(clickedRecipeId);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      favoriteButton.innerHTML = "&#9733;";
+      favoriteButton.classList.add("favorite");
+      await this.client.favorite(clickedRecipeId, this.errorHandler);
+      console.log("added to fav");
+    }
+  }
 
   async handleTabClick(event) {
     if (event.target.matches('li')) {
@@ -250,6 +293,9 @@ class RecipePage extends BaseClass {
     const recipeNameInput = document.getElementById('recipeName');
     const foodTypeInput = document.getElementById('foodType');
     const cookTimeInput = document.getElementById('cookTime');
+    cookTimeInput.addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, ''); // Remove non-numeric characters
+    });
     const cookingDirectionsInput = document.getElementById('cookingDirections');
 
     const ingredientInputs = document.querySelectorAll('.ingredient');
