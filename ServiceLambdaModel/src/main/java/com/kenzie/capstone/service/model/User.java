@@ -31,6 +31,12 @@ public class User {
         this.password = password;
         this.favoriteRecipes = new ArrayList<>();
     }
+
+    public User(String email, List<String> favoriteRecipes) {
+        this.email = email;
+        this.favoriteRecipes = favoriteRecipes;
+    }
+
     public String getId() {
         return id;
     }

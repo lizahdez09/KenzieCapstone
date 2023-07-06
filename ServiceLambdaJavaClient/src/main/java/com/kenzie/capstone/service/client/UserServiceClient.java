@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserResponse;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
@@ -15,7 +14,7 @@ public class UserServiceClient {
 
     private static final String GET_USER_ENDPOINT = "user/{email}";
     private static final String SET_USER_ENDPOINT = "/user";
-    private static final String UPDATE_USER_ENDPOINT = "user/{userId}";
+    private static final String UPDATE_USER_ENDPOINT = "user/{email}";
     static final Logger log = LogManager.getLogger();
     private ObjectMapper mapper;
 
@@ -54,16 +53,26 @@ public class UserServiceClient {
         return user;
     }
 
-    public User updateUserData(String userId, UserUpdateRequest userUpdateRequest) {
-/*        EndpointUtility endpointUtility = new EndpointUtility();
-        String updateEndpoint = UPDATE_USER_ENDPOINT.replace("{userId}", userId);
-        String response = endpointUtility.updateEndpoint(updateEndpoint, recipeId);
-        User user;
+    public UserResponse updateUserFavoriteRecipes(String email, UserUpdateRequest userUpdateRequest) {
+        EndpointUtility endpointUtility = new EndpointUtility();
+        String updateEndpoint = UPDATE_USER_ENDPOINT.replace("{email}", email);
+        String userUpdateRequestJson;
         try {
-            user = mapper.readValue(response, User.class);
+            userUpdateRequestJson = mapper.writeValueAsString(userUpdateRequest);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Send the update request to the endpoint
+        String response = endpointUtility.updateEndpoint(updateEndpoint, userUpdateRequestJson);
+
+        UserResponse user;
+        try {
+            user = mapper.readValue(response, UserResponse.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to deserialize JSON: " + e.getMessage());
-        }*/
-        return null;
+        }
+
+        return user;
     }
 }

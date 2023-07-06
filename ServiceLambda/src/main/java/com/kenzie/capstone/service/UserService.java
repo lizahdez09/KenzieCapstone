@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 
 public class UserService {
     private UserDao userDao;
@@ -18,6 +20,8 @@ public class UserService {
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
+    @Inject
+    public UserService() {}
 
     public UserRecord getUserData(String email) {
         UserRecord record = this.userDao.getUserByEmail(email);
@@ -36,17 +40,16 @@ public class UserService {
         return record;
     }
 
-    public User updateUserData(String id, String name, String password, String email) {
-        UserRecord record = userDao.getUserByEmail(id);
-        if (record == null) {
-            throw new NotFoundException("User not found with ID: " + id);
+    public User updateUserFavoriteRecipes(String email, List<String> favorites) {
+        UserRecord user = userDao.getUserByEmail(email);
+        if (user == null) {
+            throw new NotFoundException("User not found with email: " + email);
         }
-        record.setName(name);
-        record.setPassword(password);
-        record.setEmail(email);
-        userDao.updateUser(record);
-        return new User(record.getId(), record.getName(),
-                record.getPassword(), record.getEmail(),
-                record.getFavoriteRecipes());
+
+        user.setFavoriteRecipes(favorites.toString());
+        userDao.updateUser(user);
+
+        // Only return the updated user's favorite recipes
+        return new User(user.getEmail(), Arrays.asList(user.getFavoriteRecipes()));
     }
 }
