@@ -14,7 +14,7 @@ public class UserServiceClient {
 
     private static final String GET_USER_ENDPOINT = "user/{email}";
     private static final String SET_USER_ENDPOINT = "/user";
-    private static final String UPDATE_USER_ENDPOINT = "user/{email}";
+    private static final String UPDATE_USER_ENDPOINT = "user/update";
     static final Logger log = LogManager.getLogger();
     private ObjectMapper mapper;
 
@@ -53,9 +53,8 @@ public class UserServiceClient {
         return user;
     }
 
-    public UserResponse updateUserFavoriteRecipes(String email, UserUpdateRequest userUpdateRequest) {
+    public UserResponse updateUserFavoriteRecipes(UserUpdateRequest userUpdateRequest) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String updateEndpoint = UPDATE_USER_ENDPOINT.replace("{email}", email);
         String userUpdateRequestJson;
         try {
             userUpdateRequestJson = mapper.writeValueAsString(userUpdateRequest);
@@ -64,7 +63,7 @@ public class UserServiceClient {
         }
 
         // Send the update request to the endpoint
-        String response = endpointUtility.updateEndpoint(updateEndpoint, userUpdateRequestJson);
+        String response = endpointUtility.updateEndpoint(UPDATE_USER_ENDPOINT, userUpdateRequestJson);
 
         UserResponse user;
         try {

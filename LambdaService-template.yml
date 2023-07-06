@@ -68,29 +68,29 @@ Resources:
           Properties:
             Path: /user/
             Method: post
-#  UpdateUserDataFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
-#      Handler: com.kenzie.capstone.service.lambda.UpdateUserData
-#      Runtime: java11
-#      Description: Update user information
-#      MemorySize: 512
-#      Timeout: 240
-#      Policies:
-#        - AWSLambdaBasicExecutionRole
-#        - AWSLambda_ReadOnlyAccess
-#        - AWSXrayWriteOnlyAccess
-#        - AWSLambdaVPCAccessExecutionRole
-#        - AmazonS3FullAccess
-#        - AmazonDynamoDBFullAccess
-#      Tracing: Active
-#      Events:
-#        UpdateResource:
-#          Type: Api
-#          Properties:
-#            Path: /user/update/{id}
-#            Method: put
+  UpdateUserDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ServiceLambda/build/distributions/ServiceLambda.zip
+      Handler: com.kenzie.capstone.service.lambda.UpdateUserData
+      Runtime: java11
+      Description: Update user information
+      MemorySize: 512
+      Timeout: 240
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+      Tracing: Active
+      Events:
+        UpdateResource:
+          Type: Api
+          Properties:
+            Path: /user/update/
+            Method: post
   VPC:
     Type: AWS::EC2::VPC
     Properties:

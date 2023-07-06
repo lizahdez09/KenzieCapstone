@@ -216,8 +216,9 @@ class RecipePage extends BaseClass {
   async handleFavorite(event){
     const favoriteButton = event.currentTarget;
     const clickedRecipeId = event.target.id;
-    console.log(clickedRecipeId);
     const isFavorite = favoriteButton.classList.contains("favorite");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userId = userInfo.id;
 
     if (isFavorite) {
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -226,7 +227,13 @@ class RecipePage extends BaseClass {
       favoriteButton.innerHTML = "&#9734;";
       favoriteButton.classList.remove("favorite");
       await this.client.unFavorite(clickedRecipeId, this.errorHandler);
-      console.log("remove from fav");
+
+      const json = JSON.stringify({
+        id: userId,
+        favoriteRecipes: updatedFavorites
+      });
+      await this.userClient.updateUserFavorites(json, this.errorHandler);
+
     } else {
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
       favorites.push(clickedRecipeId);
@@ -234,7 +241,12 @@ class RecipePage extends BaseClass {
       favoriteButton.innerHTML = "&#9733;";
       favoriteButton.classList.add("favorite");
       await this.client.favorite(clickedRecipeId, this.errorHandler);
-      console.log("added to fav");
+
+      const json = JSON.stringify({
+        id: userId,
+        favoriteRecipes: favorites
+      });
+      await this.userClient.updateUserFavorites(json, this.errorHandler);
     }
   }
 

@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "UserTable")
@@ -13,7 +14,7 @@ public class UserRecord {
     private String email;
     private String name;
     private String password;
-    private String favoriteRecipes;
+    private List<String> favoriteRecipes;
 
 
     @DynamoDBAttribute(attributeName = "id")
@@ -33,7 +34,7 @@ public class UserRecord {
         return password;
     }
     @DynamoDBAttribute(attributeName = "favoriteRecipes")
-    public String getFavoriteRecipes() {
+    public List<String> getFavoriteRecipes() {
         return favoriteRecipes;
     }
 
@@ -53,7 +54,7 @@ public class UserRecord {
         this.password = password;
     }
 
-    public void setFavoriteRecipes(String favoriteRecipes) {
+    public void setFavoriteRecipes(List<String> favoriteRecipes) {
         this.favoriteRecipes = favoriteRecipes;
     }
 

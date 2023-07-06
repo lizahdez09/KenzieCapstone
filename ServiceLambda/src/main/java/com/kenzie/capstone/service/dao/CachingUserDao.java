@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kenzie.capstone.service.caching.CacheClient;
+import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
 
@@ -47,7 +48,7 @@ public class CachingUserDao implements UserDao {
 
     @Override
     public UserRecord updateUser(UserRecord record) {
-        return null;
+        return nonCachingUserDao.updateUser(record);
     }
 
     @Override
