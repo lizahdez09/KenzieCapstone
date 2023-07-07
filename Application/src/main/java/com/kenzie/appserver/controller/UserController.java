@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("user/update")
+    @PostMapping("/update")
     public ResponseEntity<UserResponse> updateUserFavoriteRecipes(@RequestBody UserUpdateRequest userUpdateRequest) {
         try {
             UserResponse updatedUser = userService.updateUserFavoriteRecipes(userUpdateRequest);

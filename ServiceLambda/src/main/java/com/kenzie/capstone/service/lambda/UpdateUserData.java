@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.UserService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
+import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,10 +39,10 @@ public class UpdateUserData implements RequestHandler<APIGatewayProxyRequestEven
         UserUpdateRequest userUpdateRequest = gson.fromJson(input.getBody(), UserUpdateRequest.class);
         try {
             // Update user data
-            userService.updateUserFavoriteRecipes(userUpdateRequest);
-
+            UserRecord userData = userService.updateUserFavoriteRecipes(userUpdateRequest);
+            String output = gson.toJson(userData);
             response.setStatusCode(200);
-            response.setBody(gson.toJson("Update successful"));
+            response.setBody(output);
         } catch (NotFoundException e) {
             response.setStatusCode(404);
             response.setBody(gson.toJson("User not found: " + e.getMessage()));

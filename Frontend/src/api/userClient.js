@@ -39,13 +39,19 @@ export default class UserClient extends BaseClass {
         }
     }
 
-    async updateUserFavorites(userUpdateRequest, errorCallBack) {
+    async updateUserFavorites(userEmail, favorites, errorCallBack) {
         try {
+            const userUpdateRequest = {
+                email: userEmail,
+                favoriteRecipes: favorites
+            };
+            const jsonString = JSON.stringify(userUpdateRequest);
             const response = await this.client.post('/user/update', jsonString, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
+            console.log(response.data);
             return response.data;
         } catch (error) {
             this.handleError("updateUserFavorites", error, errorCallBack);
