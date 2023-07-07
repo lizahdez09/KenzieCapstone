@@ -139,7 +139,7 @@ class HomePage extends BaseClass {
                     email: user.email,
                     name: user.name
                 }));
-                localStorage.setItem('favorites', user.favoriteRecipes);
+                localStorage.setItem('favorites', JSON.stringify(user.favoriteRecipes));
             location.reload();
         } catch (error) {
             console.error(error);
