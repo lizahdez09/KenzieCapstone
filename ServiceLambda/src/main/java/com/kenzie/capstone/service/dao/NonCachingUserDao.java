@@ -8,6 +8,9 @@ import com.google.common.collect.ImmutableMap;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
+import com.kenzie.capstone.service.model.UserUpdateRequest;
+
+import java.util.ArrayList;
 
 public class NonCachingUserDao {
 
@@ -27,7 +30,7 @@ public class NonCachingUserDao {
         userRecord.setName(request.getName());
         userRecord.setPassword(request.getPassword());
         userRecord.setEmail(request.getEmail());
-        userRecord.setFavoriteRecipes(request.getFavoriteRecipes());
+        userRecord.setFavoriteRecipes(new ArrayList<>());
 
         try {
             mapper.save(userRecord, new DynamoDBSaveExpression()
@@ -42,12 +45,13 @@ public class NonCachingUserDao {
         return userRecord;
     }
 
-    public UserRecord updateUser(UserRecord record) {
+    public UserRecord updateUser(UserUpdateRequest userUpdateRequest, UserRecord userRecord) {
+        userRecord.setFavoriteRecipes(userUpdateRequest.getFavoriteRecipes());
         try {
-            mapper.save(record, new DynamoDBSaveExpression());
+            mapper.save(userRecord, new DynamoDBSaveExpression());
         } catch (Exception e) {
             throw new IllegalStateException("Failed to update user data: " + e.getMessage());
         }
-        return null;
+        return userRecord;
     }
 }

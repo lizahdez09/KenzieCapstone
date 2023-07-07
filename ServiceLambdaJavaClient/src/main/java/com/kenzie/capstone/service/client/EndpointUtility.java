@@ -140,7 +140,7 @@ public class EndpointUtility {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .header("Accept", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(data)) // Use PUT method for updating
+                .POST(HttpRequest.BodyPublishers.ofString(data)) // Use PUT method for updating
                 .build();
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());

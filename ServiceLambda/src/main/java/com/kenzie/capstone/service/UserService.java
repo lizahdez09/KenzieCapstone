@@ -41,16 +41,7 @@ public class UserService {
         return record;
     }
 
-    public User updateUserFavoriteRecipes(UserUpdateRequest userUpdateRequest) {
-        UserRecord user = userDao.getUserByEmail(userUpdateRequest.getEmail());
-        if (user == null) {
-            throw new NotFoundException("User not found with email: " + userUpdateRequest.getEmail());
-        }
-
-        user.setFavoriteRecipes(userUpdateRequest.getFavoriteRecipes());
-        userDao.updateUser(user);
-
-        // Only return the updated user's favorite recipes
-        return new User(user.getId(), user.getEmail(), user.getName(), user.getPassword(), user.getFavoriteRecipes());
+    public UserRecord updateUserFavoriteRecipes(UserUpdateRequest userUpdateRequest) {
+        return userDao.updateUser(userUpdateRequest);
     }
 }

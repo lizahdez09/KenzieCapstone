@@ -10,6 +10,7 @@ import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
+import com.kenzie.capstone.service.model.UserUpdateRequest;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -47,8 +48,20 @@ public class CachingUserDao implements UserDao {
     }
 
     @Override
-    public UserRecord updateUser(UserRecord record) {
-        return nonCachingUserDao.updateUser(record);
+    public UserRecord updateUser(UserUpdateRequest userUpdateRequest) {
+        Optional<String> cachedValue = cacheClient.getValue(userUpdateRequest.getEmail());
+        if (cachedValue.isPresent()) {
+            String json = cachedValue.get();
+            UserRecord userRecord = fromJson(json);
+            nonCachingUserDao.updateUser(userUpdateRequest, userRecord);
+            addToCache(userRecord);
+            return userRecord;
+        } else {
+            UserRecord userRecord = nonCachingUserDao.getUserByEmail(userUpdateRequest.getEmail());
+            nonCachingUserDao.updateUser(userUpdateRequest, userRecord);
+            addToCache(userRecord);
+            return userRecord;
+        }
     }
 
     @Override

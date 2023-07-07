@@ -85,11 +85,18 @@ Resources:
         - AmazonS3FullAccess
         - AmazonDynamoDBFullAccess
       Tracing: Active
+      VpcConfig:
+        SecurityGroupIds: [ { "Fn::GetAtt": [ "SecurityGroup",  "GroupId" ] } ]
+        SubnetIds:
+          - !Ref PublicSubnet
+      Environment:
+        Variables:
+          JEDIS_URL: !GetAtt ReplicationGroup.PrimaryEndPoint.Address
       Events:
         UpdateResource:
           Type: Api
           Properties:
-            Path: /user/update/
+            Path: /user/update
             Method: post
   VPC:
     Type: AWS::EC2::VPC
