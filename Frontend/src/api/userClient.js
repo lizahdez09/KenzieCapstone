@@ -19,12 +19,13 @@ export default class UserClient extends BaseClass {
 
     async signup(name, email, password, errorCallBack) {
         try {
+            let favorites = [];
             const userRequest = {
                 id: "",
                 name: name,
                 email: email,
                 password: password,
-                favoriteRecipes: ""
+                favoriteRecipes: favorites
             };
             const jsonString = JSON.stringify(userRequest);
 
