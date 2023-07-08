@@ -30,7 +30,7 @@ class UserPage extends BaseClass {
         const userInfoContainer = document.getElementById("user-info-container");
 
         const welcomeMessage = document.createElement("p");
-        welcomeMessage.textContent = `Welcome, ${userInfo.name}!`;
+        welcomeMessage.innerHTML = `Welcome, ${userInfo.name}!<br><a href="userPage.html">My Account</a>`;
 
 
         const logoutButton = document.createElement("button");

@@ -9,7 +9,7 @@ class AboutPage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['renderUserInfo'], this);
+        this.bindClassMethods(['renderUserInfo', 'sendHome'], this);
         this.dataStore = new DataStore();
     }
 
@@ -17,6 +17,7 @@ class AboutPage extends BaseClass {
      * Once the page has loaded, set up the event handlers and fetch the recipe list.
      */
     async mount() {
+        document.getElementById('site-container').addEventListener('click', this.sendHome);
         if (!localStorage.getItem('userInfo')) {
             window.location.href = 'index.html';
         }
@@ -30,7 +31,7 @@ class AboutPage extends BaseClass {
         const userInfoContainer = document.getElementById("user-info-container");
 
         const welcomeMessage = document.createElement("p");
-        welcomeMessage.textContent = `Welcome, ${userInfo.name}!`;
+        welcomeMessage.innerHTML = `Welcome, ${userInfo.name}!<br><a href="userPage.html">My Account</a>`;
 
 
         const logoutButton = document.createElement("button");
@@ -45,8 +46,11 @@ class AboutPage extends BaseClass {
         userInfoContainer.appendChild(logoutButton);
 
     }
-    // Event Handlers --------------------------------------------------------------------------------------------------
 
+    // Event Handlers --------------------------------------------------------------------------------------------------
+    async sendHome(event) {
+        window.location.href = "index.html";
+    }
 }
 
 /**

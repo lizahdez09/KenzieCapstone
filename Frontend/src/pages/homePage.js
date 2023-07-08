@@ -53,7 +53,7 @@ class HomePage extends BaseClass {
         const userInfoContainer = document.getElementById("user-info-container");
 
         const welcomeMessage = document.createElement("p");
-        welcomeMessage.textContent = `Welcome, ${userInfo.name}!`;
+        welcomeMessage.innerHTML = `Welcome, ${userInfo.name}!<br><a href="userPage.html">My Account</a>`;
 
 
         const logoutButton = document.createElement("button");
@@ -124,7 +124,11 @@ class HomePage extends BaseClass {
         const password = document.getElementById("signupPassword").value;
         const confirmPassword = document.getElementById("confirmSignupPassword").value;
         if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
+            const errorMessage = document.getElementById("errorMessage");
+            errorMessage.textContent= "Passwords do not match. Please try again.";
+            errorMessage.style.display = "block"
+            document.getElementById("signupPassword").classList.add("password-mismatch");
+            document.getElementById("confirmSignupPassword").classList.add("password-mismatch");
             return;
         }
         const name = `${firstName} ${lastName}`;
