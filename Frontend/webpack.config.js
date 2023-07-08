@@ -12,7 +12,6 @@ module.exports = {
     recipePage: path.resolve(__dirname, 'src', 'pages', 'recipePage.js'),
     userPage: path.resolve(__dirname, 'src', 'pages', 'userPage.js'),
     aboutPage: path.resolve(__dirname, 'src', 'pages', 'aboutPage.js'),
-    recipeBuilder: path.resolve(__dirname, 'src', 'pages', 'recipeBuilder.js'),
   },
 
   output: {
@@ -46,11 +45,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/about.html',
       filename: 'about.html',
-      inject: false
-    }),
-    new HtmlWebpackPlugin({
-      template: './src/recipeBuilder.html',
-      filename: 'recipeBuilder.html',
       inject: false
     }),
     new HtmlWebpackPlugin({
