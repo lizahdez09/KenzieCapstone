@@ -91,6 +91,13 @@
 
 .user-info-container p {
     font-size: 20px;
+    margin: 0;
+}
+.user-info-container p a {
+    display: grid;
+    direction: rtl;
+    font-size: 15px;
+    margin: 2px;
 }
 
 .user-info-container button {

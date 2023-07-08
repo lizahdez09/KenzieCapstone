@@ -72,7 +72,7 @@ class RecipePage extends BaseClass {
     const userInfoContainer = document.getElementById("user-info-container");
 
     const welcomeMessage = document.createElement("p");
-    welcomeMessage.textContent = `Welcome, ${userInfo.name}!`;
+    welcomeMessage.innerHTML = `Welcome, ${userInfo.name}!<br><a href="userPage.html">My Account</a>`;
 
 
     const logoutButton = document.createElement("button");
@@ -196,7 +196,6 @@ class RecipePage extends BaseClass {
     <h2 class="ingredientTitlePopUp">Cooking Instructions</h2>
     <p>${instructions}</p>
   `;
-    //LEAVING FAVORITE BUTTON OUT FOR NOW
     const favoriteButton = document.createElement("button");
     favoriteButton.innerHTML = "&#9734;";
     favoriteButton.classList.add("favoriteButton");
