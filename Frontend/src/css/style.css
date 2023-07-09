@@ -98,6 +98,13 @@
     direction: rtl;
     font-size: 15px;
     margin: 2px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.user-info-container p a:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
 }
 
 .user-info-container button {
@@ -175,6 +182,7 @@
     text-decoration: none;
     font-size: 26px;
     color: black;
+    border-radius: 5px 5px 0 0;
 }
 
 .menu li.selectedTab {
@@ -201,6 +209,7 @@
     position: relative;
     overflow: hidden;
     font-weight: 700;
+    border-radius: 5px;
 }
 
 .recipeCard:hover {
@@ -318,9 +327,8 @@
 }
 
 .favoriteButton {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    position: fixed;
+    left: 12%;
     font-size: 40px;
     background: none;
     border: none;
