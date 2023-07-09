@@ -1,3 +1,7 @@
 /* styles.css */
 @import url("style.css");
 
+h2 {
+    display: flex;
+    justify-content: center;
+}
