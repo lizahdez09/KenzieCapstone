@@ -77,7 +77,7 @@ class UserPage extends BaseClass {
                 recipeCard.id = id;
                 const nameParagraph = document.createElement("p");
                 nameParagraph.classList.add("info");
-                nameParagraph.textContent = `Name: ${name}`;
+                nameParagraph.textContent = `${name}`;
 
                 const typeParagraph = document.createElement("p");
                 typeParagraph.classList.add("info");

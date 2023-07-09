@@ -107,7 +107,7 @@ class RecipePage extends BaseClass {
         recipeCard.id = id;
         const nameParagraph = document.createElement("p");
         nameParagraph.classList.add("info");
-        nameParagraph.textContent = `Name: ${name}`;
+        nameParagraph.textContent = `${name}`;
 
         const typeParagraph = document.createElement("p");
         typeParagraph.classList.add("info");
@@ -115,7 +115,7 @@ class RecipePage extends BaseClass {
 
         const timeParagraph = document.createElement("p");
         timeParagraph.classList.add("info");
-        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+        timeParagraph.textContent = `Cook-time: ${timeToPrepare}`;
 
         recipeCard.appendChild(nameParagraph);
         recipeCard.appendChild(typeParagraph);
@@ -385,7 +385,7 @@ class RecipePage extends BaseClass {
         recipeCard.id = id;
         const nameParagraph = document.createElement("p");
         nameParagraph.classList.add("info");
-        nameParagraph.textContent = `Name: ${name}`;
+        nameParagraph.textContent = `${name}`;
 
         const typeParagraph = document.createElement("p");
         typeParagraph.classList.add("info");
@@ -393,7 +393,7 @@ class RecipePage extends BaseClass {
 
         const timeParagraph = document.createElement("p");
         timeParagraph.classList.add("info");
-        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+        timeParagraph.textContent = `Cook-time: ${timeToPrepare}`;
 
         recipeCard.appendChild(nameParagraph);
         recipeCard.appendChild(typeParagraph);
@@ -439,7 +439,7 @@ class RecipePage extends BaseClass {
         recipeCard.id = id;
         const nameParagraph = document.createElement("p");
         nameParagraph.classList.add("info");
-        nameParagraph.textContent = `Name: ${name}`;
+        nameParagraph.textContent = `${name}`;
 
         const typeParagraph = document.createElement("p");
         typeParagraph.classList.add("info");
@@ -447,7 +447,7 @@ class RecipePage extends BaseClass {
 
         const timeParagraph = document.createElement("p");
         timeParagraph.classList.add("info");
-        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+        timeParagraph.textContent = `Cook-time: ${timeToPrepare}`;
 
         recipeCard.appendChild(nameParagraph);
         recipeCard.appendChild(typeParagraph);
@@ -494,7 +494,7 @@ class RecipePage extends BaseClass {
         recipeCard.id = id;
         const nameParagraph = document.createElement("p");
         nameParagraph.classList.add("info");
-        nameParagraph.textContent = `Name: ${name}`;
+        nameParagraph.textContent = `${name}`;
 
         const typeParagraph = document.createElement("p");
         typeParagraph.classList.add("info");
@@ -502,7 +502,7 @@ class RecipePage extends BaseClass {
 
         const timeParagraph = document.createElement("p");
         timeParagraph.classList.add("info");
-        timeParagraph.textContent = `Time to cook: ${timeToPrepare}`;
+        timeParagraph.textContent = `Cook-time: ${timeToPrepare}`;
 
         recipeCard.appendChild(nameParagraph);
         recipeCard.appendChild(typeParagraph);
