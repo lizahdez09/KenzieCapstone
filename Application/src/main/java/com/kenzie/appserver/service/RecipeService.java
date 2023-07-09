@@ -142,7 +142,7 @@ public class RecipeService {
      */
     private RecipeRecord createRecipeRecordFromRequest(RecipeCreateRequest request) {
         RecipeRecord record = new RecipeRecord();
-        record.setId(randomUUID().toString());
+        record.setId(request.getId().isBlank() ? randomUUID().toString() : request.getId());
         record.setName(request.getName());
         record.setFoodType(request.getFoodType());
         record.setTimeToPrepare(request.getTimeToPrepare());

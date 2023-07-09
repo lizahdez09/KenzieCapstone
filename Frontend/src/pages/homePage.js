@@ -1,6 +1,7 @@
 import BaseClass from "../util/baseClass";
 import DataStore from "../util/DataStore";
 import UserClient from "../api/userClient";
+import RecipeClient from "../api/recipeClient";
 
 /**
  * Logic needed for the view playlist page of the website.
@@ -9,9 +10,15 @@ class HomePage extends BaseClass {
 
     constructor() {
         super();
-        this.bindClassMethods(['sendHome', 'login', 'signup', 'renderUserInfo'], this);
+        this.bindClassMethods([
+            'sendHome',
+            'login',
+            'signup',
+            'renderUserInfo',
+            'renderRecipeInformation'], this);
         this.dataStore = new DataStore();
-        this.client = new UserClient();
+        this.userClient = new UserClient();
+        this.client = new RecipeClient();
     }
 
     /**
@@ -44,6 +51,13 @@ class HomePage extends BaseClass {
         document.getElementById('loginForm').addEventListener('submit', this.login);
         document.getElementById('signupForm').addEventListener('submit', this.signup);
 
+        const images = document.querySelectorAll(".quickPicksLeft img, .quickPicksRight img, .quickPicksFarRight img");
+        images.forEach((image) => {
+            image.addEventListener("click", (event) => {
+                const imageId = image.id;
+                this.renderRecipeInformation(event, imageId);
+            });
+        });
     }
 
     // Render Methods --------------------------------------------------------------------------------------------------
@@ -87,7 +101,7 @@ class HomePage extends BaseClass {
         }
 
         try {
-            const user = await this.client.login(userLoginRequest, this.errorHandler);
+            const user = await this.userClient.login(userLoginRequest, this.errorHandler);
             localStorage.setItem('userInfo', JSON.stringify({
                 id: user.id,
                 email: user.email,
@@ -137,7 +151,7 @@ class HomePage extends BaseClass {
         spinner.style.display = "block";
 
         try {
-            const user = await this.client.signup(name, email, password, this.errorHandler);
+            const user = await this.userClient.signup(name, email, password, this.errorHandler);
                 localStorage.setItem('userInfo', JSON.stringify({
                     id: user.id,
                     email: user.email,
@@ -151,6 +165,67 @@ class HomePage extends BaseClass {
         }
     }
 
+    async renderRecipeInformation(event, recipeId) {
+        event.preventDefault();
+        const mainDiv = document.getElementById("recipeInformation");
+        mainDiv.innerHTML = '';
+        const recipe = await this.client.getRecipe(recipeId, this.errorHandler);
+        const foodType = recipe.foodType;
+        const name = recipe.name;
+        const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+        const ingredients = JSON.parse(recipe.ingredients);
+        const timeToPrepare = recipe.timeToPrepare;
+        const instructions = recipe.instructions;
+
+        const recipeTitle = document.createElement("h2");
+        recipeTitle.classList.add("recipeTitle");
+        recipeTitle.textContent = `${capitalizedName}`;
+
+        const recipeType = document.createElement("p");
+        recipeType.classList.add()
+        recipeType.innerText = `Best suitable for ${foodType}`;
+
+        const recipeTime = document.createElement("p");
+        recipeTime.classList.add()
+        recipeTime.innerText = `Time to prepare: ${timeToPrepare} minutes.`;
+
+        const ingredientParagraph = document.createElement("p");
+        ingredientParagraph.classList.add()
+        const ingredientTitle = document.createElement("h3");
+        ingredientTitle.innerText = `Ingredients`
+        ingredientParagraph.appendChild(ingredientTitle);
+        ingredients.forEach((ingredient) => {
+            const ingredientName = ingredient.name;
+            const ingredientAmount = ingredient.amount;
+            const ingredientMeasurement = ingredient.measurement;
+            const ingredientElement = document.createElement("p");
+
+            if (ingredientAmount > "") {
+                ingredientElement.innerHTML = `${ingredientName}-${ingredientAmount} ${ingredientMeasurement}`;
+            } else {
+                ingredientElement.innerHTML = `${ingredientName}`;
+            }
+            ingredientParagraph.appendChild(ingredientElement);
+        });
+
+        const instructionsParagraph = document.createElement("p");
+        instructionsParagraph.classList.add();
+        const instructionsTitle = document.createElement("h3");
+        instructionsTitle.innerText = `Cooking Instructions`;
+        instructionsParagraph.appendChild(instructionsTitle);
+        const instructionsP = document.createElement("p");
+        instructionsP.innerText = `${instructions}`;
+        instructionsParagraph.appendChild(instructionsP);
+
+
+        mainDiv.appendChild(recipeTitle);
+        mainDiv.appendChild(recipeType);
+        mainDiv.appendChild(recipeTime);
+        mainDiv.appendChild(ingredientParagraph);
+        mainDiv.appendChild(instructionsParagraph);
+        mainDiv.style.display = "flex";
+        mainDiv.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
 }
 
 
