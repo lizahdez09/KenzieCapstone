@@ -6,6 +6,8 @@ import javax.validation.constraints.NotEmpty;
 
 public class RecipeCreateRequest {
 
+    @JsonProperty("id")
+    private String id;
     @NotEmpty
     @JsonProperty("name")
     private String name;
@@ -21,6 +23,14 @@ public class RecipeCreateRequest {
     @NotEmpty
     @JsonProperty("instructions")
     private String instructions;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
