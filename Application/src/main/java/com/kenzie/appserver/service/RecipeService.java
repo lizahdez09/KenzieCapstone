@@ -62,12 +62,10 @@ public class RecipeService {
 
     public String getIngredientIdByName(String name) {
         Ingredient ingredient = ingredientService.getOrCreateIngredient(name);
-        System.out.println("Ingredient id- " + ingredient.getId());
         return ingredient.getId();
     }
 
     public List<Recipe> getRecipeContainsIngredient(List<String> ingredientIds) {
-        System.out.println("getRecipeContainsIngredient- " + ingredientIds.toString());
         return getAllRecipes().stream()
                 .filter(recipe -> ingredientIds.stream()
                         .allMatch(ingredientId -> recipe.getIngredientsAsList().stream()
@@ -142,7 +140,11 @@ public class RecipeService {
      */
     private RecipeRecord createRecipeRecordFromRequest(RecipeCreateRequest request) {
         RecipeRecord record = new RecipeRecord();
-        record.setId(request.getId().isBlank() ? randomUUID().toString() : request.getId());
+        if (request.getId() == null || request.getId().isEmpty()) {
+            record.setId(randomUUID().toString());
+        } else {
+            record.setId(record.getId());
+        }
         record.setName(request.getName());
         record.setFoodType(request.getFoodType());
         record.setTimeToPrepare(request.getTimeToPrepare());

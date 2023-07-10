@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -107,17 +108,18 @@ public class RecipeServiceTest {
     /** ------------------------------------------------------------------------
      *  recipeService.getRecipeContainsIngredient
      *  ------------------------------------------------------------------------ **/
-/*    @Test
+    @Test
     void getRecipeContainsIngredient_returnsRecipe() {
         //GIVEN
         String id = randomUUID().toString();
         List<RecipeRecord> recordList = new ArrayList<>();
         RecipeRecord record = createRecipeRecordWithId(id);
         recordList.add(record);
+        List<String> recipeIds = List.of("1");
 
         //WHEN
         when(recipeRepository.findAll()).thenReturn(recordList);
-        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("1");
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(recipeIds);
 
         //THEN
         assertNotNull(recipeList);
@@ -131,10 +133,11 @@ public class RecipeServiceTest {
         List<RecipeRecord> recordList = new ArrayList<>();
         RecipeRecord record = createRecipeRecordWithId(id);
         recordList.add(record);
+        List<String> recipeIds = List.of("2");
 
         //WHEN
         when(recipeRepository.findAll()).thenReturn(recordList);
-        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("2");
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(recipeIds);
 
         //THEN
         assertNotNull(recipeList);
@@ -152,16 +155,16 @@ public class RecipeServiceTest {
         RecipeRecord record1 = createRecipeRecordWithId(id1);
         record1.setIngredients(
                 "[{\"id\":\"10\", \"name\":\"Ingredient\", \"amount\":\"1\", \"measurement\":\"TABLESPOON\"}]");
-
+        List<String> recipeIds = List.of("1");
         //WHEN
         when(recipeRepository.findAll()).thenReturn(recordList);
-        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient("1");
+        List<Recipe> recipeList = recipeService.getRecipeContainsIngredient(recipeIds);
 
         //THEN
         assertNotNull(recipeList);
         assertEquals(1, recipeList.size());
         assertEquals(record.getId(), recipeList.get(0).getId());
-    }*/
+    }
 
     /** ------------------------------------------------------------------------
      *  recipeService.addNewRecipe
@@ -170,18 +173,20 @@ public class RecipeServiceTest {
     public void addNewRecipe_returnsRecipe() {
         //GIVEN
         String ingredientName = "Milk";
+
         String id = randomUUID().toString();
         RecipeRecord record = createRecipeRecordWithId(id);
 
         IngredientRecord ingredientRecord = createIngredientRecord(ingredientName);
-        List<IngredientRecord> ingredientRecordList = new ArrayList<>();
-        ingredientRecordList.add(ingredientRecord);
+        List<IngredientRecord> ingredientRecordList = List.of(ingredientRecord);
+
 
         RecipeIngredient recipeIngredient = createRecipeIngredient(ingredientRecord, "2", "CUP");
         List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
         recipeIngredientList.add(recipeIngredient);
 
         RecipeCreateRequest request = new RecipeCreateRequest();
+        request.setId(id);
         request.setName("Record");
         request.setFoodType("Lunch");
         request.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredientList));
@@ -245,6 +250,88 @@ public class RecipeServiceTest {
         assertThrows(RecipeNotFoundException.class, () -> recipeService.updateRecipe(recipeId, updateRequest));
     }
 
+    /** ------------------------------------------------------------------------
+     *  recipeService.getRecipeByType
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void testGetRecipeByType_ReturnsList() {
+        String id = randomUUID().toString();
+        RecipeRecord record = createRecipeRecordWithId(id);
+        List<RecipeRecord> recordList = List.of(record);
+
+        when(recipeRepository.findAll()).thenReturn(recordList);
+
+        List<Recipe> actual = recipeService.getRecipeByType(record.getFoodType());
+
+        assertEquals(recordList.get(0).getId(), actual.get(0).getId());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  recipeService.getRecipeByTime
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void testGetRecipeByTime_ReturnsList() {
+        String id = randomUUID().toString();
+        String id1 = randomUUID().toString();
+
+        RecipeRecord record = createRecipeRecordWithId(id);
+        RecipeRecord record1 = createRecipeRecordWithId(id1);
+        record1.setTimeToPrepare("60");
+        List<RecipeRecord> recipeRecords = List.of(record, record1);
+
+        when(recipeRepository.findAll()).thenReturn(recipeRecords);
+        List<Recipe> actual = recipeService.getRecipeByTime(30);
+
+        assertEquals(1, actual.size());
+        assertEquals(record.getId(), actual.get(0).getId());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  recipeService.incrementFavoriteCount
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void testIncrementFavoriteCount_returnsCorrect() {
+        String id = randomUUID().toString();
+        RecipeRecord record = createRecipeRecordWithId(id);
+
+        when(recipeRepository.findById(id)).thenReturn(Optional.of(record));
+
+        Recipe recipe = recipeService.incrementFavoriteCount(id);
+
+        assertEquals(record.getFavoriteCount() + 1, recipe.getFavoriteCount());
+    }
+    /** ------------------------------------------------------------------------
+     *  recipeService.decrementFavoriteCount
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void testDecrementFavoriteCount_returnsCorrect() {
+        String id = randomUUID().toString();
+        RecipeRecord record = createRecipeRecordWithId(id);
+
+        when(recipeRepository.findById(id)).thenReturn(Optional.of(record));
+
+        Recipe recipe = recipeService.decrementFavoriteCount(id);
+
+        assertEquals(record.getFavoriteCount() - 1, recipe.getFavoriteCount());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  recipeService.getIngredientIdByName
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    public void testGetIngredientIdByName_returnsIngredient() {
+        IngredientRecord ingredientRecord = createIngredientRecord("Milk");
+        List<IngredientRecord> ingredientRecordList = List.of(ingredientRecord);
+
+        when(ingredientRepository.findAll()).thenReturn(ingredientRecordList);
+
+        String id = recipeService.getIngredientIdByName("Milk");
+
+        assertEquals(ingredientRecord.getId(), id);
+    }
+
+
+
     /**
      * Creates a RecipeRecord with a given String id
      * @param id {@link String}
@@ -258,6 +345,7 @@ public class RecipeServiceTest {
         record.setIngredients(jsonIngredient());
         record.setTimeToPrepare("30");
         record.setInstructions("Instructions");
+        record.setFavoriteCount(5);
         return record;
     }
 
