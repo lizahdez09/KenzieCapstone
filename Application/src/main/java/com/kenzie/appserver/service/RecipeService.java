@@ -143,7 +143,7 @@ public class RecipeService {
         if (request.getId() == null || request.getId().isEmpty()) {
             record.setId(randomUUID().toString());
         } else {
-            record.setId(record.getId());
+            record.setId(request.getId());
         }
         record.setName(request.getName());
         record.setFoodType(request.getFoodType());
