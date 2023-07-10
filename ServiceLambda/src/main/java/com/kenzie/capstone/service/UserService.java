@@ -22,18 +22,15 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public UserService() {}
 
     public UserRecord getUserData(String email) {
         UserRecord record = this.userDao.getUserByEmail(email);
-        log.info("record- " + record);
         if (record != null && email.equals(record.getEmail())) {
             return record;
         } else {
             throw new RuntimeException("No UserData found");
         }
     }
-    //not compatible with JSON
 
 
     public UserRecord setUserData(UserRequest request) {

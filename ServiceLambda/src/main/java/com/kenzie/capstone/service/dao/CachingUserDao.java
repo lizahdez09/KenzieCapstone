@@ -37,11 +37,9 @@ public class CachingUserDao implements UserDao {
 
         if (cachedValue.isPresent()) {
             String json = cachedValue.get();
-            System.out.println("User found in cache - " + json);
             return fromJson(json);
         } else {
             UserRecord user = nonCachingUserDao.getUserByEmail(email);
-            System.out.println("User found from Dao - " + GSON.toJson(user));
             addToCache(user);
             return user;
         }
