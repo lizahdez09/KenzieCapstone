@@ -120,7 +120,7 @@
 #recipeInformation {
     margin-right: 3px;
     margin-left: 3px;
-    padding: 0;
+    padding: 8px;
     display: none;
     flex-direction: column;
     align-items: center;

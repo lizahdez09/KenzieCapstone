@@ -76,7 +76,7 @@ public class RecipeServiceTest {
 
     /** ------------------------------------------------------------------------
      *  recipeService.getRecipeById
-     *  ------------------------------------------------------------------------ **/
+     *  ----------------------------------------------------------------------- **/
     @Test
     void getRecipeById_returnsRecipe() {
         //GIVEN
@@ -176,6 +176,40 @@ public class RecipeServiceTest {
 
         String id = randomUUID().toString();
         RecipeRecord record = createRecipeRecordWithId(id);
+
+        IngredientRecord ingredientRecord = createIngredientRecord(ingredientName);
+        List<IngredientRecord> ingredientRecordList = List.of(ingredientRecord);
+
+
+        RecipeIngredient recipeIngredient = createRecipeIngredient(ingredientRecord, "2", "CUP");
+        List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
+        recipeIngredientList.add(recipeIngredient);
+
+        RecipeCreateRequest request = new RecipeCreateRequest();
+        request.setId(id);
+        request.setName("Record");
+        request.setFoodType("Lunch");
+        request.setIngredients(RecipeIngredientConverter.ingredientsToJson(recipeIngredientList));
+        request.setTimeToPrepare("30");
+
+        //WHEN
+        when(ingredientRepository.findAll()).thenReturn(ingredientRecordList);
+        when(recipeRepository.save(record)).thenReturn(record);
+        Recipe recipe = recipeService.addNewRecipe(request);
+
+        //THEN
+        assertNotNull(recipe, "The Recipe is returned");
+        Assertions.assertEquals(record.getName(), recipe.getName(), "The names match");
+    }
+
+    @Test
+    public void addNewRecipe_NullId_returnsRecipe() {
+        //GIVEN
+        String ingredientName = "Milk";
+
+        String id = randomUUID().toString();
+        RecipeRecord record = createRecipeRecordWithId(id);
+        record.setId(null);
 
         IngredientRecord ingredientRecord = createIngredientRecord(ingredientName);
         List<IngredientRecord> ingredientRecordList = List.of(ingredientRecord);

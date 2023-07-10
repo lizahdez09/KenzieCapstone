@@ -1,6 +1,5 @@
 package com.kenzie.capstone.service;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -10,15 +9,12 @@ import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.dao.CachingUserDao;
 import com.kenzie.capstone.service.dao.NonCachingUserDao;
 import com.kenzie.capstone.service.dao.UserDao;
-import com.kenzie.capstone.service.model.User;
+import com.kenzie.capstone.service.model.InvalidLogInCredentials;
 import com.kenzie.capstone.service.model.UserRecord;
 import com.kenzie.capstone.service.model.UserRequest;
 import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -87,36 +83,10 @@ class UserServiceTest {
         when(nonCachingUserDao.getUserByEmail(email)).thenReturn(null);
 
         //THEN
-        assertThrows(RuntimeException.class, () -> userService.getUserData(email));
+        assertThrows(InvalidLogInCredentials.class, () -> userService.getUserData(email));
+        verify(cacheClient, times(1)).getValue(email);
+        verify(nonCachingUserDao, times(1)).getUserByEmail(email);
     }
-
-    @Test
-    void testGetUserData_ThrowsRunTimeException_MismatchEmailFromDB() {
-        //GIVEN
-        String email = "test";
-        UserRecord userRecord = new UserRecord();
-        userRecord.setEmail("Test@Email");
-        //WHEN
-        when(cacheClient.getValue(email)).thenReturn(Optional.empty());
-        when(nonCachingUserDao.getUserByEmail(email)).thenReturn(userRecord);
-
-        //THEN
-        assertThrows(RuntimeException.class, () -> userService.getUserData(email));
-    }
-
-    @Test
-    void testGetUserData_ThrowsRunTimeException_MismatchEmailFromCache() {
-        //GIVEN
-        String email = "test";
-        UserRecord userRecord = new UserRecord();
-        userRecord.setEmail("Test@Email");
-        //WHEN
-        when(cacheClient.getValue(email)).thenReturn(Optional.ofNullable(GSON.toJson(userRecord)));
-
-        //THEN
-        assertThrows(RuntimeException.class, () -> userService.getUserData(email));
-    }
-
 
     @Test
     void testSetUserData_ValidRequest_ReturnsUserRecord() {
@@ -144,7 +114,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testUpdateUserFavoriteRecipes_ExistingUser_UpdatesAndReturnsUser() {
+    void testUpdateUserFavoriteRecipes_ExistingUser_UpdatesAndReturnsUser_FromDB() {
         //GIVEN
         String id = randomUUID().toString();
         List<String> favorites = List.of("TestFavorite");
@@ -167,10 +137,32 @@ class UserServiceTest {
 
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getFavoriteRecipes(), actual.getFavoriteRecipes());
-
     }
 
+    @Test
+    void testUpdateUserFavoriteRecipes_ExistingUser_UpdatesAndReturnsUser_FromCache() {
+        //GIVEN
+        String id = randomUUID().toString();
+        List<String> favorites = List.of("TestFavorite");
+        UserRecord oldRecord = createUserRecord_FromId_EmptyList(id);
 
+        UserUpdateRequest request = new UserUpdateRequest();
+        request.setEmail(oldRecord.getEmail());
+        request.setFavoriteRecipes(favorites);
+
+        UserRecord expected = oldRecord;
+        expected.setFavoriteRecipes(favorites);
+        String jsonUser = GSON.toJson(oldRecord);
+        //WHEN
+        when(cacheClient.getValue(request.getEmail())).thenReturn(Optional.ofNullable(jsonUser));
+        when(nonCachingUserDao.updateUser(request, oldRecord)).thenReturn(expected);
+
+        //THEN
+        UserRecord actual = userService.updateUserFavoriteRecipes(request);
+
+        assertEquals(expected.getEmail(), actual.getEmail());
+        assertEquals(expected.getFavoriteRecipes(), actual.getFavoriteRecipes());
+    }
 
     /**
      * PRIVATE HELPER METHODS

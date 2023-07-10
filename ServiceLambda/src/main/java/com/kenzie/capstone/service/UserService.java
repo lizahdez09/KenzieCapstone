@@ -24,12 +24,7 @@ public class UserService {
 
 
     public UserRecord getUserData(String email) {
-        UserRecord record = this.userDao.getUserByEmail(email);
-        if (record != null && email.equals(record.getEmail())) {
-            return record;
-        } else {
-            throw new RuntimeException("No UserData found");
-        }
+        return this.userDao.getUserByEmail(email);
     }
 
 

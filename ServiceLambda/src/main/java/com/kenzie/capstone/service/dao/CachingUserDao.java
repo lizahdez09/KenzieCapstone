@@ -7,10 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kenzie.capstone.service.caching.CacheClient;
-import com.kenzie.capstone.service.model.User;
-import com.kenzie.capstone.service.model.UserRecord;
-import com.kenzie.capstone.service.model.UserRequest;
-import com.kenzie.capstone.service.model.UserUpdateRequest;
+import com.kenzie.capstone.service.model.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -40,8 +37,12 @@ public class CachingUserDao implements UserDao {
             return fromJson(json);
         } else {
             UserRecord user = nonCachingUserDao.getUserByEmail(email);
-            addToCache(user);
-            return user;
+            if (user != null) {
+                addToCache(user);
+                return user;
+            } else {
+                throw new InvalidLogInCredentials("No userFound!");
+            }
         }
     }
 
@@ -69,19 +70,7 @@ public class CachingUserDao implements UserDao {
         return user;
     }
 
-    GsonBuilder builder = new GsonBuilder().registerTypeAdapter(
-            ZonedDateTime.class,
-            new TypeAdapter<ZonedDateTime>() {
-                @Override
-                public void write(JsonWriter out, ZonedDateTime value) throws IOException {
-                    out.value(value.toString());
-                }
-                @Override
-                public ZonedDateTime read(JsonReader in) throws IOException {
-                    return ZonedDateTime.parse(in.nextString());
-                }
-            }
-    ).enableComplexMapKeySerialization();
+    GsonBuilder builder = new GsonBuilder();
 
     private UserRecord fromJson(String json) {
         return GSON.fromJson(json, new TypeToken<UserRecord>(){}.getType());
