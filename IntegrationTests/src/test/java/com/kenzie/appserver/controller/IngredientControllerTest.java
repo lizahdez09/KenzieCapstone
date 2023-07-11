@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.appserver.IntegrationTest;
 
 import com.kenzie.appserver.controller.model.IngredientCreateRequest;
-import com.kenzie.appserver.controller.model.IngredientResponse;
 import com.kenzie.appserver.service.IngredientService;
 import com.kenzie.appserver.service.model.Ingredient;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static java.util.UUID.randomUUID;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

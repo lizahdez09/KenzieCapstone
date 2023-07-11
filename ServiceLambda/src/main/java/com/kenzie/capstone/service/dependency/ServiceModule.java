@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.dependency;
 
 import com.kenzie.capstone.service.UserService;
 
-import com.kenzie.capstone.service.dao.NonCachingUserDao;
 import com.kenzie.capstone.service.dao.UserDao;
 import dagger.Module;
 import dagger.Provides;

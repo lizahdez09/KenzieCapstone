@@ -2,16 +2,11 @@ package com.kenzie.capstone.service.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.model.*;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class CachingUserDao implements UserDao {
