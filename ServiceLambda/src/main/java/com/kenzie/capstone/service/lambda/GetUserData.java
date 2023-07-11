@@ -11,9 +11,7 @@ import com.kenzie.capstone.service.UserService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
 
-import com.kenzie.capstone.service.model.User;
 import com.kenzie.capstone.service.model.UserRecord;
-import com.kenzie.capstone.service.model.UserResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

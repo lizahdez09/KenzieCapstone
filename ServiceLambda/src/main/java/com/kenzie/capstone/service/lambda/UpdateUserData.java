@@ -15,7 +15,6 @@ import com.kenzie.capstone.service.model.UserUpdateRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
