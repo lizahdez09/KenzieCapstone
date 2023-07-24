@@ -7,10 +7,9 @@
 #If the casing is different you will have issues.
 #for example if the username was tHisIS-bOb this would read:
 #export CAPSTONE_REPO_NAME=ata-capstone-project-tHisIS-bOb
-export CAPSTONE_REPO_NAME=ata-capstone-project-bremartin95-1
-
+export CAPSTONE_REPO_NAME=KenzieCapstone
 # Fill out the following value with the group name in all lowercase and no spaces or special characters.
-export GITHUB_GROUP_NAME=luckycodersclub
+export GITHUB_GROUP_NAME=luckycodersclubextension
 
 # Step Two - configure your shell to always have these variables.
 # For OSX / Linux
